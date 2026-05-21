@@ -254,6 +254,23 @@ def main():
         # 暫定フラグ（次期BSが当期流用であることを明示）
         trend_ratios["forecast_uses_current_bs"] = True
 
+        # ----- 特殊オーバーライド -----
+        # ヤマダHDの「在庫回転率」だけは、連結ベース(R102=売上高/棚卸資産)ではなく
+        # デンキセグメント(=ヤマダデンキPOSベース)の値を採用。
+        # 出典: ヤマダ_決算説明会資料20260508 P28（在庫回転率グラフ）／P44（財務指標）
+        # 2025/3実績 4.0回, 2026/3実績 4.5回, 2027/3計画 5.0回
+        if co["key"] == "yamada":
+            trend_ratios["inventory_turnover"] = {
+                "previous": 4.0,
+                "current":  4.5,
+                "forecast": 5.0,
+            }
+            trend_ratios["inventory_turnover_override"] = {
+                "basis": "デンキセグメント（ヤマダデンキPOSベース）",
+                "source": "ヤマダ_決算説明会資料20260508 P28・P44",
+                "note": "連結BSベースではなくセグメント実績(POSベース)を使用",
+            }
+
         co_out = {
             "key": co["key"],
             "label": co["label"],

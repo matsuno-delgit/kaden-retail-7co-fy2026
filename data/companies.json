@@ -146,11 +146,16 @@
           "forecast": 1.365
         },
         "inventory_turnover": {
-          "previous": 4.839,
-          "current": 5.351,
-          "forecast": 5.63
+          "previous": 4.0,
+          "current": 4.5,
+          "forecast": 5.0
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "inventory_turnover_override": {
+          "basis": "デンキセグメント（ヤマダデンキPOSベース）",
+          "source": "ヤマダ_決算説明会資料20260508 P28・P44",
+          "note": "連結BSベースではなくセグメント実績(POSベース)を使用"
+        }
       }
     },
     {
