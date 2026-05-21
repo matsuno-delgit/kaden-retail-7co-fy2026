@@ -109,6 +109,7 @@ ROW_TO_METRIC = {
     96: "EPS",
     100: "TotalAssets",
     101: "Inventory",
+    86: "Tax",  # 通期：法人税（ROIC = (OP - Tax) / IC で利用）
 }
 
 # 業績予想（各社決算短信表紙＋決算説明会資料から抽出済）
@@ -166,7 +167,7 @@ def main():
                 "forecast_yoy_pct": round((fc / cur - 1) * 100, 2) if fc and cur else None,
             }
 
-        # 比率
+        # 当期スポット比率（既存）
         rev = metrics["Revenue"]["current"]
         op = metrics["OperatingIncome"]["current"]
         ta = metrics["TotalAssets"]["current"]
@@ -177,6 +178,81 @@ def main():
             "gross_margin_pct": round(metrics["GrossProfit"]["current"] / rev * 100, 2)
                 if metrics["GrossProfit"]["current"] and rev else None,
         }
+
+        # 推移用比率（前期 / 当期 / 次期予想）
+        # 次期予想のBSは開示されないため、当期BS（TotalAssets, TotalEquity, Inventory,
+        # InterestBearingDebt）を暫定流用する。
+        # ROIC = (OP - Tax) / (InterestBearingDebt + TotalEquity) × 100
+        #   次期予想Taxは当期の OP→Tax 実効率 (Tax_curr / OP_curr) を OP_forecast に適用。
+        def safe_div(a, b):
+            try:
+                return a / b if a is not None and b not in (None, 0) else None
+            except (TypeError, ZeroDivisionError):
+                return None
+
+        def roe(ni, eq):
+            v = safe_div(ni, eq)
+            return round(v * 100, 2) if v is not None else None
+
+        def roic(op_v, tax_v, debt_v, eq_v):
+            ic = (debt_v or 0) + (eq_v or 0)
+            if not op_v or ic == 0:
+                return None
+            nopat = op_v - (tax_v if tax_v is not None else 0)
+            return round(nopat / ic * 100, 2)
+
+        def turnover(num, den):
+            v = safe_div(num, den)
+            return round(v, 3) if v is not None else None
+
+        # 当期実効率（Tax / OP） — 次期予想のTax推計に使う
+        op_curr = metrics["OperatingIncome"]["current"]
+        tax_curr = metrics.get("Tax", {}).get("current")
+        tax_curr_rate = safe_div(tax_curr, op_curr) if op_curr and tax_curr else None
+
+        # 各期 BS（次期予想は当期BSを流用）
+        bs_periods = {
+            "previous": {
+                "ta": metrics["TotalAssets"]["previous"],
+                "te": metrics["TotalEquity"]["previous"],
+                "inv": metrics["Inventory"]["previous"],
+                "debt": metrics["InterestBearingDebt"]["previous"],
+            },
+            "current": {
+                "ta": metrics["TotalAssets"]["current"],
+                "te": metrics["TotalEquity"]["current"],
+                "inv": metrics["Inventory"]["current"],
+                "debt": metrics["InterestBearingDebt"]["current"],
+            },
+            "forecast": {  # 次期BSは非開示 → 当期BS流用
+                "ta": metrics["TotalAssets"]["current"],
+                "te": metrics["TotalEquity"]["current"],
+                "inv": metrics["Inventory"]["current"],
+                "debt": metrics["InterestBearingDebt"]["current"],
+                "is_provisional": True,
+            },
+        }
+
+        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {}}
+        for period in ("previous", "current", "forecast"):
+            rev_p = metrics["Revenue"][period]
+            op_p = metrics["OperatingIncome"][period]
+            ni_p = metrics["NetIncome"][period]
+            bs = bs_periods[period]
+
+            # Tax: 当期/前期は実額、forecast は当期実効率で推計
+            if period == "forecast":
+                tax_p = op_p * tax_curr_rate if op_p and tax_curr_rate else None
+            else:
+                tax_p = metrics.get("Tax", {}).get(period)
+
+            trend_ratios["roe"][period] = roe(ni_p, bs["te"])
+            trend_ratios["roic"][period] = roic(op_p, tax_p, bs["debt"], bs["te"])
+            trend_ratios["asset_turnover"][period] = turnover(rev_p, bs["ta"])
+            trend_ratios["inventory_turnover"][period] = turnover(rev_p, bs["inv"])
+
+        # 暫定フラグ（次期BSが当期流用であることを明示）
+        trend_ratios["forecast_uses_current_bs"] = True
 
         co_out = {
             "key": co["key"],
@@ -191,6 +267,7 @@ def main():
             "metrics": metrics,
             "yoy": yoy,
             "ratios": ratios,
+            "trend_ratios": trend_ratios,
         }
         companies_out.append(co_out)
 
@@ -212,6 +289,33 @@ def main():
         op = c["metrics"]["OperatingIncome"]["current"]
         om = c["ratios"]["operating_margin_pct"]
         print(f"  {c['label']:10s} ({c['current_period']}): 売上 {rev:>12,.0f} / 営利 {op:>8,.0f} / 営利率 {om}%")
+
+    # trend_ratios summary
+    print("\n=== 推移比率（前期 / 当期 / 次期予想） ===")
+    print(f"{'会社':10s}  {'ROE (%)':>23s}  {'ROIC (%)':>23s}  {'資産回転(回)':>23s}  {'在庫回転(回)':>23s}")
+    for c in companies_out:
+        tr = c["trend_ratios"]
+        def f(d, key, fmt):
+            v = d.get(key)
+            return (fmt % v) if v is not None else "—"
+        roe_p = f(tr["roe"], "previous", "%6.2f")
+        roe_c = f(tr["roe"], "current",  "%6.2f")
+        roe_f = f(tr["roe"], "forecast", "%6.2f")
+        roic_p = f(tr["roic"], "previous", "%6.2f")
+        roic_c = f(tr["roic"], "current",  "%6.2f")
+        roic_f = f(tr["roic"], "forecast", "%6.2f")
+        at_p = f(tr["asset_turnover"], "previous", "%5.3f")
+        at_c = f(tr["asset_turnover"], "current",  "%5.3f")
+        at_f = f(tr["asset_turnover"], "forecast", "%5.3f")
+        it_p = f(tr["inventory_turnover"], "previous", "%5.2f")
+        it_c = f(tr["inventory_turnover"], "current",  "%5.2f")
+        it_f = f(tr["inventory_turnover"], "forecast", "%5.2f")
+        print(
+            f"  {c['label']:10s}  {roe_p}/{roe_c}/{roe_f}    "
+            f"{roic_p}/{roic_c}/{roic_f}    "
+            f"{at_p}/{at_c}/{at_f}    "
+            f"{it_p}/{it_c}/{it_f}"
+        )
 
 
 if __name__ == "__main__":
