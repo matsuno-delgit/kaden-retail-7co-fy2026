@@ -258,7 +258,7 @@
         "Revenue": {
           "current": 793746.0,
           "previous": 768129.0,
-          "forecast": null,
+          "forecast": 816000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -276,19 +276,19 @@
         "OperatingIncome": {
           "current": 25782.0,
           "previous": 23394.0,
-          "forecast": null,
+          "forecast": 27000,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
           "current": 26640.0,
           "previous": 24350.0,
-          "forecast": null,
+          "forecast": 27000,
           "unit": "百万円"
         },
         "NetIncome": {
           "current": 15453.0,
           "previous": 14118.0,
-          "forecast": null,
+          "forecast": 15700,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -343,19 +343,19 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 3.33,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 2.8
         },
         "OperatingIncome": {
           "current_yoy_pct": 10.21,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 4.72
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 9.4,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1.35
         },
         "NetIncome": {
           "current_yoy_pct": 9.46,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1.6
         }
       },
       "ratios": {
@@ -378,7 +378,7 @@
         "Revenue": {
           "current": 436650.0,
           "previous": 403259.0,
-          "forecast": null,
+          "forecast": 438000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -396,19 +396,19 @@
         "OperatingIncome": {
           "current": 5422.0,
           "previous": 3688.0,
-          "forecast": null,
+          "forecast": 6000,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
           "current": 5113.0,
           "previous": 3491.0,
-          "forecast": null,
+          "forecast": 5500,
           "unit": "百万円"
         },
         "NetIncome": {
           "current": 3280.0,
           "previous": 3407.0,
-          "forecast": null,
+          "forecast": 3500,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -463,19 +463,19 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 8.28,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 0.31
         },
         "OperatingIncome": {
           "current_yoy_pct": 47.02,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 10.66
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 46.46,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 7.57
         },
         "NetIncome": {
           "current_yoy_pct": -3.73,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 6.71
         }
       },
       "ratios": {
@@ -618,7 +618,7 @@
         "Revenue": {
           "current": 974483.0,
           "previous": 922572.0,
-          "forecast": null,
+          "forecast": 1013000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -636,19 +636,19 @@
         "OperatingIncome": {
           "current": 30274.0,
           "previous": 24388.0,
-          "forecast": null,
+          "forecast": 30500,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
           "current": 31929.0,
           "previous": 26674.0,
-          "forecast": null,
+          "forecast": 31500,
           "unit": "百万円"
         },
         "NetIncome": {
           "current": 17476.0,
           "previous": 13908.0,
-          "forecast": null,
+          "forecast": 17500,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -703,19 +703,19 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 5.63,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 3.95
         },
         "OperatingIncome": {
           "current_yoy_pct": 24.13,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 0.75
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 19.7,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": -1.34
         },
         "NetIncome": {
           "current_yoy_pct": 25.65,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 0.14
         }
       },
       "ratios": {

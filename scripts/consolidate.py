@@ -111,14 +111,16 @@ ROW_TO_METRIC = {
     101: "Inventory",
 }
 
-# 業績予想（短信表紙から）
+# 業績予想（各社決算短信表紙＋決算説明会資料から抽出済）
+# 3月決算5社=2027年3月期計画、Bic/Kojima=2026年8月期計画
+# 出典詳細は 02_通期計画_2027.03/extracted/forecast_all.json
 FORECAST = {
     "yamada": {"Revenue": 1780000, "OperatingIncome": 51500, "OrdinaryIncome": 52600, "NetIncome": 27800},
     "ks":     {"Revenue": 785000,  "OperatingIncome": 30500, "OrdinaryIncome": 33500, "NetIncome": 20000},
-    "edion":  {"Revenue": None,    "OperatingIncome": None,  "OrdinaryIncome": None,  "NetIncome": None},   # 未確認
-    "joshin": {"Revenue": None,    "OperatingIncome": None,  "OrdinaryIncome": None,  "NetIncome": None},   # 未確認
+    "edion":  {"Revenue": 816000,  "OperatingIncome": 27000, "OrdinaryIncome": 27000, "NetIncome": 15700},
+    "joshin": {"Revenue": 438000,  "OperatingIncome": 6000,  "OrdinaryIncome": 5500,  "NetIncome": 3500},
     "nojima": {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000},
-    "bic":    {"Revenue": None,    "OperatingIncome": None,  "OrdinaryIncome": None,  "NetIncome": None},   # 8月決算で記載なし
+    "bic":    {"Revenue": 1013000, "OperatingIncome": 30500, "OrdinaryIncome": 31500, "NetIncome": 17500},
     "kojima": {"Revenue": 294000,  "OperatingIncome": 7600,  "OrdinaryIncome": 7900,  "NetIncome": 4900},
 }
 
