@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>家電量販店7社 業績ダッシュボード</title>
+<!-- Tailwind utilities (subset) — pre-generated, self-hosted -->
+<link rel="stylesheet" href="assets/tailwind.css">
+<!-- Chart.js + datalabels plugin (CDN, pinned version + SRI integrity hash) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
+        integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"
+        integrity="sha384-y49Zu59jZHJL/PLKgZPv3k2WI9c0Yp3pWB76V8OBVCb0QBKS8l4Ff3YslzHVX76Y"
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"></script>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", "Meiryo", sans-serif; }
+  .chart-box { position: relative; height: 360px; }
+  .chart-box-tall { position: relative; height: 460px; }
+  .kpi-card { transition: transform 0.15s ease; }
+  .kpi-card:hover { transform: translateY(-2px); }
+  .table-zebra tbody tr:nth-child(odd) { background-color: #f9fafb; }
+  .table-zebra tbody tr:hover { background-color: #e0f2fe; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <!-- Header -->
+  <header class="mb-8">
+    <h1 class="text-3xl font-bold text-slate-900">家電量販店7社 業績ダッシュボード</h1>
+    <p class="mt-2 text-sm text-slate-600">
+      公式IR決算短信から正規化抽出 ─
+      <span id="generated-at" class="font-mono"></span> 時点 ／
+      <a href="data/companies.json" class="text-sky-700 underline">data/companies.json</a>
+    </p>
+    <p class="mt-1 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 inline-block">
+      ※ ヤマダHD・エディオン・ケーズHD・上新電機・ノジマは 3月決算 (FY2026/3 通期実績)、
+      ビックカメラ・コジマは 8月決算 (FY2025/8 通期実績)。
+      コジマは非連結開示。期末タイミングが異なるため横並び比較は参考値です。
+    </p>
+  </header>
+
+  <!-- KPI Cards -->
+  <section class="mb-10">
+    <h2 class="text-xl font-semibold mb-4 text-slate-900">📊 7社サマリー（直近通期 実績）</h2>
+    <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+  </section>
+
+  <!-- Section: 売上高ランキング & 営業利益率ランキング -->
+  <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高ランキング（百万円）</h3>
+      <div class="chart-box"><canvas id="chart-revenue"></canvas></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益率ランキング（%）</h3>
+      <div class="chart-box"><canvas id="chart-opmargin"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Section: YoY -->
+  <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 前期比（%）</h3>
+      <div class="chart-box"><canvas id="chart-yoy-revenue"></canvas></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 前期比（%）</h3>
+      <div class="chart-box"><canvas id="chart-yoy-op"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Section: Trend -->
+  <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 推移（前期 / 当期 / 次期予想）</h3>
+      <div class="chart-box-tall"><canvas id="chart-trend-revenue"></canvas></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 推移（前期 / 当期 / 次期予想）</h3>
+      <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Section: Balance Sheet -->
+  <section class="mb-10">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">財務体質: 総資産規模 × 自己資本比率</h3>
+      <p class="text-xs text-slate-500 mb-2">バブル面積 = 純資産規模</p>
+      <div class="chart-box-tall"><canvas id="chart-bs-bubble"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Section: Detail Table -->
+  <section class="mb-10">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">📋 7社 詳細業績テーブル</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm table-zebra">
+          <thead class="bg-slate-100 text-slate-700">
+            <tr>
+              <th class="px-3 py-2 text-left">会社</th>
+              <th class="px-3 py-2 text-left">期</th>
+              <th class="px-3 py-2 text-right">売上高</th>
+              <th class="px-3 py-2 text-right">営業利益</th>
+              <th class="px-3 py-2 text-right">経常利益</th>
+              <th class="px-3 py-2 text-right">純利益</th>
+              <th class="px-3 py-2 text-right">営業利益率</th>
+              <th class="px-3 py-2 text-right">自己資本比率</th>
+              <th class="px-3 py-2 text-right">EPS (円)</th>
+              <th class="px-3 py-2 text-right">DPS (円)</th>
+              <th class="px-3 py-2 text-left">短信</th>
+            </tr>
+          </thead>
+          <tbody id="detail-table-body" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。△は減益・減収。</p>
+    </div>
+  </section>
+
+  <!-- Section: Forecast Table -->
+  <section class="mb-10">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">🔮 次期通期業績予想（会社発表値）</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm table-zebra">
+          <thead class="bg-slate-100 text-slate-700">
+            <tr>
+              <th class="px-3 py-2 text-left">会社</th>
+              <th class="px-3 py-2 text-left">予想期</th>
+              <th class="px-3 py-2 text-right">売上高予想</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">営業利益予想</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">純利益予想</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+            </tr>
+          </thead>
+          <tbody id="forecast-table-body" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <footer class="mt-12 pt-6 border-t border-slate-200 text-xs text-slate-500">
+    <p>データソース: 各社公式IR決算短信PDF（短信列のリンクから原本にアクセス可能）。</p>
+    <p>抽出・正規化: <a href="https://github.com/" class="text-sky-700 underline">earnings-data-analyzer</a> スキル（Claude Code）</p>
+    <p class="mt-1">本ダッシュボードは投資助言ではありません。数値の正確性は各社の公式開示資料を必ず参照してください。</p>
+  </footer>
+
+</div>
+
+<script>
+// ------- 色テーマ -------
+const COLORS = {
+  yamada:  "#ef4444", // red
+  edion:   "#f97316", // orange
+  ks:      "#eab308", // yellow
+  joshin:  "#22c55e", // green
+  nojima:  "#0ea5e9", // sky
+  bic:     "#8b5cf6", // violet
+  kojima:  "#ec4899", // pink
+};
+
+// ------- ユーティリティ -------
+const fmtMillions = (v) => v == null ? "—" : v.toLocaleString("ja-JP", { maximumFractionDigits: 0 });
+const fmtPct = (v) => v == null ? "—" : (v >= 0 ? "+" : "") + v.toFixed(2) + "%";
+const fmtYen = (v) => v == null ? "—" : v.toLocaleString("ja-JP", { maximumFractionDigits: 2 });
+
+// △表示にしたい場合
+const fmtPctTriangle = (v) => {
+  if (v == null) return "—";
+  return (v >= 0 ? "+" : "△") + Math.abs(v).toFixed(2) + "%";
+};
+
+function getMetric(company, item, kind = "current") {
+  return company.metrics?.[item]?.[kind] ?? null;
+}
+function getYoY(company, item, kind = "current_yoy_pct") {
+  return company.yoy?.[item]?.[kind] ?? null;
+}
+
+// ------- メイン -------
+async function main() {
+  const res = await fetch("data/companies.json");
+  const data = await res.json();
+  document.getElementById("generated-at").textContent = data.generated_at;
+  const cos = data.companies;
+
+  renderKpiCards(cos);
+  renderRevenueBar(cos);
+  renderOpMarginBar(cos);
+  renderYoYBar(cos, "Revenue", "chart-yoy-revenue", "売上 YoY");
+  renderYoYBar(cos, "OperatingIncome", "chart-yoy-op", "営業利益 YoY");
+  renderTrendLine(cos, "Revenue", "chart-trend-revenue", "売上高 (百万円)");
+  renderTrendLine(cos, "OperatingIncome", "chart-trend-op", "営業利益 (百万円)");
+  renderBsBubble(cos);
+  renderDetailTable(cos);
+  renderForecastTable(cos);
+}
+
+function renderKpiCards(cos) {
+  const grid = document.getElementById("kpi-grid");
+  grid.innerHTML = "";
+  cos.forEach(c => {
+    const rev = getMetric(c, "Revenue");
+    const op = getMetric(c, "OperatingIncome");
+    const yoyRev = getYoY(c, "Revenue");
+    const yoyOp = getYoY(c, "OperatingIncome");
+    const om = c.ratios?.operating_margin_pct;
+    const periodLabel = `${c.current_period.replace("FY","")}年${c.fiscal_year_end}月期${c.consolidation === "non_consolidated" ? "(非連結)" : ""}`;
+    const yoyColor = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
+    grid.insertAdjacentHTML("beforeend", `
+      <div class="kpi-card bg-white rounded-lg shadow p-4 border-l-4" style="border-left-color:${COLORS[c.key]}">
+        <div class="flex justify-between items-baseline">
+          <div>
+            <div class="text-base font-bold text-slate-900">${c.label}</div>
+            <div class="text-xs text-slate-500">${c.ticker} ／ ${periodLabel}</div>
+          </div>
+          <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="text-xs text-sky-700 hover:underline">IR↗</a>
+        </div>
+        <dl class="mt-3 grid grid-cols-2 gap-y-1 text-sm">
+          <dt class="text-slate-500">売上高</dt>
+          <dd class="text-right font-mono">${fmtMillions(rev)}</dd>
+          <dt class="text-slate-500">　YoY</dt>
+          <dd class="text-right font-mono ${yoyColor(yoyRev)}">${fmtPctTriangle(yoyRev)}</dd>
+          <dt class="text-slate-500">営業利益</dt>
+          <dd class="text-right font-mono">${fmtMillions(op)}</dd>
+          <dt class="text-slate-500">　YoY</dt>
+          <dd class="text-right font-mono ${yoyColor(yoyOp)}">${fmtPctTriangle(yoyOp)}</dd>
+          <dt class="text-slate-500">営業利益率</dt>
+          <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
+        </dl>
+      </div>
+    `);
+  });
+}
+
+function rankAndPlotBar(cos, valueFn, canvasId, xLabel, options = {}) {
+  const sorted = [...cos].sort((a, b) => (valueFn(b) ?? -Infinity) - (valueFn(a) ?? -Infinity));
+  const labels = sorted.map(c => c.label);
+  const data = sorted.map(c => valueFn(c));
+  const colors = sorted.map(c => COLORS[c.key]);
+
+  new Chart(document.getElementById(canvasId).getContext("2d"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{
+        label: xLabel,
+        data,
+        backgroundColor: colors,
+        borderColor: colors,
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => `${xLabel}: ${options.tooltipFmt ? options.tooltipFmt(ctx.parsed.x) : ctx.parsed.x}`,
+          },
+        },
+      },
+      scales: {
+        x: { beginAtZero: true, ticks: { callback: options.xTickFmt || ((v) => v.toLocaleString()) } },
+      },
+    },
+  });
+}
+
+function renderRevenueBar(cos) {
+  rankAndPlotBar(cos, (c) => getMetric(c, "Revenue"), "chart-revenue", "売上高 (百万円)", {
+    xTickFmt: (v) => (v / 1000).toFixed(0) + "K",
+    tooltipFmt: (v) => v.toLocaleString() + " 百万円",
+  });
+}
+
+function renderOpMarginBar(cos) {
+  rankAndPlotBar(cos, (c) => c.ratios?.operating_margin_pct, "chart-opmargin", "営業利益率 (%)", {
+    xTickFmt: (v) => v + "%",
+    tooltipFmt: (v) => v.toFixed(2) + "%",
+  });
+}
+
+function renderYoYBar(cos, item, canvasId, xLabel) {
+  const sorted = [...cos].sort((a, b) => (getYoY(b, item) ?? -Infinity) - (getYoY(a, item) ?? -Infinity));
+  const labels = sorted.map(c => c.label);
+  const values = sorted.map(c => getYoY(c, item));
+  const colors = values.map(v => v == null ? "#94a3b8" : (v >= 0 ? "#10b981" : "#ef4444"));
+
+  new Chart(document.getElementById(canvasId).getContext("2d"), {
+    type: "bar",
+    data: {
+      labels,
+      datasets: [{ label: xLabel, data: values, backgroundColor: colors, borderColor: colors, borderWidth: 1 }],
+    },
+    options: {
+      indexAxis: "y",
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (ctx) => `${xLabel}: ${ctx.parsed.x.toFixed(2)}%` } },
+      },
+      scales: { x: { ticks: { callback: (v) => v + "%" } } },
+    },
+  });
+}
+
+function renderTrendLine(cos, item, canvasId, yLabel) {
+  // X軸: 前期 / 当期 / 次期予想（会社により実際の年度ラベルを生成）
+  const datasets = cos.map(c => {
+    const m = c.metrics?.[item];
+    if (!m) return null;
+    return {
+      label: c.label,
+      data: [m.previous, m.current, m.forecast],
+      borderColor: COLORS[c.key],
+      backgroundColor: COLORS[c.key] + "33",
+      tension: 0.2,
+      borderWidth: 2,
+      pointRadius: 4,
+      pointHoverRadius: 6,
+      spanGaps: true,
+    };
+  }).filter(d => d);
+
+  new Chart(document.getElementById(canvasId).getContext("2d"), {
+    type: "line",
+    data: {
+      labels: ["前期", "当期", "次期予想"],
+      datasets,
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 14 } },
+        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y == null ? "—" : ctx.parsed.y.toLocaleString()}` } },
+      },
+      scales: {
+        y: { ticks: { callback: (v) => (v / 1000).toFixed(0) + "K" }, title: { display: true, text: yLabel } },
+      },
+    },
+  });
+}
+
+function renderBsBubble(cos) {
+  const data = cos.map(c => {
+    const ta = getMetric(c, "TotalAssets");
+    const te = getMetric(c, "TotalEquity");
+    const er = c.ratios?.equity_ratio_pct;
+    if (ta == null || te == null || er == null) return null;
+    return {
+      label: c.label,
+      key: c.key,
+      // x: 総資産, y: 自己資本比率, r: 純資産規模スケール
+      data: [{ x: ta, y: er, r: Math.sqrt(te) / 30 }],
+      backgroundColor: COLORS[c.key] + "AA",
+      borderColor: COLORS[c.key],
+      borderWidth: 2,
+    };
+  }).filter(d => d);
+
+  new Chart(document.getElementById("chart-bs-bubble").getContext("2d"), {
+    type: "bubble",
+    data: { datasets: data },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: "bottom", labels: { boxWidth: 14 } },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const d = ctx.raw;
+              return `${ctx.dataset.label}: 総資産 ${d.x.toLocaleString()}百万円 / 自己資本比率 ${d.y.toFixed(1)}%`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: {
+          title: { display: true, text: "総資産 (百万円)" },
+          ticks: { callback: (v) => (v / 1000).toFixed(0) + "K" },
+        },
+        y: {
+          title: { display: true, text: "自己資本比率 (%)" },
+          ticks: { callback: (v) => v + "%" },
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+function renderDetailTable(cos) {
+  const tbody = document.getElementById("detail-table-body");
+  tbody.innerHTML = "";
+  cos.forEach(c => {
+    const periodLabel = `${c.current_period.replace("FY","")}年${c.fiscal_year_end}月期`;
+    tbody.insertAdjacentHTML("beforeend", `
+      <tr>
+        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>" : ""}</td>
+        <td class="px-3 py-2 text-slate-600">${periodLabel}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "Revenue"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OperatingIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OrdinaryIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "NetIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${c.ratios?.operating_margin_pct != null ? c.ratios.operating_margin_pct.toFixed(1) + "%" : "—"}</td>
+        <td class="px-3 py-2 text-right font-mono">${c.ratios?.equity_ratio_pct != null ? c.ratios.equity_ratio_pct.toFixed(1) + "%" : "—"}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtYen(getMetric(c, "EPS"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtYen(getMetric(c, "DividendPerShare"))}</td>
+        <td class="px-3 py-2"><a href="${c.tanshin_url}" target="_blank" rel="noopener" class="text-sky-700 underline text-xs">PDF</a></td>
+      </tr>
+    `);
+  });
+}
+
+function renderForecastTable(cos) {
+  const tbody = document.getElementById("forecast-table-body");
+  tbody.innerHTML = "";
+  cos.forEach(c => {
+    const forecastLabel = `${c.forecast_period.replace("FY","")}年${c.fiscal_year_end}月期`;
+    const revF = getMetric(c, "Revenue", "forecast");
+    const opF = getMetric(c, "OperatingIncome", "forecast");
+    const niF = getMetric(c, "NetIncome", "forecast");
+    const yoyRev = getYoY(c, "Revenue", "forecast_yoy_pct");
+    const yoyOp = getYoY(c, "OperatingIncome", "forecast_yoy_pct");
+    const yoyNi = getYoY(c, "NetIncome", "forecast_yoy_pct");
+    const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
+    tbody.insertAdjacentHTML("beforeend", `
+      <tr>
+        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}</td>
+        <td class="px-3 py-2 text-slate-600">${forecastLabel}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(revF)}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(opF)}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOp)}">${fmtPctTriangle(yoyOp)}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(niF)}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
+      </tr>
+    `);
+  });
+}
+
+// ------- 実行 -------
+main().catch(err => {
+  document.body.insertAdjacentHTML("afterbegin", `
+    <div class="max-w-4xl mx-auto mt-10 p-4 bg-rose-100 border border-rose-300 rounded">
+      <strong>データ読み込みエラー:</strong> ${err.message}<br>
+      <span class="text-sm">ローカルで開いた場合は <code>file://</code> プロトコルではfetchが効きません。
+      <code>python -m http.server</code> 等でローカルサーバ経由で開くか、GitHub Pages 等にデプロイしてください。</span>
+    </div>
+  `);
+  console.error(err);
+});
+</script>
+
+</body>
+</html>
