@@ -36,7 +36,8 @@ from openpyxl import load_workbook
 
 # プロジェクトルートからの相対パス
 ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
-XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.4.xlsx"
+# 最新の通期実績 _ver.7 を採用（デンキセグメント R101 商品単体含む）
+XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.7.xlsx"
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -91,6 +92,17 @@ COMPANIES_MAIN = [
         "col_curr": 18, "col_prev": 19,
         "tanshin_url": "https://www.kojima.net/corporation/ir/",
     },
+    # 補助エントリ: ヤマダHDの「デンキセグメント」を別建てで集計
+    # BS関連（総資産・自己資本・有利子負債）はセグメント開示なしのためnull
+    # 在庫回転率(R102)のみ説明会資料(ヤマダデンキPOSベース)の固定値で別途扱う
+    {
+        "key": "yamada_denki", "label": "ヤマダ（デンキセグメント）", "ticker": "9831-DK",
+        "fiscal_year_end": "03", "consolidation": "segment",
+        "current_period": "FY2026", "previous_period": "FY2025", "forecast_period": "FY2027",
+        "col_curr": 6, "col_prev": 7,
+        "tanshin_url": "https://www.yamada-holdings.jp/ir/",
+        "is_segment": True,  # BS情報を持たない、ROE/ROIC/総資産回転率/自己資本比率 等を表示しない
+    },
 ]
 
 # Excel行 → メトリクスキー (リファレンスindex.htmlで使うキー名)
@@ -123,6 +135,8 @@ FORECAST = {
     "nojima": {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000},
     "bic":    {"Revenue": 1013000, "OperatingIncome": 30500, "OrdinaryIncome": 31500, "NetIncome": 17500},
     "kojima": {"Revenue": 294000,  "OperatingIncome": 7600,  "OrdinaryIncome": 7900,  "NetIncome": 4900},
+    # デンキセグメントは ヤマダ説明会資料202603 P36 連結計画 から
+    "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None},
 }
 
 
@@ -255,7 +269,7 @@ def main():
         trend_ratios["forecast_uses_current_bs"] = True
 
         # ----- 特殊オーバーライド -----
-        # ヤマダHDの「在庫回転率」だけは、連結ベース(R102=売上高/棚卸資産)ではなく
+        # ヤマダHD連結の「在庫回転率」だけは、連結ベース(R102=売上高/棚卸資産)ではなく
         # デンキセグメント(=ヤマダデンキPOSベース)の値を採用。
         # 出典: ヤマダ_決算説明会資料20260508 P28（在庫回転率グラフ）／P44（財務指標）
         # 2025/3実績 4.0回, 2026/3実績 4.5回, 2027/3計画 5.0回
@@ -271,6 +285,23 @@ def main():
                 "note": "連結BSベースではなくセグメント実績(POSベース)を使用",
             }
 
+        # ----- デンキセグメントは BS情報なし → ROE/ROIC/総資産回転率/自己資本比率 を null 化 -----
+        # 在庫回転率のみ ヤマダデンキPOSベース固定値で別建て表示
+        if co.get("is_segment"):
+            for k in ("roe", "roic", "asset_turnover"):
+                trend_ratios[k] = {"previous": None, "current": None, "forecast": None}
+            # 在庫回転率は POS ベース固定値 (ヤマダ連結と同じ)
+            trend_ratios["inventory_turnover"] = {
+                "previous": 4.0, "current": 4.5, "forecast": 5.0,
+            }
+            trend_ratios["inventory_turnover_override"] = {
+                "basis": "デンキセグメント（ヤマダデンキPOSベース）",
+                "source": "ヤマダ_決算説明会資料20260508 P28・P44",
+                "note": "セグメント実績(POSベース)",
+            }
+            # ratios の equity_ratio_pct と asset_turnover も null化
+            ratios["equity_ratio_pct"] = None
+
         co_out = {
             "key": co["key"],
             "label": co["label"],
@@ -285,6 +316,7 @@ def main():
             "yoy": yoy,
             "ratios": ratios,
             "trend_ratios": trend_ratios,
+            "is_segment": bool(co.get("is_segment")),  # ヤマダ（デンキセグ）等のフラグ
         }
         companies_out.append(co_out)
 
