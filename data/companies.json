@@ -146,6 +146,156 @@
           "forecast": 1.365
         },
         "inventory_turnover": {
+          "previous": 4.131,
+          "current": 4.45,
+          "forecast": 4.681
+        },
+        "forecast_uses_current_bs": true
+      },
+      "is_segment": false
+    },
+    {
+      "key": "yamada_denki",
+      "label": "ヤマダ（デンキセグメント）",
+      "ticker": "9831-DK",
+      "fiscal_year_end": "03",
+      "consolidation": "segment",
+      "current_period": "FY2026",
+      "previous_period": "FY2025",
+      "forecast_period": "FY2027",
+      "tanshin_url": "https://www.yamada-holdings.jp/ir/",
+      "metrics": {
+        "Revenue": {
+          "current": 1329426.0,
+          "previous": 1312017.0,
+          "forecast": 1407400,
+          "unit": "百万円"
+        },
+        "GrossProfit": {
+          "current": 361942.0,
+          "previous": 384225.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "SGA": {
+          "current": 359450.0,
+          "previous": 354020.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "OperatingIncome": {
+          "current": 2492.0,
+          "previous": 30204.0,
+          "forecast": 34500,
+          "unit": "百万円"
+        },
+        "OrdinaryIncome": {
+          "current": 6664.0,
+          "previous": 35206.0,
+          "forecast": 37100,
+          "unit": "百万円"
+        },
+        "NetIncome": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "InterestBearingDebt": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "TotalEquity": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "DividendPerShare": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "円"
+        },
+        "DividendTotal": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "PayoutRatio": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "%"
+        },
+        "EPS": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "円"
+        },
+        "TotalAssets": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "Inventory": {
+          "current": 316151.0,
+          "previous": 336660.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "Tax": {
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "百万円"
+        }
+      },
+      "yoy": {
+        "Revenue": {
+          "current_yoy_pct": 1.33,
+          "forecast_yoy_pct": 5.87
+        },
+        "OperatingIncome": {
+          "current_yoy_pct": -91.75,
+          "forecast_yoy_pct": 1284.43
+        },
+        "OrdinaryIncome": {
+          "current_yoy_pct": -81.07,
+          "forecast_yoy_pct": 456.72
+        },
+        "NetIncome": {
+          "current_yoy_pct": null,
+          "forecast_yoy_pct": null
+        }
+      },
+      "ratios": {
+        "operating_margin_pct": 0.19,
+        "equity_ratio_pct": null,
+        "gross_margin_pct": 27.23
+      },
+      "trend_ratios": {
+        "roe": {
+          "previous": null,
+          "current": null,
+          "forecast": null
+        },
+        "roic": {
+          "previous": null,
+          "current": null,
+          "forecast": null
+        },
+        "asset_turnover": {
+          "previous": null,
+          "current": null,
+          "forecast": null
+        },
+        "inventory_turnover": {
           "previous": 4.0,
           "current": 4.5,
           "forecast": 5.0
@@ -154,10 +304,10 @@
         "inventory_turnover_override": {
           "basis": "デンキセグメント（ヤマダデンキPOSベース）",
           "source": "ヤマダ_決算説明会資料20260508 P28・P44",
-          "note": "連結BSベースではなくセグメント実績(POSベース)を使用"
+          "note": "セグメント実績(POSベース)。連結BSベースの計算ではなく説明会資料記載値"
         }
       },
-      "is_segment": false
+      "is_segment": true
     },
     {
       "key": "ks",
@@ -761,7 +911,7 @@
     },
     {
       "key": "bic",
-      "label": "ビックカメラ",
+      "label": "ビックカメラ（連結）",
       "ticker": "3048",
       "fiscal_year_end": "08",
       "consolidation": "consolidated",
@@ -1058,161 +1208,6 @@
         "forecast_uses_current_bs": true
       },
       "is_segment": false
-    },
-    {
-      "key": "yamada_denki",
-      "label": "ヤマダ（デンキセグメント）",
-      "ticker": "9831-DK",
-      "fiscal_year_end": "03",
-      "consolidation": "segment",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "forecast_period": "FY2027",
-      "tanshin_url": "https://www.yamada-holdings.jp/ir/",
-      "metrics": {
-        "Revenue": {
-          "current": 1329426.0,
-          "previous": 1312017.0,
-          "forecast": 1407400,
-          "unit": "百万円"
-        },
-        "GrossProfit": {
-          "current": 361942.0,
-          "previous": 384225.0,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "SGA": {
-          "current": 359450.0,
-          "previous": 354020.0,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "OperatingIncome": {
-          "current": 2492.0,
-          "previous": 30204.0,
-          "forecast": 34500,
-          "unit": "百万円"
-        },
-        "OrdinaryIncome": {
-          "current": 6664.0,
-          "previous": 35206.0,
-          "forecast": 37100,
-          "unit": "百万円"
-        },
-        "NetIncome": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "InterestBearingDebt": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "TotalEquity": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "DividendPerShare": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "円"
-        },
-        "DividendTotal": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "PayoutRatio": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "%"
-        },
-        "EPS": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "円"
-        },
-        "TotalAssets": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "Inventory": {
-          "current": 316151.0,
-          "previous": 336660.0,
-          "forecast": null,
-          "unit": "百万円"
-        },
-        "Tax": {
-          "current": null,
-          "previous": null,
-          "forecast": null,
-          "unit": "百万円"
-        }
-      },
-      "yoy": {
-        "Revenue": {
-          "current_yoy_pct": 1.33,
-          "forecast_yoy_pct": 5.87
-        },
-        "OperatingIncome": {
-          "current_yoy_pct": -91.75,
-          "forecast_yoy_pct": 1284.43
-        },
-        "OrdinaryIncome": {
-          "current_yoy_pct": -81.07,
-          "forecast_yoy_pct": 456.72
-        },
-        "NetIncome": {
-          "current_yoy_pct": null,
-          "forecast_yoy_pct": null
-        }
-      },
-      "ratios": {
-        "operating_margin_pct": 0.19,
-        "equity_ratio_pct": null,
-        "gross_margin_pct": 27.23
-      },
-      "trend_ratios": {
-        "roe": {
-          "previous": null,
-          "current": null,
-          "forecast": null
-        },
-        "roic": {
-          "previous": null,
-          "current": null,
-          "forecast": null
-        },
-        "asset_turnover": {
-          "previous": null,
-          "current": null,
-          "forecast": null
-        },
-        "inventory_turnover": {
-          "previous": 4.0,
-          "current": 4.5,
-          "forecast": 5.0
-        },
-        "forecast_uses_current_bs": true,
-        "inventory_turnover_override": {
-          "basis": "デンキセグメント（ヤマダデンキPOSベース）",
-          "source": "ヤマダ_決算説明会資料20260508 P28・P44",
-          "note": "セグメント実績(POSベース)"
-        }
-      },
-      "is_segment": true
     }
   ]
 }

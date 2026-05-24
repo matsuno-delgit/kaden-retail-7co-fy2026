@@ -67,8 +67,7 @@
   <nav class="mb-6 bg-white rounded-lg shadow p-3">
     <div class="text-xs text-slate-500 mb-2 font-semibold">📅 表示する期間を選択</div>
     <div id="period-tabs" class="flex flex-wrap gap-2">
-      <button class="period-tab active px-4 py-2 rounded text-sm bg-slate-100" data-period="fy">通期実績</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="plan" disabled>通期計画</button>
+      <button class="period-tab active px-4 py-2 rounded text-sm bg-slate-100" data-period="fy">通期実績 (＋次期計画)</button>
       <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q1" disabled>1Q実績</button>
       <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q2" disabled>2Q単独</button>
       <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="h1" disabled>上期</button>
@@ -79,8 +78,8 @@
     </div>
     <div class="mt-2 text-xs text-slate-500">
       <span class="text-slate-700 font-medium">現在表示中:</span>
-      <span id="current-period-label" class="text-sky-700 font-bold ml-1">通期実績</span>
-      <span class="ml-3 text-slate-400">※ グレーアウトの期間は今後追加予定</span>
+      <span id="current-period-label" class="text-sky-700 font-bold ml-1">通期実績 (＋次期計画)</span>
+      <span class="ml-3 text-slate-400">※「通期実績」には次期(2027/3 or 2026/8)の計画値も含まれます／グレーアウトの期間は今後追加予定</span>
     </div>
   </nav>
 
@@ -153,7 +152,8 @@
         <h3 class="text-lg font-semibold mb-3 text-slate-900">在庫回転率 推移（回）</h3>
         <p class="text-xs text-slate-500 mb-1">売上高 ÷ 棚卸資産</p>
         <p class="text-xs text-sky-700 bg-sky-50 border border-sky-200 rounded px-2 py-1 mb-2 inline-block">
-          ※ ヤマダHD・ヤマダ（デンキセグメント）はヤマダデンキPOSベース（説明会資料P28・P44）の値で同一推移
+          ※ ヤマダHDは連結BSベース（商品及び製品＋販売用不動産を分母）、
+          ヤマダ（デンキセグメント）はヤマダデンキPOSベース実績/計画（説明会資料P28・P44）
         </p>
         <div class="chart-box-tall"><canvas id="chart-trend-inventory-turnover"></canvas></div>
       </div>
@@ -280,9 +280,9 @@ function destroyAllCharts() {
 }
 
 // 期間 → データJSONファイル名のマッピング
+// 「通期計画」は「通期実績」内で次期予想として表示するため独立タブを設けない
 const PERIOD_TO_FILE = {
-  "fy":    "data/companies.json",           // 通期実績（現状利用可能）
-  "plan":  "data/companies_plan.json",      // 通期計画（今後追加）
+  "fy":    "data/companies.json",           // 通期実績＋次期計画（現状利用可能）
   "q1":    "data/companies_q1.json",        // 1Q実績
   "q2":    "data/companies_q2.json",        // 2Q単独
   "h1":    "data/companies_h1.json",        // 上期
@@ -292,7 +292,7 @@ const PERIOD_TO_FILE = {
   "h2":    "data/companies_h2.json",        // 下期
 };
 const PERIOD_LABELS = {
-  "fy": "通期実績", "plan": "通期計画",
+  "fy": "通期実績 (＋次期計画)",
   "q1": "1Q実績", "q2": "2Q単独", "h1": "上期",
   "q3": "3Q単独", "q3cum": "3Q累計", "q4": "4Q単独", "h2": "下期",
 };
