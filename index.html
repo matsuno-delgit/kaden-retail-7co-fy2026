@@ -211,6 +211,7 @@
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">営業利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">営業利益率予想</th>
               <th class="px-3 py-2 text-right">純利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
             </tr>
@@ -656,6 +657,9 @@ function renderForecastTable(cos) {
     const yoyOp = getYoY(c, "OperatingIncome", "forecast_yoy_pct");
     const yoyNi = getYoY(c, "NetIncome", "forecast_yoy_pct");
     const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
+    // 営業利益率予想 = opF / revF × 100
+    const opMarginF = (opF != null && revF != null && revF !== 0) ? (opF / revF * 100) : null;
+    const opMarginStr = opMarginF == null ? "—" : `${opMarginF.toFixed(2)}%`;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
         <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}</td>
@@ -664,6 +668,7 @@ function renderForecastTable(cos) {
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(opF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOp)}">${fmtPctTriangle(yoyOp)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${opMarginStr}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(niF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
       </tr>
