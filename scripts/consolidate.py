@@ -38,6 +38,8 @@ from openpyxl import load_workbook
 ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
 # 最新の通期実績 _ver.7 を採用（デンキセグメント R101 商品単体含む）
 XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.7.xlsx"
+# 前々期実績 (2024年3月期通期、ビック/コジマは2023年8月期) を別Excelから読み込み
+PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.3.xlsx"
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -154,6 +156,9 @@ def to_num(v):
 def main():
     wb = load_workbook(XLSX, data_only=False)
     ws = wb["PL・BSデータ (2026.通期)"]
+    # 前々期 (2024/3期 or 2023/8期) Excel
+    wb_pp = load_workbook(PREV_PREV_XLSX, data_only=True)
+    ws_pp = wb_pp.active
 
     companies_out = []
     for co in COMPANIES_MAIN:
@@ -161,8 +166,11 @@ def main():
         for row, key in ROW_TO_METRIC.items():
             cur = to_num(ws.cell(row=row, column=co["col_curr"]).value)
             prev = to_num(ws.cell(row=row, column=co["col_prev"]).value)
+            # 前々期: 10_通期実績_2024.03 Excel の同列(=当期=2024/3期 or 2023/8期)
+            prev_prev = to_num(ws_pp.cell(row=row, column=co["col_curr"]).value)
             fc = FORECAST.get(co["key"], {}).get(key)
             metrics[key] = {
+                "prev_previous": prev_prev,
                 "current": cur,
                 "previous": prev,
                 "forecast": fc,
@@ -294,6 +302,11 @@ def main():
             # ratios の equity_ratio_pct と asset_turnover も null化
             ratios["equity_ratio_pct"] = None
 
+        # 前々期年度ラベル
+        prev_prev_period = {
+            "FY2026": "FY2024", "FY2025": "FY2023",  # 通期: 3月決算社 / 8月決算社
+        }.get(co["current_period"], None)
+
         co_out = {
             "key": co["key"],
             "label": co["label"],
@@ -302,6 +315,7 @@ def main():
             "consolidation": co["consolidation"],
             "current_period": co["current_period"],
             "previous_period": co["previous_period"],
+            "prev_previous_period": prev_prev_period,
             "forecast_period": co["forecast_period"],
             "tanshin_url": co["tanshin_url"],
             "metrics": metrics,

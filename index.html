@@ -116,11 +116,11 @@
   <!-- Section: Trend -->
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 推移（前期 / 当期 / 次期予想）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <div class="chart-box-tall"><canvas id="chart-trend-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 推移（前期 / 当期 / 次期予想）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
     </div>
   </section>
@@ -479,13 +479,13 @@ function renderYoYBar(cos, item, canvasId, xLabel) {
 }
 
 function renderTrendLine(cos, item, canvasId, yLabel) {
-  // X軸: 前期 / 当期 / 次期予想（会社により実際の年度ラベルを生成）
+  // X軸: 前々期 / 前期 / 当期 / 次期予想（会社により実際の年度ラベルを生成）
   const datasets = cos.map(c => {
     const m = c.metrics?.[item];
     if (!m) return null;
     return {
       label: c.label,
-      data: [m.previous, m.current, m.forecast],
+      data: [m.prev_previous, m.previous, m.current, m.forecast],
       borderColor: COLORS[c.key],
       backgroundColor: COLORS[c.key] + "33",
       tension: 0.2,
@@ -499,7 +499,7 @@ function renderTrendLine(cos, item, canvasId, yLabel) {
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "line",
     data: {
-      labels: ["前期", "当期", "次期予想"],
+      labels: ["前々期", "前期", "当期", "次期予想"],
       datasets,
     },
     options: {
