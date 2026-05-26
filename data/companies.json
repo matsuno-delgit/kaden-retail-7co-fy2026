@@ -335,7 +335,7 @@
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 3.6,
           "previous": 4.0,
           "current": 4.5,
           "forecast": 5.0
@@ -343,7 +343,7 @@
         "forecast_uses_current_bs": true,
         "inventory_turnover_override": {
           "basis": "デンキセグメント（ヤマダデンキPOSベース）",
-          "source": "ヤマダ_決算説明会資料20260508 P28・P44",
+          "source": "ヤマダ_決算説明会資料20260508 P28・P44 (前々期は2024/3期通期実績 POSベース 3.6)",
           "note": "セグメント実績(POSベース)。連結BSベースの計算ではなく説明会資料記載値"
         }
       },

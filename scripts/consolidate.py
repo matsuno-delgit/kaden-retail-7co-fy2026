@@ -36,10 +36,10 @@ from openpyxl import load_workbook
 
 # プロジェクトルートからの相対パス
 ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
-# 最新の通期実績 _ver.7 を採用（デンキセグメント R101 商品単体含む）
-XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.7.xlsx"
+# 最新の通期実績 _ver.9 を採用（ROIC新式統一・法人税率参照式統一・不要数式削除済み）
+XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.9.xlsx"
 # 前々期実績 (2024年3月期通期、ビック/コジマは2023年8月期) を別Excelから読み込み
-PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.3.xlsx"
+PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.5.xlsx"
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -301,13 +301,13 @@ def main():
             for k in ("roe", "roic", "asset_turnover"):
                 trend_ratios[k] = {"prev_previous": None, "previous": None, "current": None, "forecast": None}
             # 在庫回転率は POS ベース固定値 (ヤマダデンキ実績/計画)
-            # ※前々期(2024/3期)のPOSベース値は説明会資料未掲載のためnull
+            # 前々期(2024/3期)=3.6 / 前期(2025/3期)=4.0 / 当期(2026/3期)=4.5 / 計画(2027/3期)=5.0
             trend_ratios["inventory_turnover"] = {
-                "prev_previous": None, "previous": 4.0, "current": 4.5, "forecast": 5.0,
+                "prev_previous": 3.6, "previous": 4.0, "current": 4.5, "forecast": 5.0,
             }
             trend_ratios["inventory_turnover_override"] = {
                 "basis": "デンキセグメント（ヤマダデンキPOSベース）",
-                "source": "ヤマダ_決算説明会資料20260508 P28・P44",
+                "source": "ヤマダ_決算説明会資料20260508 P28・P44 (前々期は2024/3期通期実績 POSベース 3.6)",
                 "note": "セグメント実績(POSベース)。連結BSベースの計算ではなく説明会資料記載値",
             }
             # ratios の equity_ratio_pct と asset_turnover も null化
