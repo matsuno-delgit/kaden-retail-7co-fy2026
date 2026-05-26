@@ -40,6 +40,8 @@ ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
 XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.9.xlsx"
 # 前々期実績 (2024年3月期通期、ビック/コジマは2023年8月期) を別Excelから読み込み
 PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.5.xlsx"
+# 通期計画 (2027/3期計画、ビック/コジマは2026/8期計画) — 来期配当総額(N92等)を取得
+PLAN_XLSX = ROOT.parent / "02_通期計画_2027.03" / "【経営企画部】各社業績対比フォーマット（2027.03通期計画 vs 2026.03通期実績）_ver.6.xlsx"
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -159,6 +161,9 @@ def main():
     # 前々期 (2024/3期 or 2023/8期) Excel
     wb_pp = load_workbook(PREV_PREV_XLSX, data_only=True)
     ws_pp = wb_pp.active
+    # 通期計画 (来期配当総額の取得用)
+    wb_plan = load_workbook(PLAN_XLSX, data_only=True)
+    ws_plan = wb_plan.active
 
     companies_out = []
     for co in COMPANIES_MAIN:
@@ -238,7 +243,33 @@ def main():
         tax_curr = metrics.get("Tax", {}).get("current")
         tax_curr_rate = safe_div(tax_curr, op_curr) if op_curr and tax_curr else None
 
-        # 各期 BS（次期予想は当期BSを流用）
+        # ---- 来期計画用：期末予想自己資本＝当期末自己資本＋来期純利益−来期配当総額 ----
+        # （Excel 02_通期計画の式 N89=O89+N84-N92 と整合）
+        n92 = to_num(ws_plan.cell(row=92, column=co["col_curr"]).value)  # 計画配当総額
+        if n92 is None:
+            # 数式 N92 = O92 × N91 / O91 で再計算（ExcelのDPS比例配当総額推定式）
+            o92 = to_num(ws_plan.cell(row=92, column=co["col_prev"]).value)
+            n91 = to_num(ws_plan.cell(row=91, column=co["col_curr"]).value)
+            o91 = to_num(ws_plan.cell(row=91, column=co["col_prev"]).value)
+            if o92 is not None and n91 is not None and o91 is not None and o91 != 0:
+                n92 = o92 * n91 / o91
+            else:
+                # 推定不可（例: ノジマはO91クリア）→ 前期配当総額(O92)で代用
+                n92 = o92
+        forecast_dividend = n92
+        ni_fc = metrics["NetIncome"]["forecast"]
+        te_curr = metrics["TotalEquity"]["current"]
+        ta_curr = metrics["TotalAssets"]["current"]
+        # 期末予想自己資本 = 当期末te + 来期純利益 − 来期配当総額
+        forecast_te = None
+        if te_curr is not None and ni_fc is not None:
+            forecast_te = te_curr + ni_fc - (forecast_dividend or 0)
+        # 期末予想総資産 = 当期末ta + 来期純利益 − 来期配当総額 (Excel D100=E100+D84-E92)
+        forecast_ta = None
+        if ta_curr is not None and ni_fc is not None:
+            forecast_ta = ta_curr + ni_fc - (forecast_dividend or 0)
+
+        # 各期 BS
         bs_periods = {
             "prev_previous": {
                 "ta": metrics["TotalAssets"]["prev_previous"],
@@ -258,12 +289,13 @@ def main():
                 "inv": metrics["Inventory"]["current"],
                 "debt": metrics["InterestBearingDebt"]["current"],
             },
-            "forecast": {  # 次期BSは非開示 → 当期BS流用
-                "ta": metrics["TotalAssets"]["current"],
-                "te": metrics["TotalEquity"]["current"],
-                "inv": metrics["Inventory"]["current"],
-                "debt": metrics["InterestBearingDebt"]["current"],
+            "forecast": {  # 期末予想BS = 当期末BS+来期利益-来期配当 (Excel式と整合)
+                "ta": forecast_ta if forecast_ta is not None else metrics["TotalAssets"]["current"],
+                "te": forecast_te if forecast_te is not None else metrics["TotalEquity"]["current"],
+                "inv": metrics["Inventory"]["current"],            # 商品はBS非開示=当期流用
+                "debt": metrics["InterestBearingDebt"]["current"], # 有利子負債もExcel D88=E88で当期末流用
                 "is_provisional": True,
+                "forecast_dividend_used": forecast_dividend,
             },
         }
 
