@@ -236,6 +236,12 @@ def main():
 
         # 各期 BS（次期予想は当期BSを流用）
         bs_periods = {
+            "prev_previous": {
+                "ta": metrics["TotalAssets"]["prev_previous"],
+                "te": metrics["TotalEquity"]["prev_previous"],
+                "inv": metrics["Inventory"]["prev_previous"],
+                "debt": metrics["InterestBearingDebt"]["prev_previous"],
+            },
             "previous": {
                 "ta": metrics["TotalAssets"]["previous"],
                 "te": metrics["TotalEquity"]["previous"],
@@ -258,7 +264,7 @@ def main():
         }
 
         trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {}}
-        for period in ("previous", "current", "forecast"):
+        for period in ("prev_previous", "previous", "current", "forecast"):
             rev_p = metrics["Revenue"][period]
             op_p = metrics["OperatingIncome"][period]
             ni_p = metrics["NetIncome"][period]
@@ -289,10 +295,11 @@ def main():
         # 在庫回転率のみ ヤマダデンキPOSベース固定値で別建て表示
         if co.get("is_segment"):
             for k in ("roe", "roic", "asset_turnover"):
-                trend_ratios[k] = {"previous": None, "current": None, "forecast": None}
+                trend_ratios[k] = {"prev_previous": None, "previous": None, "current": None, "forecast": None}
             # 在庫回転率は POS ベース固定値 (ヤマダデンキ実績/計画)
+            # ※前々期(2024/3期)のPOSベース値は説明会資料未掲載のためnull
             trend_ratios["inventory_turnover"] = {
-                "previous": 4.0, "current": 4.5, "forecast": 5.0,
+                "prev_previous": None, "previous": 4.0, "current": 4.5, "forecast": 5.0,
             }
             trend_ratios["inventory_turnover_override"] = {
                 "basis": "デンキセグメント（ヤマダデンキPOSベース）",

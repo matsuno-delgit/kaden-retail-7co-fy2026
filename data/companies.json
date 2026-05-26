@@ -147,21 +147,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 3.9,
           "previous": 4.22,
           "current": 2.33,
           "forecast": 4.39
         },
         "roic": {
+          "prev_previous": 2.93,
           "previous": 2.85,
           "current": 0.79,
           "forecast": 2.52
         },
         "asset_turnover": {
+          "prev_previous": 1.235,
           "previous": 1.23,
           "current": 1.297,
           "forecast": 1.365
         },
         "inventory_turnover": {
+          "prev_previous": 3.863,
           "previous": 4.131,
           "current": 4.45,
           "forecast": 4.681
@@ -313,21 +317,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": null,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "roic": {
+          "prev_previous": null,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "asset_turnover": {
+          "prev_previous": null,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "inventory_turnover": {
+          "prev_previous": null,
           "previous": 4.0,
           "current": 4.5,
           "forecast": 5.0
@@ -484,21 +492,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 2.74,
           "previous": 3.79,
           "current": 5.76,
           "forecast": 8.04
         },
         "roic": {
+          "prev_previous": 3.69,
           "previous": 5.32,
           "current": 6.84,
           "forecast": 7.78
         },
         "asset_turnover": {
+          "prev_previous": 1.639,
           "previous": 1.746,
           "current": 1.798,
           "forecast": 1.858
         },
         "inventory_turnover": {
+          "prev_previous": 4.198,
           "previous": 4.381,
           "current": 4.338,
           "forecast": 4.483
@@ -650,21 +662,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 4.2,
           "previous": 6.34,
           "current": 6.59,
           "forecast": 6.7
         },
         "roic": {
+          "prev_previous": 3.92,
           "previous": 5.4,
           "current": 6.08,
           "forecast": 6.37
         },
         "asset_turnover": {
+          "prev_previous": 1.67,
           "previous": 1.767,
           "current": 1.831,
           "forecast": 1.882
         },
         "inventory_turnover": {
+          "prev_previous": 6.116,
           "previous": 6.396,
           "current": 6.835,
           "forecast": 7.027
@@ -816,21 +832,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 4.68,
           "previous": 3.26,
           "current": 3.11,
           "forecast": 3.32
         },
         "roic": {
+          "prev_previous": 3.86,
           "previous": 0.93,
           "current": 2.33,
           "forecast": 2.58
         },
         "asset_turnover": {
+          "prev_previous": 1.734,
           "previous": 1.742,
           "current": 1.908,
           "forecast": 1.914
         },
         "inventory_turnover": {
+          "prev_previous": 5.151,
           "previous": 5.736,
           "current": 6.25,
           "forecast": 6.269
@@ -982,21 +1002,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 11.47,
           "previous": 15.97,
           "current": 16.05,
           "forecast": 19.79
         },
         "roic": {
+          "prev_previous": 10.29,
           "previous": 10.65,
           "current": 11.7,
           "forecast": 11.89
         },
         "asset_turnover": {
+          "prev_previous": 1.391,
           "previous": 1.368,
           "current": 1.653,
           "forecast": 1.682
         },
         "inventory_turnover": {
+          "prev_previous": 11.284,
           "previous": 11.808,
           "current": 12.417,
           "forecast": 12.634
@@ -1148,21 +1172,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 2.14,
           "previous": 9.13,
           "current": 10.38,
           "forecast": 10.4
         },
         "roic": {
+          "prev_previous": 3.5,
           "previous": 6.88,
           "current": 7.87,
           "forecast": 7.93
         },
         "asset_turnover": {
+          "prev_previous": 1.813,
           "previous": 1.929,
           "current": 1.979,
           "forecast": 2.057
         },
         "inventory_turnover": {
+          "prev_previous": 7.748,
           "previous": 8.427,
           "current": 8.461,
           "forecast": 8.795
@@ -1314,21 +1342,25 @@
       },
       "trend_ratios": {
         "roe": {
+          "prev_previous": 4.51,
           "previous": 6.03,
           "current": 6.72,
           "forecast": 6.99
         },
         "roic": {
+          "prev_previous": 3.92,
           "previous": 6.69,
           "current": 6.83,
           "forecast": 7.08
         },
         "asset_turnover": {
+          "prev_previous": 2.452,
           "previous": 2.354,
           "current": 2.341,
           "forecast": 2.434
         },
         "inventory_turnover": {
+          "prev_previous": 6.964,
           "previous": 7.611,
           "current": 7.626,
           "forecast": 7.928

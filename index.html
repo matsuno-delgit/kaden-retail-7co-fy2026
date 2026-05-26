@@ -127,7 +127,7 @@
 
   <!-- Section: Profitability & Efficiency Trend (ROE / ROIC / 総資産回転率 / 在庫回転率) -->
   <section class="mb-10">
-    <h2 class="text-xl font-semibold mb-3 text-slate-900">📐 収益性・効率性 推移（前期 / 当期 / 次期予想）</h2>
+    <h2 class="text-xl font-semibold mb-3 text-slate-900">📐 収益性・効率性 推移（前々期 / 前期 / 当期 / 次期予想）</h2>
     <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 inline-block mb-3">
       ※ 次期予想のBS（総資産・自己資本・有利子負債・棚卸資産）は各社非開示のため、暫定的に当期実績BSを流用して算出。
       法人税は当期実効率（Tax / OP）を予想営業利益に適用して推計。
@@ -305,7 +305,8 @@ function nonSegmentCos(cos) {
 async function loadAndRender(period) {
   const file = PERIOD_TO_FILE[period] || PERIOD_TO_FILE["fy"];
   try {
-    const res = await fetch(file);
+    // cache-busting: 毎回最新のJSONを取得
+    const res = await fetch(`${file}?v=${Date.now()}`, { cache: "no-store" });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     DASHBOARD_DATA = data;
@@ -523,19 +524,19 @@ function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
     const r = c.trend_ratios?.[ratioKey];
     if (!r) return null;
     // データが全て null の会社（=非該当）はデータセットから除外
-    if (r.previous == null && r.current == null && r.forecast == null) return null;
+    if (r.prev_previous == null && r.previous == null && r.current == null && r.forecast == null) return null;
     return {
       label: c.label,
-      data: [r.previous, r.current, r.forecast],
+      data: [r.prev_previous, r.previous, r.current, r.forecast],
       borderColor: COLORS[c.key],
       backgroundColor: COLORS[c.key] + "33",
       tension: 0.2,
       borderWidth: 2,
       pointRadius: 4,
       pointHoverRadius: 6,
-      // 次期予想の点（3点目）は暫定値なので破線でつなぐ
+      // 次期予想の点（4点目）は暫定値なので破線でつなぐ
       segment: {
-        borderDash: (ctx) => ctx.p1DataIndex === 2 ? [6, 4] : undefined,
+        borderDash: (ctx) => ctx.p1DataIndex === 3 ? [6, 4] : undefined,
       },
       spanGaps: true,
     };
@@ -547,7 +548,7 @@ function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
 
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "line",
-    data: { labels: ["前期", "当期", "次期予想*"], datasets },
+    data: { labels: ["前々期", "前期", "当期", "次期予想*"], datasets },
     options: {
       responsive: true,
       maintainAspectRatio: false,
