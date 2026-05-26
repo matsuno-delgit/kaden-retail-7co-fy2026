@@ -68,7 +68,7 @@
     <div class="text-xs text-slate-500 mb-2 font-semibold">📅 表示する期間を選択</div>
     <div id="period-tabs" class="flex flex-wrap gap-2">
       <button class="period-tab active px-4 py-2 rounded text-sm bg-slate-100" data-period="fy">通期実績 (＋次期計画)</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q1" disabled>1Q実績</button>
+      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q1">1Q実績</button>
       <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q2" disabled>2Q単独</button>
       <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="h1" disabled>上期</button>
       <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q3" disabled>3Q単独</button>
@@ -650,9 +650,11 @@ function renderForecastTable(cos) {
   tbody.innerHTML = "";
   cos.forEach(c => {
     const forecastLabel = `${c.forecast_period.replace("FY","")}年${c.fiscal_year_end}月期`;
-    const revF = getMetric(c, "Revenue", "forecast");
-    const opF = getMetric(c, "OperatingIncome", "forecast");
-    const niF = getMetric(c, "NetIncome", "forecast");
+    // 四半期/上期/下期ダッシュボードでは forecast=null（推移グラフのスケール歪み回避用）。
+    // 「次期通期業績予想」表は通期計画値 forecast_annual を優先参照、無ければ forecast。
+    const revF = getMetric(c, "Revenue", "forecast_annual") ?? getMetric(c, "Revenue", "forecast");
+    const opF = getMetric(c, "OperatingIncome", "forecast_annual") ?? getMetric(c, "OperatingIncome", "forecast");
+    const niF = getMetric(c, "NetIncome", "forecast_annual") ?? getMetric(c, "NetIncome", "forecast");
     const yoyRev = getYoY(c, "Revenue", "forecast_yoy_pct");
     const yoyOp = getYoY(c, "OperatingIncome", "forecast_yoy_pct");
     const yoyNi = getYoY(c, "NetIncome", "forecast_yoy_pct");
