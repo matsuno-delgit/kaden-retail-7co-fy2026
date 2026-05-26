@@ -218,11 +218,15 @@ def main():
             v = safe_div(ni, eq)
             return round(v * 100, 2) if v is not None else None
 
-        def roic(op_v, tax_v, debt_v, eq_v):
+        # ROIC = 営業利益 × (1 - 実効法人税率35%) / (有利子負債 + 自己資本) × 100
+        # ※実効税率は固定35%。実際の法人税等(R86)は使わず、理論NOPATで算出。
+        EFFECTIVE_TAX_RATE = 0.35
+
+        def roic(op_v, _tax_v_unused, debt_v, eq_v):
             ic = (debt_v or 0) + (eq_v or 0)
             if not op_v or ic == 0:
                 return None
-            nopat = op_v - (tax_v if tax_v is not None else 0)
+            nopat = op_v * (1 - EFFECTIVE_TAX_RATE)
             return round(nopat / ic * 100, 2)
 
         def turnover(num, den):

@@ -154,9 +154,9 @@
         },
         "roic": {
           "prev_previous": 2.93,
-          "previous": 2.85,
-          "current": 0.79,
-          "forecast": 2.52
+          "previous": 2.89,
+          "current": 1.11,
+          "forecast": 3.55
         },
         "asset_turnover": {
           "prev_previous": 1.235,
@@ -498,10 +498,10 @@
           "forecast": 8.04
         },
         "roic": {
-          "prev_previous": 3.69,
-          "previous": 5.32,
-          "current": 6.84,
-          "forecast": 7.78
+          "prev_previous": 3.85,
+          "previous": 4.45,
+          "current": 5.63,
+          "forecast": 6.41
         },
         "asset_turnover": {
           "prev_previous": 1.639,
@@ -668,10 +668,10 @@
           "forecast": 6.7
         },
         "roic": {
-          "prev_previous": 3.92,
-          "previous": 5.4,
-          "current": 6.08,
-          "forecast": 6.37
+          "prev_previous": 3.72,
+          "previous": 5.0,
+          "current": 5.5,
+          "forecast": 5.76
         },
         "asset_turnover": {
           "prev_previous": 1.67,
@@ -838,10 +838,10 @@
           "forecast": 3.32
         },
         "roic": {
-          "prev_previous": 3.86,
-          "previous": 0.93,
-          "current": 2.33,
-          "forecast": 2.58
+          "prev_previous": 3.8,
+          "previous": 1.58,
+          "current": 2.44,
+          "forecast": 2.69
         },
         "asset_turnover": {
           "prev_previous": 1.734,
@@ -1008,10 +1008,10 @@
           "forecast": 19.79
         },
         "roic": {
-          "prev_previous": 10.29,
-          "previous": 10.65,
-          "current": 11.7,
-          "forecast": 11.89
+          "prev_previous": 11.4,
+          "previous": 10.85,
+          "current": 11.72,
+          "forecast": 11.9
         },
         "asset_turnover": {
           "prev_previous": 1.391,
@@ -1178,10 +1178,10 @@
           "forecast": 10.4
         },
         "roic": {
-          "prev_previous": 3.5,
-          "previous": 6.88,
-          "current": 7.87,
-          "forecast": 7.93
+          "prev_previous": 3.55,
+          "previous": 6.18,
+          "current": 7.44,
+          "forecast": 7.49
         },
         "asset_turnover": {
           "prev_previous": 1.813,
@@ -1348,10 +1348,10 @@
           "forecast": 6.99
         },
         "roic": {
-          "prev_previous": 3.92,
-          "previous": 6.69,
-          "current": 6.83,
-          "forecast": 7.08
+          "prev_previous": 4.4,
+          "previous": 5.6,
+          "current": 5.97,
+          "forecast": 6.2
         },
         "asset_turnover": {
           "prev_previous": 2.452,
