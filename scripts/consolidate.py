@@ -201,8 +201,13 @@ def main():
         op = metrics["OperatingIncome"]["current"]
         ta = metrics["TotalAssets"]["current"]
         te = metrics["TotalEquity"]["current"]
+        ord_curr = metrics["OrdinaryIncome"]["current"]
+        rev_prev = metrics["Revenue"]["previous"]
+        ord_prev = metrics["OrdinaryIncome"]["previous"]
         ratios = {
             "operating_margin_pct": round(op / rev * 100, 2) if op and rev else None,
+            "ordinary_margin_pct": round(ord_curr / rev * 100, 2) if ord_curr and rev else None,
+            "ordinary_margin_pct_previous": round(ord_prev / rev_prev * 100, 2) if ord_prev and rev_prev else None,
             "equity_ratio_pct": round(te / ta * 100, 2) if te and ta else None,
             "gross_margin_pct": round(metrics["GrossProfit"]["current"] / rev * 100, 2)
                 if metrics["GrossProfit"]["current"] and rev else None,

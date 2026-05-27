@@ -89,14 +89,14 @@
     <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
   </section>
 
-  <!-- Section: 売上高ランキング & 営業利益率ランキング -->
+  <!-- Section: 売上高ランキング & 経常利益率ランキング -->
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高ランキング（百万円）</h3>
       <div class="chart-box"><canvas id="chart-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益率ランキング（%）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益率ランキング（%）</h3>
       <div class="chart-box"><canvas id="chart-opmargin"></canvas></div>
     </div>
   </section>
@@ -108,7 +108,7 @@
       <div class="chart-box"><canvas id="chart-yoy-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 前期比（%）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益 前期比（%）</h3>
       <div class="chart-box"><canvas id="chart-yoy-op"></canvas></div>
     </div>
   </section>
@@ -120,7 +120,7 @@
       <div class="chart-box-tall"><canvas id="chart-trend-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
     </div>
   </section>
@@ -180,13 +180,13 @@
               <th class="px-3 py-2 text-left">会社</th>
               <th class="px-3 py-2 text-left">期</th>
               <th class="px-3 py-2 text-right">売上高</th>
-              <th class="px-3 py-2 text-right">営業利益</th>
+              <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">経常利益</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">経常利益率</th>
+              <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">純利益</th>
-              <th class="px-3 py-2 text-right">営業利益率</th>
-              <th class="px-3 py-2 text-right">自己資本比率</th>
-              <th class="px-3 py-2 text-right">EPS (円)</th>
-              <th class="px-3 py-2 text-right">DPS (円)</th>
+              <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-left">短信</th>
             </tr>
           </thead>
@@ -209,9 +209,9 @@
               <th class="px-3 py-2 text-left">予想期</th>
               <th class="px-3 py-2 text-right">売上高予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">営業利益予想</th>
+              <th class="px-3 py-2 text-right">経常利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">営業利益率予想</th>
+              <th class="px-3 py-2 text-right">経常利益率予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">純利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
@@ -333,9 +333,9 @@ function renderAll(cos) {
   renderRevenueBar(allCos);
   renderOpMarginBar(allCos);
   renderYoYBar(allCos, "Revenue", "chart-yoy-revenue", "売上 YoY");
-  renderYoYBar(allCos, "OperatingIncome", "chart-yoy-op", "営業利益 YoY");
+  renderYoYBar(allCos, "OrdinaryIncome", "chart-yoy-op", "経常利益 YoY");
   renderTrendLine(allCos, "Revenue", "chart-trend-revenue", "売上高 (百万円)");
-  renderTrendLine(allCos, "OperatingIncome", "chart-trend-op", "営業利益 (百万円)");
+  renderTrendLine(allCos, "OrdinaryIncome", "chart-trend-op", "経常利益 (百万円)");
 
   // 収益性・効率性 推移グラフ
   // ROE/ROIC/総資産回転率 はBS依存 → デンキセグメント除外
@@ -370,10 +370,10 @@ function renderKpiCards(cos) {
   grid.innerHTML = "";
   cos.forEach(c => {
     const rev = getMetric(c, "Revenue");
-    const op = getMetric(c, "OperatingIncome");
+    const ord = getMetric(c, "OrdinaryIncome");
     const yoyRev = getYoY(c, "Revenue");
-    const yoyOp = getYoY(c, "OperatingIncome");
-    const om = c.ratios?.operating_margin_pct;
+    const yoyOrd = getYoY(c, "OrdinaryIncome");
+    const om = c.ratios?.ordinary_margin_pct;
     const periodLabel = `${c.current_period.replace("FY","")}年${c.fiscal_year_end}月期${
       c.consolidation === "non_consolidated" ? "(非連結)" :
       c.consolidation === "segment" ? "(セグメント)" : ""
@@ -393,11 +393,11 @@ function renderKpiCards(cos) {
           <dd class="text-right font-mono">${fmtMillions(rev)}</dd>
           <dt class="text-slate-500">　YoY</dt>
           <dd class="text-right font-mono ${yoyColor(yoyRev)}">${fmtPctTriangle(yoyRev)}</dd>
-          <dt class="text-slate-500">営業利益</dt>
-          <dd class="text-right font-mono">${fmtMillions(op)}</dd>
+          <dt class="text-slate-500">経常利益</dt>
+          <dd class="text-right font-mono">${fmtMillions(ord)}</dd>
           <dt class="text-slate-500">　YoY</dt>
-          <dd class="text-right font-mono ${yoyColor(yoyOp)}">${fmtPctTriangle(yoyOp)}</dd>
-          <dt class="text-slate-500">営業利益率</dt>
+          <dd class="text-right font-mono ${yoyColor(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</dd>
+          <dt class="text-slate-500">経常利益率</dt>
           <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
         </dl>
       </div>
@@ -450,7 +450,8 @@ function renderRevenueBar(cos) {
 }
 
 function renderOpMarginBar(cos) {
-  rankAndPlotBar(cos, (c) => c.ratios?.operating_margin_pct, "chart-opmargin", "営業利益率 (%)", {
+  // 経常利益率ランキング (ratios.ordinary_margin_pct)
+  rankAndPlotBar(cos, (c) => c.ratios?.ordinary_margin_pct, "chart-opmargin", "経常利益率 (%)", {
     xTickFmt: (v) => v + "%",
     tooltipFmt: (v) => v.toFixed(2) + "%",
   });
@@ -626,20 +627,32 @@ function renderBsBubble(cos) {
 function renderDetailTable(cos) {
   const tbody = document.getElementById("detail-table-body");
   tbody.innerHTML = "";
+  const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
   cos.forEach(c => {
     const periodLabel = `${c.current_period.replace("FY","")}年${c.fiscal_year_end}月期`;
+    const yoyRev = getYoY(c, "Revenue");
+    const yoyOrd = getYoY(c, "OrdinaryIncome");
+    const yoyNi = getYoY(c, "NetIncome");
+    // 経常利益率 YoY (pp) = 当期経常利益率 - 前期経常利益率
+    const omCurr = c.ratios?.ordinary_margin_pct;
+    const omPrev = c.ratios?.ordinary_margin_pct_previous;
+    const omYoY = (omCurr != null && omPrev != null) ? (omCurr - omPrev) : null;
+    const omYoYStr = omYoY == null ? "—" :
+      (omYoY > 0 ? `+${omYoY.toFixed(2)}%` :
+       omYoY < 0 ? `△${Math.abs(omYoY).toFixed(2)}%` :
+       `±${omYoY.toFixed(2)}%`);
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
         <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>" : ""}</td>
         <td class="px-3 py-2 text-slate-600">${periodLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "Revenue"))}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OperatingIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OrdinaryIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${omCurr != null ? omCurr.toFixed(2) + "%" : "—"}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(omYoY)}">${omYoYStr}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "NetIncome"))}</td>
-        <td class="px-3 py-2 text-right font-mono">${c.ratios?.operating_margin_pct != null ? c.ratios.operating_margin_pct.toFixed(1) + "%" : "—"}</td>
-        <td class="px-3 py-2 text-right font-mono">${c.ratios?.equity_ratio_pct != null ? c.ratios.equity_ratio_pct.toFixed(1) + "%" : "—"}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtYen(getMetric(c, "EPS"))}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtYen(getMetric(c, "DividendPerShare"))}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
         <td class="px-3 py-2"><a href="${c.tanshin_url}" target="_blank" rel="noopener" class="text-sky-700 underline text-xs">PDF</a></td>
       </tr>
     `);
@@ -654,38 +667,35 @@ function renderForecastTable(cos) {
     // 四半期/上期/下期ダッシュボードでは forecast=null（推移グラフのスケール歪み回避用）。
     // 「次期通期業績予想」表は通期計画値 forecast_annual を優先参照、無ければ forecast。
     const revF = getMetric(c, "Revenue", "forecast_annual") ?? getMetric(c, "Revenue", "forecast");
-    const opF = getMetric(c, "OperatingIncome", "forecast_annual") ?? getMetric(c, "OperatingIncome", "forecast");
+    const ordF = getMetric(c, "OrdinaryIncome", "forecast_annual") ?? getMetric(c, "OrdinaryIncome", "forecast");
     const niF = getMetric(c, "NetIncome", "forecast_annual") ?? getMetric(c, "NetIncome", "forecast");
     const yoyRev = getYoY(c, "Revenue", "forecast_yoy_pct");
-    const yoyOp = getYoY(c, "OperatingIncome", "forecast_yoy_pct");
+    const yoyOrd = getYoY(c, "OrdinaryIncome", "forecast_yoy_pct");
     const yoyNi = getYoY(c, "NetIncome", "forecast_yoy_pct");
     const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
-    // 営業利益率予想 = opF / revF × 100
-    const opMarginF = (opF != null && revF != null && revF !== 0) ? (opF / revF * 100) : null;
-    const opMarginStr = opMarginF == null ? "—" : `${opMarginF.toFixed(2)}%`;
-    // 当期営業利益率 (実績) = opC / revC × 100
-    const revC = getMetric(c, "Revenue", "current");
-    const opC = getMetric(c, "OperatingIncome", "current");
-    const opMarginC = (opC != null && revC != null && revC !== 0) ? (opC / revC * 100) : null;
-    // YoY (pp) = forecast営業利益率 - 当期営業利益率
-    const opMarginYoY = (opMarginF != null && opMarginC != null) ? (opMarginF - opMarginC) : null;
-    const opMarginYoYClass = opMarginYoY == null ? "text-slate-400" :
-      (opMarginYoY >= 0 ? "text-emerald-600" : "text-rose-600");
-    // 表記: +0.5% / △0.5% / ±0.00%
-    const opMarginYoYStr = opMarginYoY == null ? "—" :
-      (opMarginYoY > 0 ? `+${opMarginYoY.toFixed(2)}%` :
-       opMarginYoY < 0 ? `△${Math.abs(opMarginYoY).toFixed(2)}%` :
-       `±${opMarginYoY.toFixed(2)}%`);
+    // 経常利益率予想 = ordF / revF × 100
+    const ordMarginF = (ordF != null && revF != null && revF !== 0) ? (ordF / revF * 100) : null;
+    const ordMarginStr = ordMarginF == null ? "—" : `${ordMarginF.toFixed(2)}%`;
+    // 当期経常利益率 (実績)
+    const ordMarginC = c.ratios?.ordinary_margin_pct;
+    // YoY (pp) = forecast経常利益率 - 当期経常利益率
+    const ordMarginYoY = (ordMarginF != null && ordMarginC != null) ? (ordMarginF - ordMarginC) : null;
+    const ordMarginYoYClass = ordMarginYoY == null ? "text-slate-400" :
+      (ordMarginYoY >= 0 ? "text-emerald-600" : "text-rose-600");
+    const ordMarginYoYStr = ordMarginYoY == null ? "—" :
+      (ordMarginYoY > 0 ? `+${ordMarginYoY.toFixed(2)}%` :
+       ordMarginYoY < 0 ? `△${Math.abs(ordMarginYoY).toFixed(2)}%` :
+       `±${ordMarginYoY.toFixed(2)}%`);
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
         <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}</td>
         <td class="px-3 py-2 text-slate-600">${forecastLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(revF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(opF)}</td>
-        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOp)}">${fmtPctTriangle(yoyOp)}</td>
-        <td class="px-3 py-2 text-right font-mono text-slate-700">${opMarginStr}</td>
-        <td class="px-3 py-2 text-right font-mono ${opMarginYoYClass}">${opMarginYoYStr}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(ordF)}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${ordMarginStr}</td>
+        <td class="px-3 py-2 text-right font-mono ${ordMarginYoYClass}">${ordMarginYoYStr}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(niF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
       </tr>

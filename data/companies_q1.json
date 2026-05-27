@@ -126,6 +126,8 @@
       },
       "ratios": {
         "operating_margin_pct": 3.55,
+        "ordinary_margin_pct": 3.88,
+        "ordinary_margin_pct_previous": 4.25,
         "equity_ratio_pct": 45.17,
         "gross_margin_pct": 30.18
       },
@@ -278,6 +280,8 @@
       },
       "ratios": {
         "operating_margin_pct": 3.99,
+        "ordinary_margin_pct": 4.46,
+        "ordinary_margin_pct_previous": 5.15,
         "equity_ratio_pct": null,
         "gross_margin_pct": 31.79
       },
@@ -435,6 +439,8 @@
       },
       "ratios": {
         "operating_margin_pct": 2.96,
+        "ordinary_margin_pct": 3.35,
+        "ordinary_margin_pct_previous": 2.96,
         "equity_ratio_pct": 58.53,
         "gross_margin_pct": 28.4
       },
@@ -587,6 +593,8 @@
       },
       "ratios": {
         "operating_margin_pct": 2.58,
+        "ordinary_margin_pct": 2.69,
+        "ordinary_margin_pct_previous": 2.09,
         "equity_ratio_pct": 49.98,
         "gross_margin_pct": 29.8
       },
@@ -739,6 +747,8 @@
       },
       "ratios": {
         "operating_margin_pct": 0.57,
+        "ordinary_margin_pct": 0.48,
+        "ordinary_margin_pct_previous": 1.0,
         "equity_ratio_pct": 43.65,
         "gross_margin_pct": 25.64
       },
@@ -891,6 +901,8 @@
       },
       "ratios": {
         "operating_margin_pct": 6.34,
+        "ordinary_margin_pct": 7.02,
+        "ordinary_margin_pct_previous": 4.57,
         "equity_ratio_pct": 33.74,
         "gross_margin_pct": 29.79
       },
@@ -1043,6 +1055,8 @@
       },
       "ratios": {
         "operating_margin_pct": 1.99,
+        "ordinary_margin_pct": 2.14,
+        "ordinary_margin_pct_previous": 1.45,
         "equity_ratio_pct": 29.89,
         "gross_margin_pct": 26.35
       },
@@ -1195,6 +1209,8 @@
       },
       "ratios": {
         "operating_margin_pct": 0.89,
+        "ordinary_margin_pct": 1.01,
+        "ordinary_margin_pct_previous": 0.44,
         "equity_ratio_pct": 57.33,
         "gross_margin_pct": 27.16
       },
