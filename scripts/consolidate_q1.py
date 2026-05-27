@@ -162,16 +162,17 @@ def main():
                 "unit": "百万円",
             }
 
-        # YoY (current vs previous), forecast_yoy_pct (next-FY-plan vs current-Q1 不可)
-        # ↓ Q1 ダッシュボードでも forecast 表は通期計画値を入れるが、forecast_yoy_pct は計算しない
+        # YoY (current vs previous, previous vs prev_previous), forecast_yoy_pct は1Qでは null
         yoy = {}
         for key in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome"):
             m = metrics.get(key, {})
             cur = m.get("current")
             prev = m.get("previous")
+            pp = m.get("prev_previous")
             yoy[key] = {
                 "current_yoy_pct": round((cur / prev - 1) * 100, 2) if cur and prev else None,
-                "forecast_yoy_pct": None,  # 1Q vs 通期計画は意味薄なのでnull
+                "previous_yoy_pct": round((prev / pp - 1) * 100, 2) if prev and pp else None,
+                "forecast_yoy_pct": None,
             }
 
         # 当期スポット比率
@@ -182,13 +183,20 @@ def main():
         ord_curr = metrics["OrdinaryIncome"]["current"]
         rev_prev = metrics["Revenue"]["previous"]
         ord_prev = metrics["OrdinaryIncome"]["previous"]
+        rev_pp = metrics["Revenue"]["prev_previous"]
+        ord_pp = metrics["OrdinaryIncome"]["prev_previous"]
+        gp_curr = metrics["GrossProfit"]["current"]
+        gp_prev = metrics["GrossProfit"]["previous"]
+        gp_pp = metrics["GrossProfit"]["prev_previous"]
         ratios = {
             "operating_margin_pct": round(op / rev * 100, 2) if op and rev else None,
             "ordinary_margin_pct": round(ord_curr / rev * 100, 2) if ord_curr and rev else None,
             "ordinary_margin_pct_previous": round(ord_prev / rev_prev * 100, 2) if ord_prev and rev_prev else None,
+            "ordinary_margin_pct_prev_previous": round(ord_pp / rev_pp * 100, 2) if ord_pp and rev_pp else None,
             "equity_ratio_pct": round(te / ta * 100, 2) if te and ta else None,
-            "gross_margin_pct": round(metrics["GrossProfit"]["current"] / rev * 100, 2)
-                if metrics["GrossProfit"]["current"] and rev else None,
+            "gross_margin_pct": round(gp_curr / rev * 100, 2) if gp_curr and rev else None,
+            "gross_margin_pct_previous": round(gp_prev / rev_prev * 100, 2) if gp_prev and rev_prev else None,
+            "gross_margin_pct_prev_previous": round(gp_pp / rev_pp * 100, 2) if gp_pp and rev_pp else None,
         }
 
         # 推移用比率 (前々期/前期/当期、1Qのforecastは省略=null表示)

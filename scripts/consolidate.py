@@ -184,15 +184,17 @@ def main():
                 ),
             }
 
-        # 派生: YoY % (current vs previous), forecast YoY %
+        # 派生: YoY % (current vs previous), previous_yoy_pct (previous vs prev_previous), forecast YoY %
         yoy = {}
         for key in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome"):
             m = metrics.get(key, {})
             cur = m.get("current")
             prev = m.get("previous")
+            pp = m.get("prev_previous")
             fc = m.get("forecast")
             yoy[key] = {
                 "current_yoy_pct": round((cur / prev - 1) * 100, 2) if cur and prev else None,
+                "previous_yoy_pct": round((prev / pp - 1) * 100, 2) if prev and pp else None,
                 "forecast_yoy_pct": round((fc / cur - 1) * 100, 2) if fc and cur else None,
             }
 
@@ -204,13 +206,20 @@ def main():
         ord_curr = metrics["OrdinaryIncome"]["current"]
         rev_prev = metrics["Revenue"]["previous"]
         ord_prev = metrics["OrdinaryIncome"]["previous"]
+        rev_pp = metrics["Revenue"]["prev_previous"]
+        ord_pp = metrics["OrdinaryIncome"]["prev_previous"]
+        gp_curr = metrics["GrossProfit"]["current"]
+        gp_prev = metrics["GrossProfit"]["previous"]
+        gp_pp = metrics["GrossProfit"]["prev_previous"]
         ratios = {
             "operating_margin_pct": round(op / rev * 100, 2) if op and rev else None,
             "ordinary_margin_pct": round(ord_curr / rev * 100, 2) if ord_curr and rev else None,
             "ordinary_margin_pct_previous": round(ord_prev / rev_prev * 100, 2) if ord_prev and rev_prev else None,
+            "ordinary_margin_pct_prev_previous": round(ord_pp / rev_pp * 100, 2) if ord_pp and rev_pp else None,
             "equity_ratio_pct": round(te / ta * 100, 2) if te and ta else None,
-            "gross_margin_pct": round(metrics["GrossProfit"]["current"] / rev * 100, 2)
-                if metrics["GrossProfit"]["current"] and rev else None,
+            "gross_margin_pct": round(gp_curr / rev * 100, 2) if gp_curr and rev else None,
+            "gross_margin_pct_previous": round(gp_prev / rev_prev * 100, 2) if gp_prev and rev_prev else None,
+            "gross_margin_pct_prev_previous": round(gp_pp / rev_pp * 100, 2) if gp_pp and rev_pp else None,
         }
 
         # 推移用比率（前期 / 当期 / 次期予想）

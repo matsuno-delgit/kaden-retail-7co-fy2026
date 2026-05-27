@@ -109,18 +109,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": -0.38,
+          "previous_yoy_pct": 4.23,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": -6.65,
+          "previous_yoy_pct": 29.57,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": -9.1,
+          "previous_yoy_pct": 23.82,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": -7.95,
+          "previous_yoy_pct": -8.34,
           "forecast_yoy_pct": null
         }
       },
@@ -128,8 +132,11 @@
         "operating_margin_pct": 3.55,
         "ordinary_margin_pct": 3.88,
         "ordinary_margin_pct_previous": 4.25,
+        "ordinary_margin_pct_prev_previous": 3.58,
         "equity_ratio_pct": 45.17,
-        "gross_margin_pct": 30.18
+        "gross_margin_pct": 30.18,
+        "gross_margin_pct_previous": 30.27,
+        "gross_margin_pct_prev_previous": 30.58
       },
       "trend_ratios": {
         "roe": {
@@ -263,18 +270,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": -1.87,
+          "previous_yoy_pct": 3.12,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": -16.16,
+          "previous_yoy_pct": 20.96,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": -15.06,
+          "previous_yoy_pct": 17.23,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": null,
+          "previous_yoy_pct": null,
           "forecast_yoy_pct": null
         }
       },
@@ -282,8 +293,11 @@
         "operating_margin_pct": 3.99,
         "ordinary_margin_pct": 4.46,
         "ordinary_margin_pct_previous": 5.15,
+        "ordinary_margin_pct_prev_previous": 4.53,
         "equity_ratio_pct": null,
-        "gross_margin_pct": 31.79
+        "gross_margin_pct": 31.79,
+        "gross_margin_pct_previous": 31.84,
+        "gross_margin_pct_prev_previous": null
       },
       "trend_ratios": {
         "roe": {
@@ -422,18 +436,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 2.71,
+          "previous_yoy_pct": 4.08,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 26.11,
+          "previous_yoy_pct": 57.64,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 16.38,
+          "previous_yoy_pct": 39.92,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 59.73,
+          "previous_yoy_pct": 11.47,
           "forecast_yoy_pct": null
         }
       },
@@ -441,8 +459,11 @@
         "operating_margin_pct": 2.96,
         "ordinary_margin_pct": 3.35,
         "ordinary_margin_pct_previous": 2.96,
+        "ordinary_margin_pct_prev_previous": 2.2,
         "equity_ratio_pct": 58.53,
-        "gross_margin_pct": 28.4
+        "gross_margin_pct": 28.4,
+        "gross_margin_pct_previous": 28.35,
+        "gross_margin_pct_prev_previous": 28.18
       },
       "trend_ratios": {
         "roe": {
@@ -576,18 +597,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 5.12,
+          "previous_yoy_pct": 8.4,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 41.65,
+          "previous_yoy_pct": 88.71,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 35.4,
+          "previous_yoy_pct": 92.66,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 40.44,
+          "previous_yoy_pct": 108.6,
           "forecast_yoy_pct": null
         }
       },
@@ -595,8 +620,11 @@
         "operating_margin_pct": 2.58,
         "ordinary_margin_pct": 2.69,
         "ordinary_margin_pct_previous": 2.09,
+        "ordinary_margin_pct_prev_previous": 1.18,
         "equity_ratio_pct": 49.98,
-        "gross_margin_pct": 29.8
+        "gross_margin_pct": 29.8,
+        "gross_margin_pct_previous": 29.96,
+        "gross_margin_pct_prev_previous": 30.13
       },
       "trend_ratios": {
         "roe": {
@@ -730,18 +758,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 10.58,
+          "previous_yoy_pct": -0.2,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": -37.95,
+          "previous_yoy_pct": -16.68,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": -46.79,
+          "previous_yoy_pct": -15.99,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 7.48,
+          "previous_yoy_pct": -24.52,
           "forecast_yoy_pct": null
         }
       },
@@ -749,8 +781,11 @@
         "operating_margin_pct": 0.57,
         "ordinary_margin_pct": 0.48,
         "ordinary_margin_pct_previous": 1.0,
+        "ordinary_margin_pct_prev_previous": 1.19,
         "equity_ratio_pct": 43.65,
-        "gross_margin_pct": 25.64
+        "gross_margin_pct": 25.64,
+        "gross_margin_pct_previous": 27.87,
+        "gross_margin_pct_prev_previous": 27.43
       },
       "trend_ratios": {
         "roe": {
@@ -884,18 +919,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 20.68,
+          "previous_yoy_pct": 10.11,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 85.99,
+          "previous_yoy_pct": 47.67,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 85.59,
+          "previous_yoy_pct": 48.27,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 77.77,
+          "previous_yoy_pct": 67.26,
           "forecast_yoy_pct": null
         }
       },
@@ -903,8 +942,11 @@
         "operating_margin_pct": 6.34,
         "ordinary_margin_pct": 7.02,
         "ordinary_margin_pct_previous": 4.57,
+        "ordinary_margin_pct_prev_previous": 3.39,
         "equity_ratio_pct": 33.74,
-        "gross_margin_pct": 29.79
+        "gross_margin_pct": 29.79,
+        "gross_margin_pct_previous": 29.32,
+        "gross_margin_pct_prev_previous": 30.64
       },
       "trend_ratios": {
         "roe": {
@@ -1038,18 +1080,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 6.5,
+          "previous_yoy_pct": 9.54,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 75.94,
+          "previous_yoy_pct": 68.85,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 56.83,
+          "previous_yoy_pct": 56.78,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 113.71,
+          "previous_yoy_pct": 103.57,
           "forecast_yoy_pct": null
         }
       },
@@ -1057,8 +1103,11 @@
         "operating_margin_pct": 1.99,
         "ordinary_margin_pct": 2.14,
         "ordinary_margin_pct_previous": 1.45,
+        "ordinary_margin_pct_prev_previous": 1.02,
         "equity_ratio_pct": 29.89,
-        "gross_margin_pct": 26.35
+        "gross_margin_pct": 26.35,
+        "gross_margin_pct_previous": 25.8,
+        "gross_margin_pct_prev_previous": 26.68
       },
       "trend_ratios": {
         "roe": {
@@ -1192,18 +1241,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 3.86,
+          "previous_yoy_pct": -5.72,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 163.81,
+          "previous_yoy_pct": -41.5,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 141.22,
+          "previous_yoy_pct": -38.64,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 117.84,
+          "previous_yoy_pct": -45.1,
           "forecast_yoy_pct": null
         }
       },
@@ -1211,8 +1264,11 @@
         "operating_margin_pct": 0.89,
         "ordinary_margin_pct": 1.01,
         "ordinary_margin_pct_previous": 0.44,
+        "ordinary_margin_pct_prev_previous": 0.67,
         "equity_ratio_pct": 57.33,
-        "gross_margin_pct": 27.16
+        "gross_margin_pct": 27.16,
+        "gross_margin_pct_previous": 27.29,
+        "gross_margin_pct_prev_previous": 26.61
       },
       "trend_ratios": {
         "roe": {

@@ -169,10 +169,10 @@
     </div>
   </section>
 
-  <!-- Section: Detail Table -->
+  <!-- Section: Detail Table - Previous Period (2025年3月期) -->
   <section class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">📋 7社 詳細業績テーブル</h3>
+      <h3 id="detail-table-prev-title" class="text-lg font-semibold mb-3 text-slate-900">📋 7社 詳細業績テーブル（2025年3月期）</h3>
       <div class="overflow-x-auto">
         <table class="min-w-full text-sm table-zebra">
           <thead class="bg-slate-100 text-slate-700">
@@ -180,6 +180,38 @@
               <th class="px-3 py-2 text-left">会社</th>
               <th class="px-3 py-2 text-left">期</th>
               <th class="px-3 py-2 text-right">売上高</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">売上総利益率</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">経常利益</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">経常利益率</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">純利益</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-left">短信</th>
+            </tr>
+          </thead>
+          <tbody id="detail-table-prev-body" class="divide-y divide-slate-200"></tbody>
+        </table>
+      </div>
+      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。YoYは前々期(2024年3月期)比。△は減益・減収。</p>
+    </div>
+  </section>
+
+  <!-- Section: Detail Table - Current Period (2026年3月期) -->
+  <section class="mb-10">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 id="detail-table-title" class="text-lg font-semibold mb-3 text-slate-900">📋 7社 詳細業績テーブル（2026年3月期）</h3>
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm table-zebra">
+          <thead class="bg-slate-100 text-slate-700">
+            <tr>
+              <th class="px-3 py-2 text-left">会社</th>
+              <th class="px-3 py-2 text-left">期</th>
+              <th class="px-3 py-2 text-right">売上高</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">売上総利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">経常利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
@@ -193,7 +225,7 @@
           <tbody id="detail-table-body" class="divide-y divide-slate-200"></tbody>
         </table>
       </div>
-      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。△は減益・減収。</p>
+      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。YoYは前期(2025年3月期)比。△は減益・減収。</p>
     </div>
   </section>
 
@@ -208,6 +240,8 @@
               <th class="px-3 py-2 text-left">会社</th>
               <th class="px-3 py-2 text-left">予想期</th>
               <th class="px-3 py-2 text-right">売上高予想</th>
+              <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right">売上総利益率予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">経常利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
@@ -346,8 +380,27 @@ function renderAll(cos) {
   renderRatioTrendLine(allCos,  "inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
 
   renderBsBubble(fullCos);            // BS依存 → デンキ除外
-  renderDetailTable(allCos);          // 詳細テーブルは全件表示（BS欄は「—」）
-  renderForecastTable(allCos);        // 予想テーブルも全件
+  renderDetailTablePrev(allCos);      // 前期(2025/3期)実績テーブル
+  renderDetailTable(allCos);          // 当期(2026/3期)実績テーブル
+  renderForecastTable(allCos);        // 予想テーブル
+  // テーブルタイトル動的化（3月決算社の current_period から年を取得）
+  updateDetailTableTitles(allCos);
+}
+
+function updateDetailTableTitles(cos) {
+  // 3月決算社の current_period / previous_period から年を取得して表示
+  const c3 = cos.find(c => c.fiscal_year_end === "03");
+  if (!c3) return;
+  const currYear = c3.current_period?.replace("FY", "");
+  const prevYear = c3.previous_period?.replace("FY", "");
+  if (currYear) {
+    const t = document.getElementById("detail-table-title");
+    if (t) t.textContent = `📋 7社 詳細業績テーブル（${currYear}年3月期）`;
+  }
+  if (prevYear) {
+    const t = document.getElementById("detail-table-prev-title");
+    if (t) t.textContent = `📋 7社 詳細業績テーブル（${prevYear}年3月期）`;
+  }
 }
 
 async function main() {
@@ -624,6 +677,14 @@ function renderBsBubble(cos) {
   });
 }
 
+// pp表記ヘルパ: ±0.00% / +0.50% / △0.50%
+function fmtPpDelta(v) {
+  if (v == null) return "—";
+  if (v > 0) return `+${v.toFixed(2)}%`;
+  if (v < 0) return `△${Math.abs(v).toFixed(2)}%`;
+  return `±${v.toFixed(2)}%`;
+}
+
 function renderDetailTable(cos) {
   const tbody = document.getElementById("detail-table-body");
   tbody.innerHTML = "";
@@ -633,25 +694,69 @@ function renderDetailTable(cos) {
     const yoyRev = getYoY(c, "Revenue");
     const yoyOrd = getYoY(c, "OrdinaryIncome");
     const yoyNi = getYoY(c, "NetIncome");
-    // 経常利益率 YoY (pp) = 当期経常利益率 - 前期経常利益率
+    // 売上総利益率(当期) と YoY(pp) = 当期 - 前期
+    const gmCurr = c.ratios?.gross_margin_pct;
+    const gmPrev = c.ratios?.gross_margin_pct_previous;
+    const gmYoY = (gmCurr != null && gmPrev != null) ? (gmCurr - gmPrev) : null;
+    // 経常利益率(当期) と YoY(pp)
     const omCurr = c.ratios?.ordinary_margin_pct;
     const omPrev = c.ratios?.ordinary_margin_pct_previous;
     const omYoY = (omCurr != null && omPrev != null) ? (omCurr - omPrev) : null;
-    const omYoYStr = omYoY == null ? "—" :
-      (omYoY > 0 ? `+${omYoY.toFixed(2)}%` :
-       omYoY < 0 ? `△${Math.abs(omYoY).toFixed(2)}%` :
-       `±${omYoY.toFixed(2)}%`);
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
         <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>" : ""}</td>
         <td class="px-3 py-2 text-slate-600">${periodLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "Revenue"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${gmCurr != null ? gmCurr.toFixed(2) + "%" : "—"}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(gmYoY)}">${fmtPpDelta(gmYoY)}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OrdinaryIncome"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
         <td class="px-3 py-2 text-right font-mono text-slate-700">${omCurr != null ? omCurr.toFixed(2) + "%" : "—"}</td>
-        <td class="px-3 py-2 text-right font-mono ${yoyClass(omYoY)}">${omYoYStr}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(omYoY)}">${fmtPpDelta(omYoY)}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "NetIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
+        <td class="px-3 py-2"><a href="${c.tanshin_url}" target="_blank" rel="noopener" class="text-sky-700 underline text-xs">PDF</a></td>
+      </tr>
+    `);
+  });
+}
+
+function renderDetailTablePrev(cos) {
+  // 前期実績テーブル（2025年3月期 / 2024年8月期 etc）
+  // YoYは「前期 vs 前々期」(yoy.X.previous_yoy_pct)。各比率は gross_margin_pct_previous etc。
+  const tbody = document.getElementById("detail-table-prev-body");
+  if (!tbody) return;
+  tbody.innerHTML = "";
+  const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
+  cos.forEach(c => {
+    const periodLabel = c.previous_period
+      ? `${c.previous_period.replace("FY","")}年${c.fiscal_year_end}月期`
+      : "—";
+    const yoyRev = getYoY(c, "Revenue", "previous_yoy_pct");
+    const yoyOrd = getYoY(c, "OrdinaryIncome", "previous_yoy_pct");
+    const yoyNi = getYoY(c, "NetIncome", "previous_yoy_pct");
+    // 売上総利益率(前期) と YoY(pp) = 前期 - 前々期
+    const gmPrev = c.ratios?.gross_margin_pct_previous;
+    const gmPp = c.ratios?.gross_margin_pct_prev_previous;
+    const gmYoY = (gmPrev != null && gmPp != null) ? (gmPrev - gmPp) : null;
+    // 経常利益率(前期) と YoY(pp)
+    const omPrev = c.ratios?.ordinary_margin_pct_previous;
+    const omPp = c.ratios?.ordinary_margin_pct_prev_previous;
+    const omYoY = (omPrev != null && omPp != null) ? (omPrev - omPp) : null;
+    tbody.insertAdjacentHTML("beforeend", `
+      <tr>
+        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>" : ""}</td>
+        <td class="px-3 py-2 text-slate-600">${periodLabel}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "Revenue", "previous"))}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${gmPrev != null ? gmPrev.toFixed(2) + "%" : "—"}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(gmYoY)}">${fmtPpDelta(gmYoY)}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OrdinaryIncome", "previous"))}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${omPrev != null ? omPrev.toFixed(2) + "%" : "—"}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(omYoY)}">${fmtPpDelta(omYoY)}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "NetIncome", "previous"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
         <td class="px-3 py-2"><a href="${c.tanshin_url}" target="_blank" rel="noopener" class="text-sky-700 underline text-xs">PDF</a></td>
       </tr>
@@ -686,12 +791,22 @@ function renderForecastTable(cos) {
       (ordMarginYoY > 0 ? `+${ordMarginYoY.toFixed(2)}%` :
        ordMarginYoY < 0 ? `△${Math.abs(ordMarginYoY).toFixed(2)}%` :
        `±${ordMarginYoY.toFixed(2)}%`);
+    // 売上総利益率予想は通常 forecast には開示されない (純額のみ)
+    // → 当期実績の売上総利益率を仮置きし、YoY(pp) は当期からの変化ゼロ表示にする…のではなく
+    //   forecast の GrossProfit が提供されていればそれを使う。無ければ "—" 表示。
+    const gpF = getMetric(c, "GrossProfit", "forecast_annual") ?? getMetric(c, "GrossProfit", "forecast");
+    const gpMarginF = (gpF != null && revF != null && revF !== 0) ? (gpF / revF * 100) : null;
+    const gpMarginC = c.ratios?.gross_margin_pct;
+    const gpMarginYoY = (gpMarginF != null && gpMarginC != null) ? (gpMarginF - gpMarginC) : null;
+    const gpMarginStr = gpMarginF == null ? "—" : `${gpMarginF.toFixed(2)}%`;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
         <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}</td>
         <td class="px-3 py-2 text-slate-600">${forecastLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(revF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
+        <td class="px-3 py-2 text-right font-mono text-slate-700">${gpMarginStr}</td>
+        <td class="px-3 py-2 text-right font-mono ${yoyClass(gpMarginYoY)}">${fmtPpDelta(gpMarginYoY)}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(ordF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
         <td class="px-3 py-2 text-right font-mono text-slate-700">${ordMarginStr}</td>
