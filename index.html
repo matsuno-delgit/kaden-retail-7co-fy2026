@@ -116,17 +116,17 @@
   <!-- Section: Trend -->
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
+      <h3 id="trend-revenue-title" class="text-lg font-semibold mb-3 text-slate-900">売上高 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <div class="chart-box-tall"><canvas id="chart-trend-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
+      <h3 id="trend-op-title" class="text-lg font-semibold mb-3 text-slate-900">経常利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
     </div>
   </section>
 
   <!-- Section: Profitability & Efficiency Trend (ROE / ROIC / 総資産回転率 / 在庫回転率) -->
-  <section class="mb-10">
+  <section id="section-ratios-trend" class="mb-10">
     <h2 class="text-xl font-semibold mb-3 text-slate-900">📐 収益性・効率性 推移（前々期 / 前期 / 当期 / 次期予想）</h2>
     <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 inline-block mb-3">
       ※ 次期予想のBS（総資産・自己資本・有利子負債・棚卸資産）は各社非開示のため、暫定的に当期実績BSを流用して算出。
@@ -161,7 +161,7 @@
   </section>
 
   <!-- Section: Balance Sheet -->
-  <section class="mb-10">
+  <section id="section-bs-bubble" class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">財務体質: 総資産規模 × 自己資本比率</h3>
       <p class="text-xs text-slate-500 mb-2">バブル面積 = 純資産規模</p>
@@ -230,7 +230,7 @@
   </section>
 
   <!-- Section: Forecast Table -->
-  <section class="mb-10">
+  <section id="section-forecast-table" class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">🔮 次期通期業績予想（会社発表値）</h3>
       <div class="overflow-x-auto">
@@ -301,6 +301,7 @@ function getYoY(company, item, kind = "current_yoy_pct") {
 
 // ------- メイン -------
 let DASHBOARD_DATA = null;  // 現在ロード中のデータ
+let CURRENT_PERIOD = "fy";  // "fy" | "q1" | "q2" | "h1" | "q3" | "q3cum" | "q4" | "h2"
 // 全 canvas ID を列挙して、再描画前に既存チャートを破棄するために使う
 const ALL_CANVAS_IDS = [
   "chart-revenue", "chart-opmargin", "chart-yoy-revenue", "chart-yoy-op",
@@ -338,7 +339,30 @@ function nonSegmentCos(cos) {
   return cos.filter(c => !c.is_segment);
 }
 
+// 期間に応じてセクション・グラフタイトルを表示制御
+// 「次期予想」関連は通期(fy)のみで表示。他期間は非表示。
+function applyPeriodVisibility(period) {
+  const isAnnual = (period === "fy");
+  const sectionsAnnualOnly = [
+    "section-ratios-trend",    // ROE/ROIC/総資産回転率/在庫回転率 推移
+    "section-bs-bubble",       // 財務体質・総資産規模×自己資本比率
+    "section-forecast-table",  // 次期通期業績予想
+  ];
+  sectionsAnnualOnly.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = isAnnual ? "" : "none";
+  });
+  // 推移グラフタイトル（次期予想を含むかどうか）
+  const trendSuffix = isAnnual ? "（前々期 / 前期 / 当期 / 次期予想）" : "（前々期 / 前期 / 当期）";
+  const t1 = document.getElementById("trend-revenue-title");
+  if (t1) t1.textContent = `売上高 推移${trendSuffix}`;
+  const t2 = document.getElementById("trend-op-title");
+  if (t2) t2.textContent = `経常利益 推移${trendSuffix}`;
+}
+
 async function loadAndRender(period) {
+  CURRENT_PERIOD = period;
+  applyPeriodVisibility(period);
   const file = PERIOD_TO_FILE[period] || PERIOD_TO_FILE["fy"];
   try {
     // cache-busting: 毎回最新のJSONを取得
@@ -371,18 +395,17 @@ function renderAll(cos) {
   renderTrendLine(allCos, "Revenue", "chart-trend-revenue", "売上高 (百万円)");
   renderTrendLine(allCos, "OrdinaryIncome", "chart-trend-op", "経常利益 (百万円)");
 
-  // 収益性・効率性 推移グラフ
-  // ROE/ROIC/総資産回転率 はBS依存 → デンキセグメント除外
-  renderRatioTrendLine(fullCos, "roe",            "chart-trend-roe",            "ROE (%)",          "pct");
-  renderRatioTrendLine(fullCos, "roic",           "chart-trend-roic",           "ROIC (%)",         "pct");
-  renderRatioTrendLine(fullCos, "asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
-  // 在庫回転率はデンキセグも別建てで表示
-  renderRatioTrendLine(allCos,  "inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
-
-  renderBsBubble(fullCos);            // BS依存 → デンキ除外
-  renderDetailTablePrev(allCos);      // 前期(2025/3期)実績テーブル
-  renderDetailTable(allCos);          // 当期(2026/3期)実績テーブル
-  renderForecastTable(allCos);        // 予想テーブル
+  // 収益性・効率性 推移グラフ・BSバブル・予想テーブルは「通期(fy)」のみ表示
+  if (CURRENT_PERIOD === "fy") {
+    renderRatioTrendLine(fullCos, "roe",            "chart-trend-roe",            "ROE (%)",          "pct");
+    renderRatioTrendLine(fullCos, "roic",           "chart-trend-roic",           "ROIC (%)",         "pct");
+    renderRatioTrendLine(fullCos, "asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
+    renderRatioTrendLine(allCos,  "inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
+    renderBsBubble(fullCos);          // 財務体質・総資産規模×自己資本比率
+    renderForecastTable(allCos);      // 次期通期業績予想
+  }
+  renderDetailTablePrev(allCos);      // 前期実績テーブル
+  renderDetailTable(allCos);          // 当期実績テーブル
   // テーブルタイトル動的化（3月決算社の current_period から年を取得）
   updateDetailTableTitles(allCos);
 }
@@ -536,13 +559,18 @@ function renderYoYBar(cos, item, canvasId, xLabel) {
 }
 
 function renderTrendLine(cos, item, canvasId, yLabel) {
-  // X軸: 前々期 / 前期 / 当期 / 次期予想（会社により実際の年度ラベルを生成）
+  // 通期(fy)は4点(前々期/前期/当期/次期予想)、その他期間は3点(前々期/前期/当期)
+  const isAnnual = (CURRENT_PERIOD === "fy");
+  const labels = isAnnual ? ["前々期", "前期", "当期", "次期予想"] : ["前々期", "前期", "当期"];
   const datasets = cos.map(c => {
     const m = c.metrics?.[item];
     if (!m) return null;
+    const dataPoints = isAnnual
+      ? [m.prev_previous, m.previous, m.current, m.forecast]
+      : [m.prev_previous, m.previous, m.current];
     return {
       label: c.label,
-      data: [m.prev_previous, m.previous, m.current, m.forecast],
+      data: dataPoints,
       borderColor: COLORS[c.key],
       backgroundColor: COLORS[c.key] + "33",
       tension: 0.2,
@@ -556,7 +584,7 @@ function renderTrendLine(cos, item, canvasId, yLabel) {
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "line",
     data: {
-      labels: ["前々期", "前期", "当期", "次期予想"],
+      labels: labels,
       datasets,
     },
     options: {
