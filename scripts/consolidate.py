@@ -39,9 +39,11 @@ ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
 # 最新の通期実績 _ver.9 を採用（ROIC新式統一・法人税率参照式統一・不要数式削除済み）
 XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.9.xlsx"
 # 前々期実績 (2024年3月期通期、ビック/コジマは2023年8月期) を別Excelから読み込み
-PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.5.xlsx"
+# ver.6: ヤマダ(デンキセグ)の売上総利益 F8/G8 追加
+PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.6.xlsx"
 # 通期計画 (2027/3期計画、ビック/コジマは2026/8期計画) — 来期配当総額(N92等)を取得
-PLAN_XLSX = ROOT.parent / "02_通期計画_2027.03" / "【経営企画部】各社業績対比フォーマット（2027.03通期計画 vs 2026.03通期実績）_ver.6.xlsx"
+# ver.7: 上新/コジマ/ビック単体の計画売上総利益 L8/R8/V8 追加
+PLAN_XLSX = ROOT.parent / "02_通期計画_2027.03" / "【経営企画部】各社業績対比フォーマット（2027.03通期計画 vs 2026.03通期実績）_ver.7.xlsx"
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -134,15 +136,19 @@ ROW_TO_METRIC = {
 # 3月決算5社=2027年3月期計画、Bic/Kojima=2026年8月期計画
 # 出典詳細は 02_通期計画_2027.03/extracted/forecast_all.json
 FORECAST = {
-    "yamada": {"Revenue": 1780000, "OperatingIncome": 51500, "OrdinaryIncome": 52600, "NetIncome": 27800},
-    "ks":     {"Revenue": 785000,  "OperatingIncome": 30500, "OrdinaryIncome": 33500, "NetIncome": 20000},
-    "edion":  {"Revenue": 816000,  "OperatingIncome": 27000, "OrdinaryIncome": 27000, "NetIncome": 15700},
-    "joshin": {"Revenue": 438000,  "OperatingIncome": 6000,  "OrdinaryIncome": 5500,  "NetIncome": 3500},
-    "nojima": {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000},
-    "bic":    {"Revenue": 1013000, "OperatingIncome": 30500, "OrdinaryIncome": 31500, "NetIncome": 17500},
-    "kojima": {"Revenue": 294000,  "OperatingIncome": 7600,  "OrdinaryIncome": 7900,  "NetIncome": 4900},
+    # GrossProfit: 各社の2026/3期通期決算説明会資料の来期計画ページから
+    #   ヤマダHD: D8=503,100  デンキセグ: F8=411,500  ケーズ: H8=219,500  エディオン: J8=235,800
+    #   上新: 説明会P19=1,145億円  コジマ: 説明会P15 売上比27.2%→79,968  ビック連結: 説明会P18 売上比26.8%→271,484
+    #   ノジマ: 説明会資料に売上総利益計画記載なし→None
+    "yamada":       {"Revenue": 1780000, "OperatingIncome": 51500, "OrdinaryIncome": 52600, "NetIncome": 27800, "GrossProfit": 503100},
+    "ks":           {"Revenue": 785000,  "OperatingIncome": 30500, "OrdinaryIncome": 33500, "NetIncome": 20000, "GrossProfit": 219500},
+    "edion":        {"Revenue": 816000,  "OperatingIncome": 27000, "OrdinaryIncome": 27000, "NetIncome": 15700, "GrossProfit": 235800},
+    "joshin":       {"Revenue": 438000,  "OperatingIncome": 6000,  "OrdinaryIncome": 5500,  "NetIncome": 3500,  "GrossProfit": 114500},
+    "nojima":       {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000, "GrossProfit": None},
+    "bic":          {"Revenue": 1013000, "OperatingIncome": 30500, "OrdinaryIncome": 31500, "NetIncome": 17500, "GrossProfit": 271484},
+    "kojima":       {"Revenue": 294000,  "OperatingIncome": 7600,  "OrdinaryIncome": 7900,  "NetIncome": 4900,  "GrossProfit": 79968},
     # デンキセグメントは ヤマダ説明会資料202603 P36 連結計画 から
-    "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None},
+    "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None,  "GrossProfit": 411500},
 }
 
 

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-05-27",
+  "generated_at": "2026-05-28",
   "source": "各社決算短信・決算説明会資料 (TDnet公開資料、2026/8月発表分の1Q決算)",
   "note": "ヤマダ・ケーズ・エディオン・上新・ノジマ=2026年3月期第1四半期。ビックカメラ・コジマ=2025年8月期第1四半期。",
   "period_type": "quarterly_1Q",
@@ -30,7 +30,7 @@
           "current": 113985.0,
           "previous": 114744.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 503100,
           "unit": "百万円"
         },
         "SGA": {
@@ -191,7 +191,7 @@
           "current": 97657.0,
           "previous": 99688.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 411500,
           "unit": "百万円"
         },
         "SGA": {
@@ -357,7 +357,7 @@
           "current": 50491.0,
           "previous": 49068.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 219500,
           "unit": "百万円"
         },
         "SGA": {
@@ -518,7 +518,7 @@
           "current": 54658.0,
           "previous": 52270.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 235800,
           "unit": "百万円"
         },
         "SGA": {
@@ -679,7 +679,7 @@
           "current": 25575.0,
           "previous": 25137.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 114500,
           "unit": "百万円"
         },
         "SGA": {
@@ -1001,7 +1001,7 @@
           "current": 59066.0,
           "previous": 54313.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 271484,
           "unit": "百万円"
         },
         "SGA": {
@@ -1162,7 +1162,7 @@
           "current": 16921.0,
           "previous": 16371.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 79968,
           "unit": "百万円"
         },
         "SGA": {

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-05-27",
+  "generated_at": "2026-05-28",
   "source": "各社決算短信・決算説明会資料 (TDnet公開資料、2026/5月発表分)",
   "note": "ヤマダ・ケーズ・エディオン・上新・ノジマ=2026年3月期通期。ビックカメラ・コジマ=2025年8月期通期。コジマは非連結開示。",
   "companies": [
@@ -27,7 +27,7 @@
           "prev_previous": 454217.0,
           "current": 441647.0,
           "previous": 457360.0,
-          "forecast": null,
+          "forecast": 503100,
           "unit": "百万円"
         },
         "SGA": {
@@ -203,10 +203,10 @@
           "unit": "百万円"
         },
         "GrossProfit": {
-          "prev_previous": null,
+          "prev_previous": 385041.0,
           "current": 361942.0,
           "previous": 384225.0,
-          "forecast": null,
+          "forecast": 411500,
           "unit": "百万円"
         },
         "SGA": {
@@ -331,7 +331,7 @@
         "equity_ratio_pct": null,
         "gross_margin_pct": 27.23,
         "gross_margin_pct_previous": 29.29,
-        "gross_margin_pct_prev_previous": null
+        "gross_margin_pct_prev_previous": 29.82
       },
       "trend_ratios": {
         "roe": {
@@ -390,7 +390,7 @@
           "prev_previous": 198745.0,
           "current": 210213.0,
           "previous": 204323.0,
-          "forecast": null,
+          "forecast": 219500,
           "unit": "百万円"
         },
         "SGA": {
@@ -569,7 +569,7 @@
           "prev_previous": 209586.0,
           "current": 227619.0,
           "previous": 222866.0,
-          "forecast": null,
+          "forecast": 235800,
           "unit": "百万円"
         },
         "SGA": {
@@ -748,7 +748,7 @@
           "prev_previous": 105124.0,
           "current": 107787.0,
           "previous": 102212.0,
-          "forecast": null,
+          "forecast": 114500,
           "unit": "百万円"
         },
         "SGA": {
@@ -1106,7 +1106,7 @@
           "prev_previous": 217873.0,
           "current": 260511.0,
           "previous": 243646.0,
-          "forecast": null,
+          "forecast": 271484,
           "unit": "百万円"
         },
         "SGA": {
@@ -1285,7 +1285,7 @@
           "prev_previous": 71255.0,
           "current": 76830.0,
           "previous": 74198.0,
-          "forecast": null,
+          "forecast": 79968,
           "unit": "百万円"
         },
         "SGA": {
