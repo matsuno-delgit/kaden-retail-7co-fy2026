@@ -43,6 +43,21 @@
     opacity: 0.4;
     cursor: not-allowed;
   }
+  /* データセット切替タブ */
+  .dataset-tab {
+    transition: all 0.15s ease;
+    border: 2px solid #cbd5e1;
+  }
+  .dataset-tab:hover {
+    background-color: #f1f5f9;
+  }
+  .dataset-tab.active {
+    background-color: #059669;
+    color: white;
+    border-color: #047857;
+    box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
+    font-weight: 700;
+  }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -62,6 +77,20 @@
       コジマは非連結開示。「ヤマダ（デンキセグメント）」はヤマダHD連結のうちデンキ部門のみ。
     </p>
   </header>
+
+  <!-- データセット切替 (通常版 / 組替版) -->
+  <nav class="mb-3 bg-white rounded-lg shadow p-3">
+    <div class="text-xs text-slate-500 mb-2 font-semibold">🔀 データセットを選択</div>
+    <div id="dataset-tabs" class="flex flex-wrap gap-2">
+      <button class="dataset-tab active px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="normal">通常版（各社の決算期そのまま）</button>
+      <button class="dataset-tab px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="kumikae">組替版（ビック・コジマを3月決算社と期間揃え）</button>
+    </div>
+    <div class="mt-2 text-xs text-slate-500">
+      <span class="text-slate-700 font-medium">表示中:</span>
+      <span id="current-dataset-label" class="text-emerald-700 font-bold ml-1">通常版</span>
+      <span class="ml-3 text-slate-400">※組替版: ビック・コジマを「3月〜翌2月」の集計に組替（2025年8月期下期＋2026年8月期上期等）</span>
+    </div>
+  </nav>
 
   <!-- 期間切替タブ -->
   <nav class="mb-6 bg-white rounded-lg shadow p-3">
@@ -328,6 +357,17 @@ const PERIOD_TO_FILE = {
   "q4":    "data/companies_q4.json",        // 4Q単独
   "h2":    "data/companies_h2.json",        // 下期
 };
+const PERIOD_TO_FILE_KUMIKAE = {
+  "fy":    "data/companies_kumikae_fy.json",
+  "q1":    "data/companies_kumikae_q1.json",
+  "q2":    "data/companies_kumikae_q2.json",
+  "h1":    "data/companies_kumikae_h1.json",
+  "q3":    "data/companies_kumikae_q3.json",
+  "q3cum": "data/companies_kumikae_q3cum.json",
+  "q4":    "data/companies_kumikae_q4.json",
+  "h2":    "data/companies_kumikae_h2.json",
+};
+let DATASET_TYPE = "normal";  // "normal" | "kumikae"
 const PERIOD_LABELS = {
   "fy": "通期実績 (＋次期計画)",
   "q1": "1Q実績", "q2": "2Q単独", "h1": "上期",
@@ -363,7 +403,8 @@ function applyPeriodVisibility(period) {
 async function loadAndRender(period) {
   CURRENT_PERIOD = period;
   applyPeriodVisibility(period);
-  const file = PERIOD_TO_FILE[period] || PERIOD_TO_FILE["fy"];
+  const fileMap = (DATASET_TYPE === "kumikae") ? PERIOD_TO_FILE_KUMIKAE : PERIOD_TO_FILE;
+  const file = fileMap[period] || fileMap["fy"];
   try {
     // cache-busting: 毎回最新のJSONを取得
     const res = await fetch(`${file}?v=${Date.now()}`, { cache: "no-store" });
@@ -427,6 +468,18 @@ function updateDetailTableTitles(cos) {
 }
 
 async function main() {
+  // データセット切替タブのクリックハンドラ
+  document.querySelectorAll("#dataset-tabs .dataset-tab").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      const ds = btn.dataset.dataset;
+      DATASET_TYPE = ds;
+      document.querySelectorAll("#dataset-tabs .dataset-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const lbl = document.getElementById("current-dataset-label");
+      if (lbl) lbl.textContent = (ds === "kumikae") ? "組替版" : "通常版";
+      await loadAndRender(CURRENT_PERIOD || "fy");
+    });
+  });
   // 期間タブのクリックハンドラ
   document.querySelectorAll("#period-tabs .period-tab").forEach(btn => {
     btn.addEventListener("click", async (e) => {
@@ -437,7 +490,7 @@ async function main() {
       await loadAndRender(period);
     });
   });
-  // 初期表示: 通期実績
+  // 初期表示: 通常版 + 通期実績
   await loadAndRender("fy");
 }
 
