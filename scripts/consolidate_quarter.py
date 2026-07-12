@@ -16,6 +16,8 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
+from xlsx_utils import find_latest_xlsx, data_sheet
+
 ROOT = Path(__file__).parent.parent.parent  # 01_通期実績_2026.03
 PROJ = ROOT.parent  # 競合各社業績比較_20260520
 OUT_DIR = Path(__file__).parent.parent / "data"
@@ -25,48 +27,48 @@ OUT_DIR.mkdir(exist_ok=True)
 PERIODS = {
     "q2": {
         "label": "2Q単独",
-        "xlsx_curr": PROJ / "04_2Q単独_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03第2四半期単独 vs 2025.03第2四半期単独）_ver.7.xlsx",
-        "xlsx_pp":   PROJ / "12_2Q単独_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03第2四半期単独 vs 2023.03第2四半期単独）_ver.3.xlsx",
+        "xlsx_curr": find_latest_xlsx(PROJ / "04_2Q単独_2026.03"),
+        "xlsx_pp":   find_latest_xlsx(PROJ / "12_2Q単独_2024.03"),
         "curr_suffix_3": "-Q2", "curr_suffix_8": "-Q2",
         "prev_suffix_3": "-Q2", "prev_suffix_8": "-Q2",
         "pp_suffix_3":   "-Q2", "pp_suffix_8":   "-Q2",
     },
     "h1": {
         "label": "上期",
-        "xlsx_curr": PROJ / "05_上期実績_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03上期実績 vs 2025.03上期実績）_ver.8.xlsx",
-        "xlsx_pp":   PROJ / "13_上期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03上期実績 vs 2023.03上期実績）_ver.4.xlsx",
+        "xlsx_curr": find_latest_xlsx(PROJ / "05_上期実績_2026.03"),
+        "xlsx_pp":   find_latest_xlsx(PROJ / "13_上期実績_2024.03"),
         "curr_suffix_3": "-H1", "curr_suffix_8": "-H1",
         "prev_suffix_3": "-H1", "prev_suffix_8": "-H1",
         "pp_suffix_3":   "-H1", "pp_suffix_8":   "-H1",
     },
     "q3": {
         "label": "3Q単独",
-        "xlsx_curr": PROJ / "06_3Q単独_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03第3四半期単独 vs 2025.03第3四半期単独）_ver.6.xlsx",
-        "xlsx_pp":   PROJ / "14_3Q単独_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03第3四半期単独 vs 2023.03第3四半期単独）_ver.3.xlsx",
+        "xlsx_curr": find_latest_xlsx(PROJ / "06_3Q単独_2026.03"),
+        "xlsx_pp":   find_latest_xlsx(PROJ / "14_3Q単独_2024.03"),
         "curr_suffix_3": "-Q3", "curr_suffix_8": "-Q3",
         "prev_suffix_3": "-Q3", "prev_suffix_8": "-Q3",
         "pp_suffix_3":   "-Q3", "pp_suffix_8":   "-Q3",
     },
     "q3cum": {
         "label": "3Q累計",
-        "xlsx_curr": PROJ / "07_3Q累計_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03第3四半期累計 vs 2025.03第3四半期累計）_ver.6.xlsx",
-        "xlsx_pp":   PROJ / "15_3Q累計_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03第3四半期累計 vs 2023.03第3四半期累計）_ver.5.xlsx",
+        "xlsx_curr": find_latest_xlsx(PROJ / "07_3Q累計_2026.03"),
+        "xlsx_pp":   find_latest_xlsx(PROJ / "15_3Q累計_2024.03"),
         "curr_suffix_3": "-Q3CUM", "curr_suffix_8": "-Q3CUM",
         "prev_suffix_3": "-Q3CUM", "prev_suffix_8": "-Q3CUM",
         "pp_suffix_3":   "-Q3CUM", "pp_suffix_8":   "-Q3CUM",
     },
     "q4": {
         "label": "4Q単独",
-        "xlsx_curr": PROJ / "08_4Q単独_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03第4四半期単独 vs 2025.03第4四半期単独）_ver.5.xlsx",
-        "xlsx_pp":   PROJ / "16_4Q単独_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03第4四半期単独 vs 2023.03第4四半期単独）_ver.4.xlsx",
+        "xlsx_curr": find_latest_xlsx(PROJ / "08_4Q単独_2026.03"),
+        "xlsx_pp":   find_latest_xlsx(PROJ / "16_4Q単独_2024.03"),
         "curr_suffix_3": "-Q4", "curr_suffix_8": "-Q4",
         "prev_suffix_3": "-Q4", "prev_suffix_8": "-Q4",
         "pp_suffix_3":   "-Q4", "pp_suffix_8":   "-Q4",
     },
     "h2": {
         "label": "下期",
-        "xlsx_curr": PROJ / "09_下期実績_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03下期実績 vs 2025.03下期実績）_ver.5.xlsx",
-        "xlsx_pp":   PROJ / "17_下期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03下期実績 vs 2023.03下期実績）_ver.3.xlsx",
+        "xlsx_curr": find_latest_xlsx(PROJ / "09_下期実績_2026.03"),
+        "xlsx_pp":   find_latest_xlsx(PROJ / "17_下期実績_2024.03"),
         "curr_suffix_3": "-H2", "curr_suffix_8": "-H2",
         "prev_suffix_3": "-H2", "prev_suffix_8": "-H2",
         "pp_suffix_3":   "-H2", "pp_suffix_8":   "-H2",
@@ -130,9 +132,9 @@ def build_one(period_key, conf):
         print(f"  ERR xlsx_pp not found: {conf['xlsx_pp'].name}")
         return
     wb = load_workbook(conf["xlsx_curr"], data_only=False)
-    ws = wb.active
+    ws = data_sheet(wb)
     wb_pp = load_workbook(conf["xlsx_pp"], data_only=True)
-    ws_pp = wb_pp.active
+    ws_pp = data_sheet(wb_pp)
 
     companies_out = []
     for co in COMPANIES_MAIN:

@@ -12,6 +12,8 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
+from xlsx_utils import find_latest_xlsx, data_sheet
+
 ROOT = Path(__file__).parent.parent.parent  # 01_通期実績_2026.03
 PROJ = ROOT.parent  # 競合各社業績比較_20260520
 KUMIKAE = PROJ / "期間揃え比較"
@@ -22,43 +24,43 @@ OUT_DIR.mkdir(exist_ok=True)
 PERIODS = {
     "fy": {
         "label": "組替通期 (2025/3〜2026/2)",
-        "curr": KUMIKAE / "1_組替通期_2026.02" / "【組替通期】各社業績対比フォーマット（2025.03_2026.02 vs 2024.03_2025.02）_ver.1.xlsx",
-        "pp":   KUMIKAE / "9_組替通期_2025.02"  / "【組替通期】各社業績対比フォーマット（2024.03_2025.02 vs 2023.03_2024.02）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "01_組替通期_2026.02"),
+        "pp":   find_latest_xlsx(KUMIKAE / "09_組替通期_2025.02"),
     },
     "q1": {
         "label": "組替1Q (3〜5月)",
-        "curr": KUMIKAE / "2_組替1Q_2025.05"   / "【組替1Q】各社業績対比フォーマット（2025.03_2025.05 vs 2024.03_2024.05）_ver.1.xlsx",
-        "pp":   KUMIKAE / "10_組替1Q_2024.05"  / "【組替1Q】各社業績対比フォーマット（2024.03_2024.05 vs 2023.03_2023.05）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "02_組替1Q_2025.05"),
+        "pp":   find_latest_xlsx(KUMIKAE / "10_組替1Q_2024.05"),
     },
     "q2": {
         "label": "組替2Q単独 (6〜8月)",
-        "curr": KUMIKAE / "3_組替2Q単独_2025.08" / "【組替2Q単独】各社業績対比フォーマット（2025.06_2025.08 vs 2024.06_2024.08）_ver.1.xlsx",
-        "pp":   KUMIKAE / "11_組替2Q単独_2024.08" / "【組替2Q単独】各社業績対比フォーマット（2024.06_2024.08 vs 2023.06_2023.08）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "03_組替2Q単独_2025.08"),
+        "pp":   find_latest_xlsx(KUMIKAE / "11_組替2Q単独_2024.08"),
     },
     "h1": {
         "label": "組替上期 (3〜8月)",
-        "curr": KUMIKAE / "4_組替上期_2025.08" / "【組替上期】各社業績対比フォーマット（2025.03_2025.08 vs 2024.03_2024.08）_ver.1.xlsx",
-        "pp":   KUMIKAE / "12_組替上期_2024.08" / "【組替上期】各社業績対比フォーマット（2024.03_2024.08 vs 2023.03_2023.08）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "04_組替上期_2025.08"),
+        "pp":   find_latest_xlsx(KUMIKAE / "12_組替上期_2024.08"),
     },
     "q3": {
         "label": "組替3Q単独 (9〜11月)",
-        "curr": KUMIKAE / "5_組替3Q単独_2025.11" / "【組替3Q単独】各社業績対比フォーマット（2025.09_2025.11 vs 2024.09_2024.11）_ver.1.xlsx",
-        "pp":   KUMIKAE / "13_組替3Q単独_2024.11" / "【組替3Q単独】各社業績対比フォーマット（2024.09_2024.11 vs 2023.09_2023.11）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "05_組替3Q単独_2025.11"),
+        "pp":   find_latest_xlsx(KUMIKAE / "13_組替3Q単独_2024.11"),
     },
     "q3cum": {
         "label": "組替3Q累計 (3〜11月)",
-        "curr": KUMIKAE / "6_組替3Q累計_2025.11" / "【組替3Q累計】各社業績対比フォーマット（2025.03_2025.11 vs 2024.03_2024.11）_ver.1.xlsx",
-        "pp":   KUMIKAE / "14_組替3Q累計_2024.11" / "【組替3Q累計】各社業績対比フォーマット（2024.03_2024.11 vs 2023.03_2023.11）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "06_組替3Q累計_2025.11"),
+        "pp":   find_latest_xlsx(KUMIKAE / "14_組替3Q累計_2024.11"),
     },
     "q4": {
         "label": "組替4Q単独 (12〜翌2月)",
-        "curr": KUMIKAE / "7_組替4Q単独_2026.02" / "【組替4Q単独】各社業績対比フォーマット（2025.12_2026.02 vs 2024.12_2025.02）_ver.1.xlsx",
-        "pp":   KUMIKAE / "15_組替4Q単独_2025.02" / "【組替4Q単独】各社業績対比フォーマット（2024.12_2025.02 vs 2023.12_2024.02）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "07_組替4Q単独_2026.02"),
+        "pp":   find_latest_xlsx(KUMIKAE / "15_組替4Q単独_2025.02"),
     },
     "h2": {
         "label": "組替下期 (9〜翌2月)",
-        "curr": KUMIKAE / "8_組替下期_2026.02" / "【組替下期】各社業績対比フォーマット（2025.09_2026.02 vs 2024.09_2025.02）_ver.1.xlsx",
-        "pp":   KUMIKAE / "16_組替下期_2025.02" / "【組替下期】各社業績対比フォーマット（2024.09_2025.02 vs 2023.09_2024.02）_ver.1.xlsx",
+        "curr": find_latest_xlsx(KUMIKAE / "08_組替下期_2026.02"),
+        "pp":   find_latest_xlsx(KUMIKAE / "16_組替下期_2025.02"),
     },
 }
 
@@ -99,8 +101,8 @@ def safe_div(a, b):
 
 def build_one(pk, conf, is_annual):
     print(f"\n========== {pk} ({conf['label']}) ==========")
-    wb_curr = load_workbook(conf["curr"], data_only=True); ws_curr = wb_curr.active
-    wb_pp = load_workbook(conf["pp"], data_only=True); ws_pp = wb_pp.active
+    wb_curr = load_workbook(conf["curr"], data_only=True); ws_curr = data_sheet(wb_curr)
+    wb_pp = load_workbook(conf["pp"], data_only=True); ws_pp = data_sheet(wb_pp)
 
     companies_out = []
     for co in COMPANIES_MAIN:

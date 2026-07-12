@@ -34,16 +34,16 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
+from xlsx_utils import find_latest_xlsx, data_sheet
+
 # プロジェクトルートからの相対パス
 ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
-# 最新の通期実績 _ver.9 を採用（ROIC新式統一・法人税率参照式統一・不要数式削除済み）
-XLSX = ROOT / "【経営企画部】各社業績対比フォーマット（2026.03通期）_エディオン2026.3期反映_20260521_ver.9.xlsx"
+# 通期実績: フォルダ内の最新ver（_ver.N 最大）を自動採用
+XLSX = find_latest_xlsx(ROOT, "各社業績対比フォーマット（2026.03通期）")
 # 前々期実績 (2024年3月期通期、ビック/コジマは2023年8月期) を別Excelから読み込み
-# ver.6: ヤマダ(デンキセグ)の売上総利益 F8/G8 追加
-PREV_PREV_XLSX = ROOT.parent / "10_通期実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03通期）_ver.6.xlsx"
+PREV_PREV_XLSX = find_latest_xlsx(ROOT.parent / "10_通期実績_2024.03")
 # 通期計画 (2027/3期計画、ビック/コジマは2026/8期計画) — 来期配当総額(N92等)を取得
-# ver.7: 上新/コジマ/ビック単体の計画売上総利益 L8/R8/V8 追加
-PLAN_XLSX = ROOT.parent / "02_通期計画_2027.03" / "【経営企画部】各社業績対比フォーマット（2027.03通期計画 vs 2026.03通期実績）_ver.7.xlsx"
+PLAN_XLSX = find_latest_xlsx(ROOT.parent / "02_通期計画_2027.03")
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -163,13 +163,13 @@ def to_num(v):
 
 def main():
     wb = load_workbook(XLSX, data_only=False)
-    ws = wb["PL・BSデータ (2026.通期)"]
+    ws = data_sheet(wb)
     # 前々期 (2024/3期 or 2023/8期) Excel
     wb_pp = load_workbook(PREV_PREV_XLSX, data_only=True)
-    ws_pp = wb_pp.active
+    ws_pp = data_sheet(wb_pp)
     # 通期計画 (来期配当総額の取得用)
     wb_plan = load_workbook(PLAN_XLSX, data_only=True)
-    ws_plan = wb_plan.active
+    ws_plan = data_sheet(wb_plan)
 
     companies_out = []
     for co in COMPANIES_MAIN:

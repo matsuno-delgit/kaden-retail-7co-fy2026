@@ -15,11 +15,13 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
+from xlsx_utils import find_latest_xlsx, data_sheet
+
 ROOT = Path(__file__).parent.parent.parent
 
-# 1Q Excelファイル (修正済み _ver.7)
-XLSX = ROOT.parent / "03_1Q実績_2026.03" / "【経営企画部】各社業績対比フォーマット（2026.03第1四半期実績 vs 2025.03第1四半期実績）_ver.7.xlsx"
-PREV_PREV_XLSX = ROOT.parent / "11_1Q実績_2024.03" / "【経営企画部】各社業績対比フォーマット（2024.03第1四半期実績 vs 2023.03第1四半期実績）_ver.5.xlsx"
+# 1Q Excelファイル: フォルダ内の最新ver（_ver.N 最大）を自動採用
+XLSX = find_latest_xlsx(ROOT.parent / "03_1Q実績_2026.03")
+PREV_PREV_XLSX = find_latest_xlsx(ROOT.parent / "11_1Q実績_2024.03")
 
 OUT_DIR = Path(__file__).parent.parent / "data"
 OUT_DIR.mkdir(exist_ok=True)
@@ -131,17 +133,10 @@ def to_num(v):
 
 def main():
     wb = load_workbook(XLSX, data_only=False)
-    # 1Q実績Excelのシート名
-    ws = None
-    for sn in wb.sheetnames:
-        if "1Q" in sn or "Q1" in sn:
-            ws = wb[sn]
-            break
-    if ws is None:
-        ws = wb[wb.sheetnames[0]]
+    ws = data_sheet(wb)
     print(f"sheet: {ws.title}")
     wb_pp = load_workbook(PREV_PREV_XLSX, data_only=True)
-    ws_pp = wb_pp.active
+    ws_pp = data_sheet(wb_pp)
 
     companies_out = []
     for co in COMPANIES_MAIN:

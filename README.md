@@ -1,7 +1,10 @@
-# 家電量販店7社 業績比較ダッシュボード (FY2026/3 通期)
+# 家電量販店7社 業績比較ダッシュボード
 
 家電量販店主要7社（ヤマダHD・ケーズHD・エディオン・上新電機・ノジマ・ビックカメラ・コジマ）の
-通期業績データを、各社公式IR決算短信・決算説明会資料から抽出・正規化したダッシュボード。
+業績データを、各社公式IR決算短信・決算説明会資料から抽出・正規化したダッシュボード。
+通期のほか、1Q/2Q単独/上期/3Q単独/3Q累計/4Q単独/下期の各期タブと、
+8月決算2社（ビックカメラ・コジマ）を3月決算社の期間に揃えた「組替」データセット
+トグルを備える。
 
 ## 公開ページ
 
@@ -15,14 +18,23 @@ GitHub Pages: `https://matsuno-delgit.github.io/kaden-retail-7co-fy2026/`
 ├── assets/
 │   └── tailwind.css                 # Tailwind 利用クラス抽出版（自己ホスト）
 ├── data/
-│   └── companies.json               # ダッシュボード用統合データ（7社）
+│   ├── companies.json               # 通期（実績+前々期+計画）
+│   ├── companies_{q1,q2,h1,q3,q3cum,q4,h2}.json      # 四半期・上下期 各タブ
+│   └── companies_kumikae_{fy,q1,q2,h1,q3,q3cum,q4,h2}.json  # 組替（期間揃え）
 ├── scripts/
-│   ├── consolidate.py               # Excel _ver.4 → companies.json 生成
+│   ├── consolidate.py               # 通期実績Excel → companies.json
+│   ├── consolidate_q1.py            # 1Q Excel → companies_q1.json
+│   ├── consolidate_quarter.py       # 2Q/上期/3Q/3Q累計/4Q/下期 → companies_*.json
+│   ├── consolidate_kumikae.py       # 期間揃え比較Excel → companies_kumikae_*.json
+│   ├── xlsx_utils.py                # 共通: 最新ver自動検出・データシート特定
 │   └── regenerate-tailwind.md       # tailwind.css 再生成手順
 ├── SECURITY.md                      # セキュリティ方針
 ├── LICENSE                          # MIT
 └── README.md
 ```
+
+入力Excelは親フォルダ群（`01_通期実績_2026.03/` ほか）の**最新版（`_ver.N` 最大）を
+自動検出**する。Excel更新時にスクリプトの書き換えは不要。
 
 ## 対象データ・出典
 
@@ -40,9 +52,13 @@ GitHub Pages: `https://matsuno-delgit.github.io/kaden-retail-7co-fy2026/`
 
 ## データ検証ステータス
 
-- 各社の主要20項目（売上高/営業利益/経常利益/純利益/総資産/自己資本 等）×当期/前期=140セル
-- すべて短信PDFと **完全一致**を確認済み（[検証レポート](../検証レポート_20260522.md) 参照）
+- 通期: 各社の主要20項目（売上高/営業利益/経常利益/純利益/総資産/自己資本 等）
+  ×当期/前期=140セルすべて短信PDFと**完全一致**を確認済み
+- 四半期・上下期・前々期・組替の各データセットも、PDF突合＋差引クロスフット＋
+  組替整合検証（`00_共通スクリプト/verify_retro.py`、2026-07-12 実施）で全件一致を確認済み
 - セグメント情報（デンキセグ・ノジマ家電専門店・ビック単体）も決算説明会資料と一致確認済
+- 詳細はプロジェクトフォルダ内の「検証レポート_20260522.md」（GitHubには含まれない
+  ローカル文書）および各期フォルダの `verify_*_out.txt` を参照
 
 ## ローカルでの確認
 
@@ -56,12 +72,16 @@ python -m http.server 8000
 
 ```bash
 # 1. 新しい四半期/通期PDFをエビデンスフォルダに配置
-# 2. extract_v2.py で抽出・verify.py で検証
-# 3. Excel _ver.X を更新
-# 4. consolidate.py で companies.json 再生成
+# 2. extract系スクリプトで抽出・verify系スクリプトで検証（親フォルダ側の作業）
+# 3. Excel を新しい _ver.N+1 として保存（スクリプトは最新verを自動検出）
+# 4. consolidate 4本で data/*.json を再生成
 cd kaden-retail-7co-fy2026
 uv run --no-project python scripts/consolidate.py
-git add data/companies.json
+uv run --no-project python scripts/consolidate_q1.py
+uv run --no-project python scripts/consolidate_quarter.py
+uv run --no-project python scripts/consolidate_kumikae.py
+git diff data/          # 差分がデータとして妥当か確認
+git add data/
 git commit -m "Update <FY/期>"
 git push
 ```
@@ -81,6 +101,6 @@ push後、GitHub Pages が1〜2分で自動再ビルドされ反映されます�
 
 ## 関連
 
-- 抽出スキーム: `extract_excerpt.py` / `extract_v2.py` / `verify.py`（このリポジトリの親フォルダ）
-- 元Excel: `【経営企画部】各社業績対比フォーマット（2026.03通期）_..._ver.4.xlsx`
+- 抽出スキーム: `extract_excerpt.py` / `extract_v2.py` / `verify.py` / `verify_retro.py`（このリポジトリの親フォルダ群）
+- 元Excel: `【経営企画部】各社業績対比フォーマット（…）_ver.N.xlsx`（各期フォルダの最新verを自動検出）
 - 生成補助: [github-dashboard-publisher](https://github.com/) スキル（Claude Code）
