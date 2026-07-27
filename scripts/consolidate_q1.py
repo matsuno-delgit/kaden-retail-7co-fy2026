@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet
+from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, margin
 
 ROOT = Path(__file__).parent.parent.parent
 
@@ -189,9 +189,15 @@ def main():
             "ordinary_margin_pct_previous": round(ord_prev / rev_prev * 100, 2) if ord_prev and rev_prev else None,
             "ordinary_margin_pct_prev_previous": round(ord_pp / rev_pp * 100, 2) if ord_pp and rev_pp else None,
             "equity_ratio_pct": round(te / ta * 100, 2) if te and ta else None,
-            "gross_margin_pct": round(gp_curr / rev * 100, 2) if gp_curr and rev else None,
-            "gross_margin_pct_previous": round(gp_prev / rev_prev * 100, 2) if gp_prev and rev_prev else None,
-            "gross_margin_pct_prev_previous": round(gp_pp / rev_pp * 100, 2) if gp_pp and rev_pp else None,
+            "gross_margin_pct": margin(gp_curr, rev),
+            "gross_margin_pct_previous": margin(gp_prev, rev_prev),
+            "gross_margin_pct_prev_previous": margin(gp_pp, rev_pp),
+            "gross_margin_pt_yoy": (round(margin(gp_curr, rev) - margin(gp_prev, rev_prev), 2)
+                                    if margin(gp_curr, rev) is not None
+                                    and margin(gp_prev, rev_prev) is not None else None),
+            "net_margin_pct": margin(metrics["NetIncome"]["current"], rev),
+            "net_margin_pct_previous": margin(metrics["NetIncome"]["previous"], rev_prev),
+            "net_margin_pct_prev_previous": margin(metrics["NetIncome"]["prev_previous"], rev_pp),
         }
 
         # 推移用比率 (前々期/前期/当期、1Qのforecastは省略=null表示)
@@ -239,7 +245,8 @@ def main():
             },
         }
 
-        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {}}
+        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {},
+                        "inventory_turnover": {}, "gross_margin": {}, "net_margin": {}}
         for period in ("prev_previous", "previous", "current"):
             rev_p = metrics["Revenue"][period]
             op_p = metrics["OperatingIncome"][period]
@@ -249,8 +256,11 @@ def main():
             trend_ratios["roic"][period] = roic(op_p, bs["debt"], bs["te"])
             trend_ratios["asset_turnover"][period] = turnover(rev_p, bs["ta"])
             trend_ratios["inventory_turnover"][period] = turnover(rev_p, bs["inv"])
+            trend_ratios["gross_margin"][period] = margin(metrics["GrossProfit"][period], rev_p)
+            trend_ratios["net_margin"][period] = margin(ni_p, rev_p)
         # forecast は1Qでは null (年間ベースの比率と1Qベースの比率は単純比較不能)
-        for k in ("roe", "roic", "asset_turnover", "inventory_turnover"):
+        for k in ("roe", "roic", "asset_turnover", "inventory_turnover",
+                  "gross_margin", "net_margin"):
             trend_ratios[k]["forecast"] = None
 
         # ヤマダデンキセグ: BS非開示 → ROE/ROIC/総資産回転率 null
@@ -283,6 +293,7 @@ def main():
             "yoy": yoy,
             "ratios": ratios,
             "trend_ratios": trend_ratios,
+            "ltm": build_ltm(ws, ws_pp, co),
             "is_segment": bool(co.get("is_segment")),
         }
         companies_out.append(co_out)

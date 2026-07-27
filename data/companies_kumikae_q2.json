@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-12",
+  "generated_at": "2026-07-28",
   "source": "組替版 (組替2Q単独 (6〜8月))",
   "period_type": "kumikae_q2",
   "dataset_type": "kumikae",
@@ -18,7 +18,7 @@
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
-          "prev_previous": 398775.0,
+          "prev_previous": 411494.0,
           "current": 422436.0,
           "previous": 416898.0,
           "forecast": null,
@@ -26,7 +26,7 @@
           "unit": "百万円"
         },
         "GrossProfit": {
-          "prev_previous": 108966.0,
+          "prev_previous": 114358.0,
           "current": 114119.0,
           "previous": 114097.0,
           "forecast": null,
@@ -34,7 +34,7 @@
           "unit": "百万円"
         },
         "SGA": {
-          "prev_previous": 101453.0,
+          "prev_previous": 105065.0,
           "current": 105840.0,
           "previous": 105216.0,
           "forecast": null,
@@ -42,7 +42,7 @@
           "unit": "百万円"
         },
         "OperatingIncome": {
-          "prev_previous": 7513.0,
+          "prev_previous": 9293.0,
           "current": 8279.0,
           "previous": 8881.0,
           "forecast": null,
@@ -50,7 +50,7 @@
           "unit": "百万円"
         },
         "OrdinaryIncome": {
-          "prev_previous": 8945.0,
+          "prev_previous": 10628.0,
           "current": 9351.0,
           "previous": 8721.0,
           "forecast": null,
@@ -58,7 +58,7 @@
           "unit": "百万円"
         },
         "NetIncome": {
-          "prev_previous": 2954.0,
+          "prev_previous": 2757.0,
           "current": 3928.0,
           "previous": 3156.0,
           "forecast": null,
@@ -66,7 +66,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 302665.0,
+          "prev_previous": 322207.0,
           "current": 326686.0,
           "previous": 349839.0,
           "forecast": null,
@@ -82,7 +82,7 @@
           "unit": "百万円"
         },
         "TotalAssets": {
-          "prev_previous": null,
+          "prev_previous": 1280780.0,
           "current": 1334100.0,
           "previous": 1330778.0,
           "forecast": null,
@@ -90,7 +90,7 @@
           "unit": "百万円"
         },
         "Inventory": {
-          "prev_previous": 387142.0,
+          "prev_previous": 420514.0,
           "current": 434774.0,
           "previous": 438445.0,
           "forecast": null,
@@ -109,22 +109,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 1.33,
-          "previous_yoy_pct": 4.54,
+          "previous_yoy_pct": 1.31,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": -6.78,
-          "previous_yoy_pct": 18.21,
+          "previous_yoy_pct": -4.43,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 7.22,
-          "previous_yoy_pct": -2.5,
+          "previous_yoy_pct": -17.94,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 24.46,
-          "previous_yoy_pct": 6.84,
+          "previous_yoy_pct": 14.47,
           "forecast_yoy_pct": null
         }
       },
@@ -132,11 +132,15 @@
         "operating_margin_pct": 1.96,
         "ordinary_margin_pct": 2.21,
         "ordinary_margin_pct_previous": 2.09,
-        "ordinary_margin_pct_prev_previous": 2.24,
+        "ordinary_margin_pct_prev_previous": 2.58,
         "equity_ratio_pct": 47.43,
         "gross_margin_pct": 27.01,
         "gross_margin_pct_previous": 27.37,
-        "gross_margin_pct_prev_previous": 27.33
+        "gross_margin_pct_prev_previous": 27.79,
+        "gross_margin_pt_yoy": -0.36,
+        "net_margin_pct": 0.93,
+        "net_margin_pct_previous": 0.76,
+        "net_margin_pct_prev_previous": 0.67
       },
       "trend_ratios": {
         "roe": {
@@ -162,6 +166,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 27.79,
+          "previous": 27.37,
+          "current": 27.01,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": 0.67,
+          "previous": 0.76,
+          "current": 0.93,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 1633167.0,
+          "avg_total_assets": 1332439.0,
+          "avg_inventory": 436609.5,
+          "asset_turnover": 1.226,
+          "inventory_turnover": 3.741
+        },
+        "previous": {
+          "revenue": 1612807.0,
+          "avg_total_assets": 1305779.0,
+          "avg_inventory": 429479.5,
+          "asset_turnover": 1.235,
+          "inventory_turnover": 3.755
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false
@@ -179,7 +218,7 @@
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
-          "prev_previous": 330447.0,
+          "prev_previous": 340991.0,
           "current": 340364.0,
           "previous": 346785.0,
           "forecast": null,
@@ -203,7 +242,7 @@
           "unit": "百万円"
         },
         "OperatingIncome": {
-          "prev_previous": 6163.0,
+          "prev_previous": 8173.0,
           "current": 6122.0,
           "previous": 7843.0,
           "forecast": null,
@@ -251,9 +290,9 @@
           "unit": "百万円"
         },
         "Inventory": {
-          "prev_previous": null,
-          "current": 369885.0,
-          "previous": 336660.0,
+          "prev_previous": 332927.0,
+          "current": 340294.0,
+          "previous": 349022.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -270,12 +309,12 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": -1.85,
-          "previous_yoy_pct": 4.94,
+          "previous_yoy_pct": 1.7,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": -21.94,
-          "previous_yoy_pct": 27.26,
+          "previous_yoy_pct": -4.04,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
@@ -297,7 +336,11 @@
         "equity_ratio_pct": null,
         "gross_margin_pct": 28.54,
         "gross_margin_pct_previous": 28.44,
-        "gross_margin_pct_prev_previous": null
+        "gross_margin_pct_prev_previous": null,
+        "gross_margin_pt_yoy": 0.1,
+        "net_margin_pct": null,
+        "net_margin_pct_previous": null,
+        "net_margin_pct_prev_previous": null
       },
       "trend_ratios": {
         "roe": {
@@ -323,6 +366,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": null,
+          "previous": 28.44,
+          "current": 28.54,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": null,
+          "previous": null,
+          "current": null,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 1299741.0,
+          "avg_total_assets": null,
+          "avg_inventory": 344658.0,
+          "asset_turnover": null,
+          "inventory_turnover": 3.771
+        },
+        "previous": {
+          "revenue": 1306463.0,
+          "avg_total_assets": null,
+          "avg_inventory": 340974.5,
+          "asset_turnover": null,
+          "inventory_turnover": 3.832
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": true
@@ -340,7 +418,7 @@
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
         "Revenue": {
-          "prev_previous": 192395.0,
+          "prev_previous": 196443.0,
           "current": 198869.0,
           "previous": 198319.0,
           "forecast": null,
@@ -348,7 +426,7 @@
           "unit": "百万円"
         },
         "GrossProfit": {
-          "prev_previous": 53681.0,
+          "prev_previous": 53744.0,
           "current": 53899.0,
           "previous": 53504.0,
           "forecast": null,
@@ -356,7 +434,7 @@
           "unit": "百万円"
         },
         "SGA": {
-          "prev_previous": 44565.0,
+          "prev_previous": 45577.0,
           "current": 46143.0,
           "previous": 45830.0,
           "forecast": null,
@@ -364,7 +442,7 @@
           "unit": "百万円"
         },
         "OperatingIncome": {
-          "prev_previous": 9117.0,
+          "prev_previous": 8167.0,
           "current": 7756.0,
           "previous": 7674.0,
           "forecast": null,
@@ -372,7 +450,7 @@
           "unit": "百万円"
         },
         "OrdinaryIncome": {
-          "prev_previous": 10417.0,
+          "prev_previous": 9137.0,
           "current": 8616.0,
           "previous": 8613.0,
           "forecast": null,
@@ -380,7 +458,7 @@
           "unit": "百万円"
         },
         "NetIncome": {
-          "prev_previous": 7061.0,
+          "prev_previous": 6094.0,
           "current": 5936.0,
           "previous": 6018.0,
           "forecast": null,
@@ -388,7 +466,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 52787.0,
+          "prev_previous": 39007.0,
           "current": 37394.0,
           "previous": 54395.0,
           "forecast": null,
@@ -404,7 +482,7 @@
           "unit": "百万円"
         },
         "TotalAssets": {
-          "prev_previous": null,
+          "prev_previous": 437402.0,
           "current": 409525.0,
           "previous": 413293.0,
           "forecast": null,
@@ -412,7 +490,7 @@
           "unit": "百万円"
         },
         "Inventory": {
-          "prev_previous": 87138.0,
+          "prev_previous": 171429.0,
           "current": 164723.0,
           "previous": 157402.0,
           "forecast": null,
@@ -431,22 +509,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 0.28,
-          "previous_yoy_pct": 3.08,
+          "previous_yoy_pct": 0.95,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 1.07,
-          "previous_yoy_pct": -15.83,
+          "previous_yoy_pct": -6.04,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 0.03,
-          "previous_yoy_pct": -17.32,
+          "previous_yoy_pct": -5.73,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": -1.36,
-          "previous_yoy_pct": -14.77,
+          "previous_yoy_pct": -1.25,
           "forecast_yoy_pct": null
         }
       },
@@ -454,11 +532,15 @@
         "operating_margin_pct": 3.9,
         "ordinary_margin_pct": 4.33,
         "ordinary_margin_pct_previous": 4.34,
-        "ordinary_margin_pct_prev_previous": 5.41,
+        "ordinary_margin_pct_prev_previous": 4.65,
         "equity_ratio_pct": 61.09,
         "gross_margin_pct": 27.1,
         "gross_margin_pct_previous": 26.98,
-        "gross_margin_pct_prev_previous": 27.9
+        "gross_margin_pct_prev_previous": 27.36,
+        "gross_margin_pt_yoy": 0.12,
+        "net_margin_pct": 2.98,
+        "net_margin_pct_previous": 3.03,
+        "net_margin_pct_prev_previous": 3.1
       },
       "trend_ratios": {
         "roe": {
@@ -484,6 +566,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 27.36,
+          "previous": 26.98,
+          "current": 27.1,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": 3.1,
+          "previous": 3.03,
+          "current": 2.98,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 743255.0,
+          "avg_total_assets": 411409.0,
+          "avg_inventory": 161062.5,
+          "asset_turnover": 1.807,
+          "inventory_turnover": 4.615
+        },
+        "previous": {
+          "revenue": 727037.0,
+          "avg_total_assets": 425347.5,
+          "avg_inventory": 164415.5,
+          "asset_turnover": 1.709,
+          "inventory_turnover": 4.422
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false
@@ -501,7 +618,7 @@
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
         "Revenue": {
-          "prev_previous": 186261.0,
+          "prev_previous": 191636.0,
           "current": 202273.0,
           "previous": 206043.0,
           "forecast": null,
@@ -509,7 +626,7 @@
           "unit": "百万円"
         },
         "GrossProfit": {
-          "prev_previous": 56120.0,
+          "prev_previous": 58046.0,
           "current": 60629.0,
           "previous": 62509.0,
           "forecast": null,
@@ -517,7 +634,7 @@
           "unit": "百万円"
         },
         "SGA": {
-          "prev_previous": 48909.0,
+          "prev_previous": 49039.0,
           "current": 51577.0,
           "previous": 51354.0,
           "forecast": null,
@@ -525,7 +642,7 @@
           "unit": "百万円"
         },
         "OperatingIncome": {
-          "prev_previous": 7212.0,
+          "prev_previous": 9008.0,
           "current": 9053.0,
           "previous": 11156.0,
           "forecast": null,
@@ -533,7 +650,7 @@
           "unit": "百万円"
         },
         "OrdinaryIncome": {
-          "prev_previous": 7196.0,
+          "prev_previous": 9159.0,
           "current": 9415.0,
           "previous": 11380.0,
           "forecast": null,
@@ -541,7 +658,7 @@
           "unit": "百万円"
         },
         "NetIncome": {
-          "prev_previous": 4899.0,
+          "prev_previous": 6123.0,
           "current": 6134.0,
           "previous": 7751.0,
           "forecast": null,
@@ -549,7 +666,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 27511.0,
+          "prev_previous": 27184.0,
           "current": 70767.0,
           "previous": 65807.0,
           "forecast": null,
@@ -565,7 +682,7 @@
           "unit": "百万円"
         },
         "TotalAssets": {
-          "prev_previous": null,
+          "prev_previous": 369621.0,
           "current": 422250.0,
           "previous": 418041.0,
           "forecast": null,
@@ -573,7 +690,7 @@
           "unit": "百万円"
         },
         "Inventory": {
-          "prev_previous": 116061.0,
+          "prev_previous": 122321.0,
           "current": 119795.0,
           "previous": 118051.0,
           "forecast": null,
@@ -592,22 +709,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": -1.83,
-          "previous_yoy_pct": 10.62,
+          "previous_yoy_pct": 7.52,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": -18.85,
-          "previous_yoy_pct": 54.69,
+          "previous_yoy_pct": 23.85,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": -17.27,
-          "previous_yoy_pct": 58.14,
+          "previous_yoy_pct": 24.25,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": -20.86,
-          "previous_yoy_pct": 58.22,
+          "previous_yoy_pct": 26.59,
           "forecast_yoy_pct": null
         }
       },
@@ -615,11 +732,15 @@
         "operating_margin_pct": 4.48,
         "ordinary_margin_pct": 4.65,
         "ordinary_margin_pct_previous": 5.52,
-        "ordinary_margin_pct_prev_previous": 3.86,
+        "ordinary_margin_pct_prev_previous": 4.78,
         "equity_ratio_pct": 54.34,
         "gross_margin_pct": 29.97,
         "gross_margin_pct_previous": 30.34,
-        "gross_margin_pct_prev_previous": 30.13
+        "gross_margin_pct_prev_previous": 30.29,
+        "gross_margin_pt_yoy": -0.37,
+        "net_margin_pct": 3.03,
+        "net_margin_pct_previous": 3.76,
+        "net_margin_pct_prev_previous": 3.2
       },
       "trend_ratios": {
         "roe": {
@@ -645,6 +766,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 30.29,
+          "previous": 30.34,
+          "current": 29.97,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": 3.2,
+          "previous": 3.76,
+          "current": 3.03,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 773297.0,
+          "avg_total_assets": 420145.5,
+          "avg_inventory": 118923.0,
+          "asset_turnover": 1.841,
+          "inventory_turnover": 6.503
+        },
+        "previous": {
+          "revenue": 749008.0,
+          "avg_total_assets": 393831.0,
+          "avg_inventory": 120186.0,
+          "asset_turnover": 1.902,
+          "inventory_turnover": 6.232
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false
@@ -662,7 +818,7 @@
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
         "Revenue": {
-          "prev_previous": 103317.0,
+          "prev_previous": 107106.0,
           "current": 110714.0,
           "previous": 101791.0,
           "forecast": null,
@@ -670,7 +826,7 @@
           "unit": "百万円"
         },
         "GrossProfit": {
-          "prev_previous": 26373.0,
+          "prev_previous": 28081.0,
           "current": 26940.0,
           "previous": 25715.0,
           "forecast": null,
@@ -678,7 +834,7 @@
           "unit": "百万円"
         },
         "SGA": {
-          "prev_previous": 23660.0,
+          "prev_previous": 24587.0,
           "current": 25366.0,
           "previous": 24785.0,
           "forecast": null,
@@ -686,7 +842,7 @@
           "unit": "百万円"
         },
         "OperatingIncome": {
-          "prev_previous": 2713.0,
+          "prev_previous": 3495.0,
           "current": 1574.0,
           "previous": 929.0,
           "forecast": null,
@@ -694,7 +850,7 @@
           "unit": "百万円"
         },
         "OrdinaryIncome": {
-          "prev_previous": 2725.0,
+          "prev_previous": 3473.0,
           "current": 1523.0,
           "previous": 873.0,
           "forecast": null,
@@ -702,7 +858,7 @@
           "unit": "百万円"
         },
         "NetIncome": {
-          "prev_previous": 1990.0,
+          "prev_previous": 2490.0,
           "current": 1391.0,
           "previous": 1728.0,
           "forecast": null,
@@ -710,7 +866,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 30964.0,
+          "prev_previous": 31999.0,
           "current": 38092.0,
           "previous": 39313.0,
           "forecast": null,
@@ -726,7 +882,7 @@
           "unit": "百万円"
         },
         "TotalAssets": {
-          "prev_previous": null,
+          "prev_previous": 235151.0,
           "current": 229664.0,
           "previous": 225771.0,
           "forecast": null,
@@ -734,7 +890,7 @@
           "unit": "百万円"
         },
         "Inventory": {
-          "prev_previous": 6101.0,
+          "prev_previous": 79302.0,
           "current": 72573.0,
           "previous": 76031.0,
           "forecast": null,
@@ -753,22 +909,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 8.77,
-          "previous_yoy_pct": -1.48,
+          "previous_yoy_pct": -4.96,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 69.43,
-          "previous_yoy_pct": -65.76,
+          "previous_yoy_pct": -73.42,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 74.46,
-          "previous_yoy_pct": -67.96,
+          "previous_yoy_pct": -74.86,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": -19.5,
-          "previous_yoy_pct": -13.17,
+          "previous_yoy_pct": -30.6,
           "forecast_yoy_pct": null
         }
       },
@@ -776,11 +932,15 @@
         "operating_margin_pct": 1.42,
         "ordinary_margin_pct": 1.38,
         "ordinary_margin_pct_previous": 0.86,
-        "ordinary_margin_pct_prev_previous": 2.64,
+        "ordinary_margin_pct_prev_previous": 3.24,
         "equity_ratio_pct": 45.36,
         "gross_margin_pct": 24.33,
         "gross_margin_pct_previous": 25.26,
-        "gross_margin_pct_prev_previous": 25.53
+        "gross_margin_pct_prev_previous": 26.22,
+        "gross_margin_pt_yoy": -0.93,
+        "net_margin_pct": 1.26,
+        "net_margin_pct_previous": 1.7,
+        "net_margin_pct_prev_previous": 2.32
       },
       "trend_ratios": {
         "roe": {
@@ -806,6 +966,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 26.22,
+          "previous": 25.26,
+          "current": 24.33,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": 2.32,
+          "previous": 1.7,
+          "current": 1.26,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 421725.0,
+          "avg_total_assets": 227717.5,
+          "avg_inventory": 74302.0,
+          "asset_turnover": 1.852,
+          "inventory_turnover": 5.676
+        },
+        "previous": {
+          "revenue": 398195.0,
+          "avg_total_assets": 230461.0,
+          "avg_inventory": 77666.5,
+          "asset_turnover": 1.728,
+          "inventory_turnover": 5.127
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false
@@ -823,7 +1018,7 @@
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
         "Revenue": {
-          "prev_previous": 136740.0,
+          "prev_previous": 186355.0,
           "current": 234598.0,
           "previous": 204042.0,
           "forecast": null,
@@ -831,7 +1026,7 @@
           "unit": "百万円"
         },
         "GrossProfit": {
-          "prev_previous": 41498.0,
+          "prev_previous": 55413.0,
           "current": 67064.0,
           "previous": 60047.0,
           "forecast": null,
@@ -839,7 +1034,7 @@
           "unit": "百万円"
         },
         "SGA": {
-          "prev_previous": 32285.0,
+          "prev_previous": 47169.0,
           "current": 53862.0,
           "previous": 47857.0,
           "forecast": null,
@@ -847,7 +1042,7 @@
           "unit": "百万円"
         },
         "OperatingIncome": {
-          "prev_previous": 9213.0,
+          "prev_previous": 8243.0,
           "current": 13201.0,
           "previous": 12189.0,
           "forecast": null,
@@ -855,7 +1050,7 @@
           "unit": "百万円"
         },
         "OrdinaryIncome": {
-          "prev_previous": 9842.0,
+          "prev_previous": 8851.0,
           "current": 14595.0,
           "previous": 12813.0,
           "forecast": null,
@@ -863,7 +1058,7 @@
           "unit": "百万円"
         },
         "NetIncome": {
-          "prev_previous": 6634.0,
+          "prev_previous": 5853.0,
           "current": 9485.0,
           "previous": 8603.0,
           "forecast": null,
@@ -871,7 +1066,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 66651.0,
+          "prev_previous": 43220.0,
           "current": 92132.0,
           "previous": 84067.0,
           "forecast": null,
@@ -887,7 +1082,7 @@
           "unit": "百万円"
         },
         "TotalAssets": {
-          "prev_previous": null,
+          "prev_previous": 534505.0,
           "current": 554647.0,
           "previous": 551666.0,
           "forecast": null,
@@ -895,7 +1090,7 @@
           "unit": "百万円"
         },
         "Inventory": {
-          "prev_previous": 69338.0,
+          "prev_previous": 61589.0,
           "current": 72863.0,
           "previous": 68999.0,
           "forecast": null,
@@ -914,22 +1109,22 @@
       "yoy": {
         "Revenue": {
           "current_yoy_pct": 14.98,
-          "previous_yoy_pct": 49.22,
+          "previous_yoy_pct": 9.49,
           "forecast_yoy_pct": null
         },
         "OperatingIncome": {
           "current_yoy_pct": 8.3,
-          "previous_yoy_pct": 32.3,
+          "previous_yoy_pct": 47.87,
           "forecast_yoy_pct": null
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 13.91,
-          "previous_yoy_pct": 30.19,
+          "previous_yoy_pct": 44.76,
           "forecast_yoy_pct": null
         },
         "NetIncome": {
           "current_yoy_pct": 10.25,
-          "previous_yoy_pct": 29.68,
+          "previous_yoy_pct": 46.98,
           "forecast_yoy_pct": null
         }
       },
@@ -937,11 +1132,15 @@
         "operating_margin_pct": 5.63,
         "ordinary_margin_pct": 6.22,
         "ordinary_margin_pct_previous": 6.28,
-        "ordinary_margin_pct_prev_previous": 7.2,
+        "ordinary_margin_pct_prev_previous": 4.75,
         "equity_ratio_pct": 40.43,
         "gross_margin_pct": 28.59,
         "gross_margin_pct_previous": 29.43,
-        "gross_margin_pct_prev_previous": 30.35
+        "gross_margin_pct_prev_previous": 29.74,
+        "gross_margin_pt_yoy": -0.84,
+        "net_margin_pct": 4.04,
+        "net_margin_pct_previous": 4.22,
+        "net_margin_pct_prev_previous": 3.14
       },
       "trend_ratios": {
         "roe": {
@@ -967,6 +1166,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 29.74,
+          "previous": 29.43,
+          "current": 28.59,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": 3.14,
+          "previous": 4.22,
+          "current": 4.04,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 923089.0,
+          "avg_total_assets": 553156.5,
+          "avg_inventory": 70931.0,
+          "asset_turnover": 1.669,
+          "inventory_turnover": 13.014
+        },
+        "previous": {
+          "revenue": 796342.0,
+          "avg_total_assets": 543085.5,
+          "avg_inventory": 65294.0,
+          "asset_turnover": 1.466,
+          "inventory_turnover": 12.196
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false
@@ -1102,7 +1336,11 @@
         "equity_ratio_pct": 34.17,
         "gross_margin_pct": 26.94,
         "gross_margin_pct_previous": 27.12,
-        "gross_margin_pct_prev_previous": 27.59
+        "gross_margin_pct_prev_previous": 27.59,
+        "gross_margin_pt_yoy": -0.18,
+        "net_margin_pct": 0.96,
+        "net_margin_pct_previous": 1.43,
+        "net_margin_pct_prev_previous": -0.83
       },
       "trend_ratios": {
         "roe": {
@@ -1128,6 +1366,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 27.59,
+          "previous": 27.12,
+          "current": 26.94,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": -0.83,
+          "previous": 1.43,
+          "current": 0.96,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 974483.0,
+          "avg_total_assets": 485389.5,
+          "avg_inventory": 112330.5,
+          "asset_turnover": 2.008,
+          "inventory_turnover": 8.675
+        },
+        "previous": {
+          "revenue": 922572.0,
+          "avg_total_assets": 464044.0,
+          "avg_inventory": 107370.5,
+          "asset_turnover": 1.988,
+          "inventory_turnover": 8.592
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false
@@ -1263,7 +1536,11 @@
         "equity_ratio_pct": 58.04,
         "gross_margin_pct": 27.23,
         "gross_margin_pct_previous": 28.24,
-        "gross_margin_pct_prev_previous": 27.39
+        "gross_margin_pct_prev_previous": 27.39,
+        "gross_margin_pt_yoy": -1.01,
+        "net_margin_pct": 1.01,
+        "net_margin_pct_previous": 1.05,
+        "net_margin_pct_prev_previous": 1.06
       },
       "trend_ratios": {
         "roe": {
@@ -1289,6 +1566,41 @@
           "previous": null,
           "current": null,
           "forecast": null
+        },
+        "gross_margin": {
+          "prev_previous": 27.39,
+          "previous": 28.24,
+          "current": 27.23,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": 1.06,
+          "previous": 1.05,
+          "current": 1.01,
+          "forecast": null
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 282790.0,
+          "avg_total_assets": 117723.0,
+          "avg_inventory": 36271.0,
+          "asset_turnover": 2.402,
+          "inventory_turnover": 7.797
+        },
+        "previous": {
+          "revenue": 269868.0,
+          "avg_total_assets": 111952.0,
+          "avg_inventory": 36965.0,
+          "asset_turnover": 2.411,
+          "inventory_turnover": 7.301
+        },
+        "prev_previous": {
+          "revenue": null,
+          "avg_total_assets": null,
+          "avg_inventory": null,
+          "asset_turnover": null,
+          "inventory_turnover": null
         }
       },
       "is_segment": false

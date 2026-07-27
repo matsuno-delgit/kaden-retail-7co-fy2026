@@ -34,7 +34,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet
+from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, margin
 
 # プロジェクトルートからの相対パス
 ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
@@ -217,15 +217,26 @@ def main():
         gp_curr = metrics["GrossProfit"]["current"]
         gp_prev = metrics["GrossProfit"]["previous"]
         gp_pp = metrics["GrossProfit"]["prev_previous"]
+        ni_curr = metrics["NetIncome"]["current"]
+        ni_prev = metrics["NetIncome"]["previous"]
+        ni_pp = metrics["NetIncome"]["prev_previous"]
+        gm_c = margin(gp_curr, rev)
+        gm_p = margin(gp_prev, rev_prev)
         ratios = {
             "operating_margin_pct": round(op / rev * 100, 2) if op and rev else None,
             "ordinary_margin_pct": round(ord_curr / rev * 100, 2) if ord_curr and rev else None,
             "ordinary_margin_pct_previous": round(ord_prev / rev_prev * 100, 2) if ord_prev and rev_prev else None,
             "ordinary_margin_pct_prev_previous": round(ord_pp / rev_pp * 100, 2) if ord_pp and rev_pp else None,
             "equity_ratio_pct": round(te / ta * 100, 2) if te and ta else None,
-            "gross_margin_pct": round(gp_curr / rev * 100, 2) if gp_curr and rev else None,
-            "gross_margin_pct_previous": round(gp_prev / rev_prev * 100, 2) if gp_prev and rev_prev else None,
-            "gross_margin_pct_prev_previous": round(gp_pp / rev_pp * 100, 2) if gp_pp and rev_pp else None,
+            "gross_margin_pct": gm_c,
+            "gross_margin_pct_previous": gm_p,
+            "gross_margin_pct_prev_previous": margin(gp_pp, rev_pp),
+            # 売上総利益率の前期差（ポイント）
+            "gross_margin_pt_yoy": round(gm_c - gm_p, 2) if gm_c is not None and gm_p is not None else None,
+            # 純利益率
+            "net_margin_pct": margin(ni_curr, rev),
+            "net_margin_pct_previous": margin(ni_prev, rev_prev),
+            "net_margin_pct_prev_previous": margin(ni_pp, rev_pp),
         }
 
         # 推移用比率（前期 / 当期 / 次期予想）
@@ -319,12 +330,16 @@ def main():
             },
         }
 
-        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {}}
+        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {},
+                        "inventory_turnover": {}, "gross_margin": {}, "net_margin": {}}
         for period in ("prev_previous", "previous", "current", "forecast"):
             rev_p = metrics["Revenue"][period]
             op_p = metrics["OperatingIncome"][period]
             ni_p = metrics["NetIncome"][period]
             bs = bs_periods[period]
+            # 推移グラフ用の利益率
+            trend_ratios["gross_margin"][period] = margin(metrics["GrossProfit"][period], rev_p)
+            trend_ratios["net_margin"][period] = margin(ni_p, rev_p)
 
             # Tax: 当期/前期は実額、forecast は当期実効率で推計
             if period == "forecast":
@@ -385,6 +400,7 @@ def main():
             "yoy": yoy,
             "ratios": ratios,
             "trend_ratios": trend_ratios,
+            "ltm": build_ltm(ws, ws_pp, co),
             "is_segment": bool(co.get("is_segment")),  # ヤマダ（デンキセグ）等のフラグ
         }
         companies_out.append(co_out)

@@ -16,7 +16,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet
+from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, margin
 
 ROOT = Path(__file__).parent.parent.parent  # 01_通期実績_2026.03
 PROJ = ROOT.parent  # 競合各社業績比較_20260520
@@ -196,17 +196,27 @@ def build_one(period_key, conf):
             "ordinary_margin_pct_previous":     round(ord_p / rev_p * 100, 2) if ord_p and rev_p else None,
             "ordinary_margin_pct_prev_previous":round(ord_pp / rev_pp * 100, 2) if ord_pp and rev_pp else None,
             "equity_ratio_pct":                 round(te / ta * 100, 2) if te and ta else None,
-            "gross_margin_pct":                 round(gp_c / rev * 100, 2) if gp_c and rev else None,
-            "gross_margin_pct_previous":        round(gp_p / rev_p * 100, 2) if gp_p and rev_p else None,
-            "gross_margin_pct_prev_previous":   round(gp_pp / rev_pp * 100, 2) if gp_pp and rev_pp else None,
+            "gross_margin_pct":                 margin(gp_c, rev),
+            "gross_margin_pct_previous":        margin(gp_p, rev_p),
+            "gross_margin_pct_prev_previous":   margin(gp_pp, rev_pp),
+            "gross_margin_pt_yoy": (round(margin(gp_c, rev) - margin(gp_p, rev_p), 2)
+                                    if margin(gp_c, rev) is not None
+                                    and margin(gp_p, rev_p) is not None else None),
+            "net_margin_pct":                   margin(metrics["NetIncome"]["current"], rev),
+            "net_margin_pct_previous":          margin(metrics["NetIncome"]["previous"], rev_p),
+            "net_margin_pct_prev_previous":     margin(metrics["NetIncome"]["prev_previous"], rev_pp),
         }
 
-        # trend_ratios (推移グラフ描画ロジックでparseされる) 四半期では推移グラフは通期のみ表示なので
-        # 値はあっても無くてもダッシュボード上は表示しない。
-        # ただ、エラー回避のため空dictを返す。
-        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {}}
+        # trend_ratios: BS依存の比率（ROE/ROIC/回転率）は四半期では推移グラフを描かないためnull。
+        # 利益率（売上総利益率・純利益率）は期間按分の影響を受けないので四半期でも推移表示する。
+        trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {},
+                        "gross_margin": {}, "net_margin": {}}
         for key in trend_ratios.keys():
             trend_ratios[key] = {"prev_previous": None, "previous": None, "current": None, "forecast": None}
+        for period in ("prev_previous", "previous", "current"):
+            rev_p2 = metrics["Revenue"][period]
+            trend_ratios["gross_margin"][period] = margin(metrics["GrossProfit"][period], rev_p2)
+            trend_ratios["net_margin"][period] = margin(metrics["NetIncome"][period], rev_p2)
 
         if co.get("is_segment"):
             ratios["equity_ratio_pct"] = None
@@ -217,7 +227,8 @@ def build_one(period_key, conf):
             "current_period": current_period, "previous_period": previous_period,
             "prev_previous_period": prev_previous_period, "forecast_period": forecast_period,
             "tanshin_url": co["url"], "metrics": metrics, "yoy": yoy, "ratios": ratios,
-            "trend_ratios": trend_ratios, "is_segment": bool(co.get("is_segment")),
+            "trend_ratios": trend_ratios, "ltm": build_ltm(ws, ws_pp, co),
+            "is_segment": bool(co.get("is_segment")),
         })
 
     output = {
