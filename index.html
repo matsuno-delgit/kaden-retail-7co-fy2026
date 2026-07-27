@@ -201,20 +201,21 @@
 
   <!-- Section: 直近四半期(LTM)ベースの回転率 -->
   <section id="section-ltm-turnover" class="mb-10">
-    <h2 class="text-xl font-semibold mb-3 text-slate-900">🔄 直近四半期時点の回転率（直近12ヶ月ベース）</h2>
+    <h2 class="text-xl font-semibold mb-3 text-slate-900">🔄 直近四半期時点の回転率 推移（直近12ヶ月ベース）</h2>
     <p class="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded px-3 py-2 mb-3">
       各四半期時点で「直近12ヶ月（当該四半期＋その前3四半期）の売上高」を分子、
       「当該四半期末と前年同四半期末の平均残高」を分母として算定。
-      期間の長さと期末残高の季節性の影響を除くため、1Q・上期・3Q・通期のどの時点でも同じスケールで比較できる。
+      四半期の売上を期末残高で割る単純計算と違い、期間の長さと期末残高の季節性の影響を受けないため、
+      同じ四半期時点どうしを前々期・前期・当期で並べて比較できる。
     </p>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="bg-white rounded-lg shadow p-5">
-        <h3 class="text-lg font-semibold mb-3 text-slate-900">直近四半期 総資産回転率（回）</h3>
+        <h3 class="text-lg font-semibold mb-3 text-slate-900">直近四半期 総資産回転率 推移（回）</h3>
         <p class="text-xs text-slate-500 mb-2">直近12ヶ月売上高 ÷ 平均総資産（2期平均）</p>
         <div class="chart-box-tall"><canvas id="chart-ltm-asset-turnover"></canvas></div>
       </div>
       <div class="bg-white rounded-lg shadow p-5">
-        <h3 class="text-lg font-semibold mb-3 text-slate-900">直近四半期 在庫回転率（回）</h3>
+        <h3 class="text-lg font-semibold mb-3 text-slate-900">直近四半期 在庫回転率 推移（回）</h3>
         <p class="text-xs text-slate-500 mb-1">直近12ヶ月売上高 ÷ 平均棚卸資産（2期平均）</p>
         <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 mb-2 inline-block">
           ※ ヤマダ（デンキセグメント）は【推定値】。連結BS「商品及び製品」×92％をデンキ在庫と仮定して算定（比率は会社非開示）
@@ -429,6 +430,9 @@ function applyPeriodVisibility(period) {
     const el = document.getElementById(id);
     if (el) el.style.display = isAnnual ? "" : "none";
   });
+  // 直近四半期(LTM)回転率は四半期タブ専用。通期は上の「収益性・効率性 推移」と重複するため出さない
+  const ltmSec = document.getElementById("section-ltm-turnover");
+  if (ltmSec) ltmSec.style.display = isAnnual ? "none" : "";
   // 推移グラフタイトル（次期予想を含むかどうか）
   const trendSuffix = isAnnual ? "（前々期 / 前期 / 当期 / 次期予想）" : "（前々期 / 前期 / 当期）";
   const t1 = document.getElementById("trend-revenue-title");
@@ -479,9 +483,11 @@ function renderAll(cos) {
   renderRatioTrendLine(allCos, "gross_margin", "chart-trend-gross-margin", "売上総利益率 (%)", "pct");
   renderTrendLine(allCos, "NetIncome", "chart-trend-net-income", "当期純利益 (百万円)");
 
-  // 直近四半期(LTM)ベースの回転率（全期間で表示）
-  renderLtmTurnover(fullCos, "asset_turnover", "chart-ltm-asset-turnover", "総資産回転率 (回)");
-  renderLtmTurnover(allCos, "inventory_turnover", "chart-ltm-inventory-turnover", "在庫回転率 (回)");
+  // 直近四半期(LTM)ベースの回転率 推移（四半期タブのみ。通期は上の推移グラフと重複するため非表示）
+  if (CURRENT_PERIOD !== "fy") {
+    renderRatioTrendLine(fullCos, "ltm_asset_turnover", "chart-ltm-asset-turnover", "総資産回転率 (回)", "turn");
+    renderRatioTrendLine(allCos, "ltm_inventory_turnover", "chart-ltm-inventory-turnover", "在庫回転率 (回)", "turn");
+  }
 
   // 収益性・効率性 推移グラフ・BSバブル・予想テーブルは「通期(fy)」のみ表示
   if (CURRENT_PERIOD === "fy") {
@@ -574,18 +580,16 @@ function renderKpiCards(cos) {
           <dd class="text-right font-mono">${fmtMillions(rev)}</dd>
           <dt class="text-slate-500">　YoY</dt>
           <dd class="text-right font-mono ${yoyColor(yoyRev)}">${fmtPctTriangle(yoyRev)}</dd>
+          <dt class="text-slate-500">売上総利益率</dt>
+          <dd class="text-right font-mono">${gm != null ? gm.toFixed(1) + "%" : "—"}</dd>
+          <dt class="text-slate-500">　前期差</dt>
+          <dd class="text-right font-mono ${yoyColor(gmYoY)}">${fmtPt(gmYoY)}</dd>
           <dt class="text-slate-500">経常利益</dt>
           <dd class="text-right font-mono">${fmtMillions(ord)}</dd>
           <dt class="text-slate-500">　YoY</dt>
           <dd class="text-right font-mono ${yoyColor(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</dd>
           <dt class="text-slate-500">経常利益率</dt>
           <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
-        </dl>
-        <dl class="mt-2 pt-2 border-t border-slate-200 grid grid-cols-2 gap-y-1 text-sm">
-          <dt class="text-slate-500">売上総利益率</dt>
-          <dd class="text-right font-mono">${gm != null ? gm.toFixed(1) + "%" : "—"}</dd>
-          <dt class="text-slate-500">　前期差</dt>
-          <dd class="text-right font-mono ${yoyColor(gmYoY)}">${fmtPt(gmYoY)}</dd>
           <dt class="text-slate-500">純利益率</dt>
           <dd class="text-right font-mono">${nm != null ? nm.toFixed(1) + "%" : "—"}</dd>
           <dt class="text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率 <span class="text-xs text-slate-400">直近12M</span></dt>
@@ -772,58 +776,6 @@ function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
           },
           title: { display: true, text: yLabel },
         },
-      },
-    },
-  });
-}
-
-// 直近四半期(LTM)回転率: 当期 vs 前期 の横棒（当期の降順）
-function renderLtmTurnover(cos, key, canvasId, xLabel) {
-  const rows = cos
-    .map(c => ({
-      label: c.label,
-      key: c.key,
-      curr: c.ltm?.current?.[key] ?? null,
-      prev: c.ltm?.previous?.[key] ?? null,
-    }))
-    .filter(r => r.curr != null || r.prev != null)
-    .sort((a, b) => (b.curr ?? -Infinity) - (a.curr ?? -Infinity));
-
-  new Chart(document.getElementById(canvasId).getContext("2d"), {
-    type: "bar",
-    data: {
-      labels: rows.map(r => r.label),
-      datasets: [
-        {
-          label: "当期",
-          data: rows.map(r => r.curr),
-          backgroundColor: rows.map(r => COLORS[r.key]),
-          borderColor: rows.map(r => COLORS[r.key]),
-          borderWidth: 1,
-        },
-        {
-          label: "前期",
-          data: rows.map(r => r.prev),
-          backgroundColor: rows.map(r => COLORS[r.key] + "44"),
-          borderColor: rows.map(r => COLORS[r.key]),
-          borderWidth: 1,
-        },
-      ],
-    },
-    options: {
-      indexAxis: "y",
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { position: "bottom", labels: { boxWidth: 14 } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.x == null ? "—" : ctx.parsed.x.toFixed(2)}回`,
-          },
-        },
-      },
-      scales: {
-        x: { beginAtZero: true, title: { display: true, text: xLabel } },
       },
     },
   });

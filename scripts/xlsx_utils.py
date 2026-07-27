@@ -93,6 +93,19 @@ def build_ltm(ws_curr, ws_pp, co, pp_col_key="col_curr"):
     }
 
 
+def ltm_trend(ltm, key):
+    """build_ltm() の結果を推移グラフ用の {前々期/前期/当期/次期予想} 形式に変換する。
+
+    次期予想はBS非開示のため常に None。
+    """
+    return {
+        "prev_previous": ltm["prev_previous"][key],
+        "previous": ltm["previous"][key],
+        "current": ltm["current"][key],
+        "forecast": None,
+    }
+
+
 def margin(num, den):
     """利益率(%)。分母が0/Noneなら None。"""
     if num is None or not den:

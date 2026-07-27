@@ -178,6 +178,18 @@
           "previous": 2.54,
           "current": 2.34,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.196,
+          "previous": 1.187,
+          "current": 1.177,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 3.754,
+          "previous": 3.638,
+          "current": 3.62,
+          "forecast": null
         }
       },
       "ltm": {
@@ -383,6 +395,18 @@
           "basis": "デンキセグメント（ヤマダデンキPOSベース）",
           "source": "ヤマダ_決算説明会資料 (年率換算前POSベース)",
           "note": "1Qダッシュボードでも年率POSベース値を流用表示"
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": null,
+          "previous": null,
+          "current": null,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 3.738,
+          "previous": 3.678,
+          "current": 3.66,
+          "forecast": null
         }
       },
       "ltm": {
@@ -582,6 +606,18 @@
           "prev_previous": 1.54,
           "previous": 1.65,
           "current": 2.57,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.643,
+          "previous": 1.621,
+          "current": 1.727,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 4.101,
+          "previous": 3.932,
+          "current": 4.211,
           "forecast": null
         }
       },
@@ -783,6 +819,18 @@
           "previous": 1.31,
           "current": 1.75,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.88,
+          "previous": 1.797,
+          "current": 1.75,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 5.625,
+          "previous": 5.456,
+          "current": 5.753,
+          "forecast": null
         }
       },
       "ltm": {
@@ -982,6 +1030,18 @@
           "prev_previous": 0.69,
           "previous": 0.52,
           "current": 0.5,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.751,
+          "previous": 1.705,
+          "current": 1.742,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 5.001,
+          "previous": 4.891,
+          "current": 5.233,
           "forecast": null
         }
       },
@@ -1183,6 +1243,18 @@
           "previous": 2.96,
           "current": 4.36,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.564,
+          "previous": 1.435,
+          "current": 1.509,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 10.959,
+          "previous": 11.201,
+          "current": 12.103,
+          "forecast": null
         }
       },
       "ltm": {
@@ -1383,6 +1455,18 @@
           "previous": 0.62,
           "current": 1.25,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.676,
+          "previous": 1.701,
+          "current": 1.867,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 6.956,
+          "previous": 6.65,
+          "current": 7.134,
+          "forecast": null
         }
       },
       "ltm": {
@@ -1582,6 +1666,18 @@
           "prev_previous": 0.53,
           "previous": 0.31,
           "current": 0.65,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 2.438,
+          "previous": 2.367,
+          "current": 2.427,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 6.738,
+          "previous": 6.198,
+          "current": 6.519,
           "forecast": null
         }
       },

@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, margin
+from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin
 
 ROOT = Path(__file__).parent.parent.parent
 
@@ -278,6 +278,11 @@ def main():
             }
             ratios["equity_ratio_pct"] = None
 
+        # 直近四半期(LTM)回転率も推移グラフ用の形に持たせる
+        ltm_data = build_ltm(ws, ws_pp, co)
+        trend_ratios["ltm_asset_turnover"] = ltm_trend(ltm_data, "asset_turnover")
+        trend_ratios["ltm_inventory_turnover"] = ltm_trend(ltm_data, "inventory_turnover")
+
         co_out = {
             "key": co["key"],
             "label": co["label"],
@@ -293,7 +298,7 @@ def main():
             "yoy": yoy,
             "ratios": ratios,
             "trend_ratios": trend_ratios,
-            "ltm": build_ltm(ws, ws_pp, co),
+            "ltm": ltm_data,
             "is_segment": bool(co.get("is_segment")),
         }
         companies_out.append(co_out)

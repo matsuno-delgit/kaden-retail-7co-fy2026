@@ -12,7 +12,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, margin
+from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin
 
 ROOT = Path(__file__).parent.parent.parent  # 01_通期実績_2026.03
 PROJ = ROOT.parent  # 競合各社業績比較_20260520
@@ -221,6 +221,11 @@ def build_one(pk, conf, is_annual):
                 }
             ratios["equity_ratio_pct"] = None
 
+        # 直近四半期(LTM)回転率も推移グラフ用の形に持たせる
+        ltm_data = build_ltm(ws_curr, ws_pp, co, pp_col_key="col_prev")
+        trend_ratios["ltm_asset_turnover"] = ltm_trend(ltm_data, "asset_turnover")
+        trend_ratios["ltm_inventory_turnover"] = ltm_trend(ltm_data, "inventory_turnover")
+
         companies_out.append({
             "key": co["key"], "label": co["label"], "ticker": co["ticker"],
             "fiscal_year_end": co["fy_end"], "consolidation": co["consol"],
@@ -228,7 +233,7 @@ def build_one(pk, conf, is_annual):
             "prev_previous_period": prev_previous_period, "forecast_period": forecast_period,
             "tanshin_url": co["url"], "metrics": metrics, "yoy": yoy, "ratios": ratios,
             "trend_ratios": trend_ratios,
-            "ltm": build_ltm(ws_curr, ws_pp, co, pp_col_key="col_prev"),
+            "ltm": ltm_data,
             "is_segment": bool(co.get("is_segment")),
         })
 

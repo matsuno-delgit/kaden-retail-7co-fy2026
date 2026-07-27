@@ -195,7 +195,19 @@
           "current": 0.87,
           "forecast": 1.56
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.244,
+          "previous": 1.246,
+          "current": 1.287,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 3.983,
+          "previous": 4.04,
+          "current": 4.368,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {
@@ -418,6 +430,18 @@
           "basis": "デンキセグメント（ヤマダデンキPOSベース）",
           "source": "ヤマダ_決算説明会資料20260508 P28・P44 (前々期は2024/3期通期実績 POSベース 3.6)",
           "note": "セグメント実績(POSベース)。連結BSベースの計算ではなく説明会資料記載値"
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": null,
+          "previous": null,
+          "current": null,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 4.071,
+          "previous": 4.147,
+          "current": 4.427,
+          "forecast": null
         }
       },
       "ltm": {
@@ -636,7 +660,19 @@
           "current": 1.88,
           "forecast": 2.55
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.611,
+          "previous": 1.715,
+          "current": 1.798,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 4.01,
+          "previous": 4.346,
+          "current": 4.422,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {
@@ -854,7 +890,19 @@
           "current": 1.95,
           "forecast": 1.92
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.8,
+          "previous": 1.773,
+          "current": 1.828,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 6.164,
+          "previous": 6.455,
+          "current": 6.721,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {
@@ -1072,7 +1120,19 @@
           "current": 0.75,
           "forecast": 0.8
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.771,
+          "previous": 1.737,
+          "current": 1.897,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 5.222,
+          "previous": 5.425,
+          "current": 6.231,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {
@@ -1290,7 +1350,19 @@
           "current": 3.96,
           "forecast": 4.8
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.379,
+          "previous": 1.458,
+          "current": 1.613,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 11.13,
+          "previous": 12.214,
+          "current": 12.98,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {
@@ -1508,7 +1580,19 @@
           "current": 1.79,
           "forecast": 1.73
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.8,
+          "previous": 1.988,
+          "current": 2.008,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 7.913,
+          "previous": 8.592,
+          "current": 8.675,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {
@@ -1726,7 +1810,19 @@
           "current": 1.67,
           "forecast": 1.67
         },
-        "forecast_uses_current_bs": true
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 2.367,
+          "previous": 2.411,
+          "current": 2.402,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 6.983,
+          "previous": 7.301,
+          "current": 7.797,
+          "forecast": null
+        }
       },
       "ltm": {
         "current": {

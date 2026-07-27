@@ -177,6 +177,18 @@
           "previous": 1.6,
           "current": 1.6,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.261,
+          "previous": 1.235,
+          "current": 1.226,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 3.913,
+          "previous": 3.755,
+          "current": 3.741,
+          "forecast": null
         }
       },
       "ltm": {
@@ -376,6 +388,18 @@
           "prev_previous": null,
           "previous": null,
           "current": null,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": null,
+          "previous": null,
+          "current": null,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 3.951,
+          "previous": 3.832,
+          "current": 3.771,
           "forecast": null
         }
       },
@@ -577,6 +601,18 @@
           "previous": 2.39,
           "current": 2.79,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.663,
+          "previous": 1.709,
+          "current": 1.807,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 4.167,
+          "previous": 4.422,
+          "current": 4.615,
+          "forecast": null
         }
       },
       "ltm": {
@@ -776,6 +812,18 @@
           "prev_previous": 2.05,
           "previous": 2.64,
           "current": 2.42,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.921,
+          "previous": 1.902,
+          "current": 1.841,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 5.959,
+          "previous": 6.232,
+          "current": 6.503,
           "forecast": null
         }
       },
@@ -977,6 +1025,18 @@
           "previous": 1.14,
           "current": 0.9,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.783,
+          "previous": 1.728,
+          "current": 1.852,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 5.116,
+          "previous": 5.127,
+          "current": 5.676,
+          "forecast": null
         }
       },
       "ltm": {
@@ -1176,6 +1236,18 @@
           "prev_previous": 2.57,
           "previous": 3.61,
           "current": 4.2,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.668,
+          "previous": 1.466,
+          "current": 1.669,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 11.617,
+          "previous": 12.196,
+          "current": 13.014,
           "forecast": null
         }
       },
@@ -1377,6 +1449,18 @@
           "previous": 1.24,
           "current": 1.88,
           "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 1.731,
+          "previous": 1.788,
+          "current": 1.941,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 7.219,
+          "previous": 7.135,
+          "current": 7.686,
+          "forecast": null
         }
       },
       "ltm": {
@@ -1576,6 +1660,18 @@
           "prev_previous": 1.17,
           "previous": 1.26,
           "current": 1.82,
+          "forecast": null
+        },
+        "ltm_asset_turnover": {
+          "prev_previous": 2.47,
+          "previous": 2.409,
+          "current": 2.485,
+          "forecast": null
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 6.926,
+          "previous": 6.317,
+          "current": 6.906,
           "forecast": null
         }
       },
