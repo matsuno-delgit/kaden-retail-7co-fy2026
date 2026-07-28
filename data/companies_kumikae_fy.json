@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-28",
+  "generated_at": "2026-07-29",
   "source": "組替版 (組替通期 (2025/3〜2026/2))",
   "period_type": "kumikae_fy",
   "dataset_type": "kumikae",
@@ -374,7 +374,7 @@
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": 3.6,
+          "prev_previous": 3.65,
           "previous": 4.0,
           "current": 4.5,
           "forecast": null

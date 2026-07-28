@@ -211,13 +211,15 @@ def build_one(pk, conf, is_annual):
             trend_ratios["gross_margin"][period] = margin(metrics["GrossProfit"][period], rev_p3)
             trend_ratios["net_margin"][period] = margin(metrics["NetIncome"][period], rev_p3)
 
-        # デンキセグ: BS非開示、在庫回転率POSベース固定値
+        # デンキセグ: BS非開示。在庫回転率は会社開示値（ヤマダデンキPOSベース）を採用。
+        # 組替通期の期間は3月決算社にとって通常の通期と同じため開示値をそのまま使える。
+        # 前々期(2024/3期)=3.65 は在庫回転日数100日の開示より 365÷100 で換算。
         if co.get("is_segment"):
             for k in ("roe", "roic", "asset_turnover"):
                 trend_ratios[k] = {"prev_previous": None, "previous": None, "current": None, "forecast": None}
             if is_annual:
                 trend_ratios["inventory_turnover"] = {
-                    "prev_previous": 3.6, "previous": 4.0, "current": 4.5, "forecast": None,
+                    "prev_previous": 3.65, "previous": 4.0, "current": 4.5, "forecast": None,
                 }
             ratios["equity_ratio_pct"] = None
 

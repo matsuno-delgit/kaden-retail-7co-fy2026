@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-28",
+  "generated_at": "2026-07-29",
   "source": "各社決算短信・決算説明会資料 (TDnet公開資料、2026/5月発表分)",
   "note": "ヤマダ・ケーズ・エディオン・上新・ノジマ=2026年3月期通期。ビックカメラ・コジマ=2025年8月期通期。コジマは非連結開示。",
   "companies": [
@@ -408,7 +408,7 @@
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": 3.6,
+          "prev_previous": 3.65,
           "previous": 4.0,
           "current": 4.5,
           "forecast": 5.0
@@ -427,9 +427,9 @@
         },
         "forecast_uses_current_bs": true,
         "inventory_turnover_override": {
-          "basis": "デンキセグメント（ヤマダデンキPOSベース）",
-          "source": "ヤマダ_決算説明会資料20260508 P28・P44 (前々期は2024/3期通期実績 POSベース 3.6)",
-          "note": "セグメント実績(POSベース)。連結BSベースの計算ではなく説明会資料記載値"
+          "basis": "デンキセグメント（ヤマダデンキPOSベース・会社開示値）",
+          "source": "ヤマダ_決算説明会資料 2025/5/8 P25・P42、2026/5/8 P16・P28・P37・P44",
+          "note": "会社開示の年度実績/計画。連結BSベースの計算値ではない。2024/3期のみ回転率の直接開示が無く、在庫回転日数100日から365÷100で換算"
         },
         "ltm_asset_turnover": {
           "prev_previous": null,
