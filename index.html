@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>家電量販店7社 業績ダッシュボード</title>
 <!-- Tailwind utilities (subset) — pre-generated, self-hosted -->
-<link rel="stylesheet" href="assets/tailwind.css">
+<link rel="stylesheet" href="assets/tailwind.css?v=20260729">
 <!-- Chart.js + datalabels plugin (CDN, pinned version + SRI integrity hash) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
         integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4"
@@ -512,15 +512,15 @@ function updateDetailTableTitles(cos) {
   // 3月決算社の current_period / previous_period から年を取得して表示
   const c3 = cos.find(c => c.fiscal_year_end === "03");
   if (!c3) return;
-  const currYear = c3.current_period?.replace("FY", "");
-  const prevYear = c3.previous_period?.replace("FY", "");
-  if (currYear) {
+  const curr = formatPeriod(c3.current_period, c3.fiscal_year_end);
+  const prev = formatPeriod(c3.previous_period, c3.fiscal_year_end);
+  if (curr) {
     const t = document.getElementById("detail-table-title");
-    if (t) t.textContent = `📋 7社 詳細業績テーブル（${currYear}年3月期）`;
+    if (t) t.textContent = `📋 7社 詳細業績テーブル（${curr}）`;
   }
-  if (prevYear) {
+  if (prev) {
     const t = document.getElementById("detail-table-prev-title");
-    if (t) t.textContent = `📋 7社 詳細業績テーブル（${prevYear}年3月期）`;
+    if (t) t.textContent = `📋 7社 詳細業績テーブル（${prev}）`;
   }
 }
 
@@ -551,6 +551,20 @@ async function main() {
   await loadAndRender("fy");
 }
 
+// "FY2026-Q3CUM" のような内部の期間コードを「2026年3月期 3Q累計」の形に整形する。
+// 内部コードをそのまま表示すると「2026-Q3CUM年03月期」のような表記になってしまうため。
+const PERIOD_SUFFIX_LABELS = {
+  "Q1": "1Q", "Q2": "2Q単独", "H1": "上期",
+  "Q3": "3Q単独", "Q3CUM": "3Q累計", "Q4": "4Q単独", "H2": "下期",
+};
+function formatPeriod(periodCode, fiscalYearEnd) {
+  if (!periodCode) return "";
+  const [fy, suffix] = periodCode.split("-");
+  const base = `${fy.replace("FY", "")}年${fiscalYearEnd}月期`;
+  if (!suffix) return base;
+  return `${base} ${PERIOD_SUFFIX_LABELS[suffix] || suffix}`;
+}
+
 function renderKpiCards(cos) {
   const grid = document.getElementById("kpi-grid");
   grid.innerHTML = "";
@@ -560,11 +574,14 @@ function renderKpiCards(cos) {
     const yoyRev = getYoY(c, "Revenue");
     const yoyOrd = getYoY(c, "OrdinaryIncome");
     const om = c.ratios?.ordinary_margin_pct;
+    const omYoY = c.ratios?.ordinary_margin_pt_yoy;   // 経常利益率の前期差(pt)
     const gm = c.ratios?.gross_margin_pct;
     const gmYoY = c.ratios?.gross_margin_pt_yoy;      // 売上総利益率の前期差(pt)
     const nm = c.ratios?.net_margin_pct;
     const at = c.ltm?.current?.asset_turnover;        // 直近12ヶ月ベースの総資産回転率
-    const periodLabel = `${c.current_period.replace("FY","")}年${c.fiscal_year_end}月期${
+    const lev = c.ratios?.financial_leverage;         // 総資産 ÷ 自己資本
+    const roe = c.ratios?.roe_pct;                    // 純利益 ÷ 自己資本
+    const periodLabel = `${formatPeriod(c.current_period, c.fiscal_year_end)}${
       c.consolidation === "non_consolidated" ? "(非連結)" :
       c.consolidation === "segment" ? "(セグメント)" : ""
     }`;
@@ -594,10 +611,17 @@ function renderKpiCards(cos) {
           <dd class="text-right font-mono ${yoyColor(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</dd>
           <dt class="text-slate-500">経常利益率</dt>
           <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
+          <dt class="text-slate-500">　前期差</dt>
+          <dd class="text-right font-mono ${yoyColor(omYoY)}">${fmtPt(omYoY)}</dd>
+          <div class="col-span-2 border-t border-dashed border-slate-300 my-1"></div>
           <dt class="text-slate-500">純利益率</dt>
           <dd class="text-right font-mono">${nm != null ? nm.toFixed(1) + "%" : "—"}</dd>
-          <dt class="text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率 <span class="text-xs text-slate-400">直近12M</span></dt>
+          <dt class="text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率<span class="text-xs text-slate-400 whitespace-nowrap">（直近12M）</span></dt>
           <dd class="text-right font-mono">${at != null ? at.toFixed(2) + "回" : "—"}</dd>
+          <dt class="text-slate-500" title="総資産 ÷ 自己資本">財務レバレッジ</dt>
+          <dd class="text-right font-mono">${lev != null ? lev.toFixed(2) + "倍" : "—"}</dd>
+          <dt class="text-slate-500" title="当期純利益 ÷ 自己資本">ROE</dt>
+          <dd class="text-right font-mono">${roe != null ? roe.toFixed(1) + "%" : "—"}</dd>
         </dl>
       </div>
     `);

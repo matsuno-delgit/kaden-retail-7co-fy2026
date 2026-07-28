@@ -140,7 +140,10 @@
         "gross_margin_pt_yoy": -0.09,
         "net_margin_pct": 2.34,
         "net_margin_pct_previous": 2.54,
-        "net_margin_pct_prev_previous": 2.88
+        "net_margin_pct_prev_previous": 2.88,
+        "ordinary_margin_pt_yoy": -0.37,
+        "financial_leverage": 2.214,
+        "roe_pct": 1.4
       },
       "trend_ratios": {
         "roe": {
@@ -352,7 +355,10 @@
         "gross_margin_pt_yoy": -0.05,
         "net_margin_pct": null,
         "net_margin_pct_previous": null,
-        "net_margin_pct_prev_previous": null
+        "net_margin_pct_prev_previous": null,
+        "ordinary_margin_pt_yoy": -0.69,
+        "financial_leverage": null,
+        "roe_pct": null
       },
       "trend_ratios": {
         "roe": {
@@ -569,7 +575,10 @@
         "gross_margin_pt_yoy": 0.05,
         "net_margin_pct": 2.57,
         "net_margin_pct_previous": 1.65,
-        "net_margin_pct_prev_previous": 1.54
+        "net_margin_pct_prev_previous": 1.54,
+        "ordinary_margin_pt_yoy": 0.39,
+        "financial_leverage": 1.709,
+        "roe_pct": 1.83
       },
       "trend_ratios": {
         "roe": {
@@ -781,7 +790,10 @@
         "gross_margin_pt_yoy": -0.16,
         "net_margin_pct": 1.75,
         "net_margin_pct_previous": 1.31,
-        "net_margin_pct_prev_previous": 0.68
+        "net_margin_pct_prev_previous": 0.68,
+        "ordinary_margin_pt_yoy": 0.6,
+        "financial_leverage": 2.001,
+        "roe_pct": 1.43
       },
       "trend_ratios": {
         "roe": {
@@ -993,7 +1005,10 @@
         "gross_margin_pt_yoy": -2.23,
         "net_margin_pct": 0.5,
         "net_margin_pct_previous": 0.52,
-        "net_margin_pct_prev_previous": 0.69
+        "net_margin_pct_prev_previous": 0.69,
+        "ordinary_margin_pt_yoy": -0.52,
+        "financial_leverage": 2.291,
+        "roe_pct": 0.49
       },
       "trend_ratios": {
         "roe": {
@@ -1205,7 +1220,10 @@
         "gross_margin_pt_yoy": 0.47,
         "net_margin_pct": 4.36,
         "net_margin_pct_previous": 2.96,
-        "net_margin_pct_prev_previous": 1.95
+        "net_margin_pct_prev_previous": 1.95,
+        "ordinary_margin_pt_yoy": 2.45,
+        "financial_leverage": 2.964,
+        "roe_pct": 4.71
       },
       "trend_ratios": {
         "roe": {
@@ -1417,7 +1435,10 @@
         "gross_margin_pt_yoy": 0.55,
         "net_margin_pct": 1.25,
         "net_margin_pct_previous": 0.62,
-        "net_margin_pct_prev_previous": 0.34
+        "net_margin_pct_prev_previous": 0.34,
+        "ordinary_margin_pt_yoy": 0.69,
+        "financial_leverage": 3.346,
+        "roe_pct": 1.87
       },
       "trend_ratios": {
         "roe": {
@@ -1629,7 +1650,10 @@
         "gross_margin_pt_yoy": -0.13,
         "net_margin_pct": 0.65,
         "net_margin_pct_previous": 0.31,
-        "net_margin_pct_prev_previous": 0.53
+        "net_margin_pct_prev_previous": 0.53,
+        "ordinary_margin_pt_yoy": 0.57,
+        "financial_leverage": 1.744,
+        "roe_pct": 0.61
       },
       "trend_ratios": {
         "roe": {

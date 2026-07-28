@@ -207,6 +207,15 @@ def build_one(period_key, conf):
             "net_margin_pct_prev_previous":     margin(metrics["NetIncome"]["prev_previous"], rev_pp),
         }
 
+        # 経常利益率の前期差(pt)、財務レバレッジ、ROE
+        # 財務レバレッジ・ROEはExcelのR104(=総資産÷自己資本)・R98(=純利益÷自己資本×100)と同じ定義。
+        # デンキセグメント等はBS非開示のため自己資本がなく、いずれもNoneになる。
+        _om_c, _om_p = ratios["ordinary_margin_pct"], ratios["ordinary_margin_pct_previous"]
+        ratios["ordinary_margin_pt_yoy"] = (round(_om_c - _om_p, 2)
+                                            if _om_c is not None and _om_p is not None else None)
+        ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
+        ratios["roe_pct"] = margin(metrics["NetIncome"]["current"], te)
+
         # trend_ratios: BS依存の比率（ROE/ROIC/回転率）は四半期では推移グラフを描かないためnull。
         # 利益率（売上総利益率・純利益率）は期間按分の影響を受けないので四半期でも推移表示する。
         trend_ratios = {"roe": {}, "roic": {}, "asset_turnover": {}, "inventory_turnover": {},

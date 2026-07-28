@@ -200,6 +200,15 @@ def main():
             "net_margin_pct_prev_previous": margin(metrics["NetIncome"]["prev_previous"], rev_pp),
         }
 
+        # 経常利益率の前期差(pt)、財務レバレッジ、ROE
+        # 財務レバレッジ・ROEはExcelのR104(=総資産÷自己資本)・R98(=純利益÷自己資本×100)と同じ定義。
+        # デンキセグメント等はBS非開示のため自己資本がなく、いずれもNoneになる。
+        _om_c, _om_p = ratios["ordinary_margin_pct"], ratios["ordinary_margin_pct_previous"]
+        ratios["ordinary_margin_pt_yoy"] = (round(_om_c - _om_p, 2)
+                                            if _om_c is not None and _om_p is not None else None)
+        ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
+        ratios["roe_pct"] = margin(metrics["NetIncome"]["current"], te)
+
         # 推移用比率 (前々期/前期/当期、1Qのforecastは省略=null表示)
         def safe_div(a, b):
             try:
