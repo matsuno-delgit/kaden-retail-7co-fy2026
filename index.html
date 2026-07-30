@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>家電量販店7社 業績ダッシュボード</title>
 <!-- Tailwind utilities (subset) — pre-generated, self-hosted -->
-<link rel="stylesheet" href="assets/tailwind.css?v=20260729">
+<link rel="stylesheet" href="assets/tailwind.css?v=20260730">
 <!-- Chart.js + datalabels plugin (CDN, pinned version + SRI integrity hash) -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"
         integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4"
@@ -58,6 +58,51 @@
     box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
     font-weight: 700;
   }
+  /* デュポンROE 表示トグル */
+  .dupont-toggle {
+    transition: all 0.15s ease;
+    border: 2px solid #cbd5e1;
+    border-radius: 9999px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.8125rem;
+    background-color: #fff;
+    color: #475569;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+  .dupont-toggle:hover { background-color: #f1f5f9; }
+  .dupont-toggle .switch {
+    width: 1.7rem;
+    height: 0.95rem;
+    border-radius: 9999px;
+    background-color: #cbd5e1;
+    position: relative;
+    flex: none;
+    transition: background-color 0.15s ease;
+  }
+  .dupont-toggle .switch::after {
+    content: "";
+    position: absolute;
+    top: 0.15rem;
+    left: 0.175rem;
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 9999px;
+    background-color: #fff;
+    transition: transform 0.15s ease;
+  }
+  .dupont-toggle.active {
+    background-color: #eef2ff;
+    border-color: #6366f1;
+    color: #3730a3;
+    font-weight: 700;
+  }
+  .dupont-toggle.active .switch { background-color: #6366f1; }
+  .dupont-toggle.active .switch::after { transform: translateX(0.72rem); }
+  .dupont-row { display: none; }
+  .dupont-on .dupont-row { display: block; }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -114,7 +159,13 @@
 
   <!-- KPI Cards -->
   <section class="mb-10">
-    <h2 class="text-xl font-semibold mb-4 text-slate-900">📊 7社サマリー（直近通期 実績）</h2>
+    <div class="flex flex-wrap items-center gap-3 mb-4">
+      <h2 class="text-xl font-semibold text-slate-900">📊 7社サマリー（直近通期 実績）</h2>
+      <button id="dupont-toggle" type="button" class="dupont-toggle"
+              aria-pressed="false" title="純利益率・総資産回転率・財務レバレッジ・ROE の表示を切り替えます">
+        <span class="switch"></span>デュポンROEを表示
+      </button>
+    </div>
     <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
   </section>
 
@@ -122,10 +173,12 @@
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高ランキング（百万円）</h3>
+      <p class="text-xs text-slate-500 mb-2">以下4つのグラフは、この売上高の降順で社の並びを揃えています</p>
       <div class="chart-box"><canvas id="chart-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益率ランキング（%）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益率（%）</h3>
+      <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順（経常利益率の降順ではありません）</p>
       <div class="chart-box"><canvas id="chart-opmargin"></canvas></div>
     </div>
   </section>
@@ -134,10 +187,12 @@
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 前期比（%）</h3>
+      <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順。増減は棒が0軸のどちら側に伸びるかで判別</p>
       <div class="chart-box"><canvas id="chart-yoy-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益 前期比（%）</h3>
+      <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順。増減は棒が0軸のどちら側に伸びるかで判別</p>
       <div class="chart-box"><canvas id="chart-yoy-op"></canvas></div>
     </div>
   </section>
@@ -478,10 +533,15 @@ function renderAll(cos) {
   const fullCos = nonSegmentCos(cos);       // BS依存（連結のみ）
 
   renderKpiCards(allCos);
-  renderRevenueBar(allCos);
-  renderOpMarginBar(allCos);
-  renderYoYBar(allCos, "Revenue", "chart-yoy-revenue", "売上 YoY");
-  renderYoYBar(allCos, "OrdinaryIncome", "chart-yoy-op", "経常利益 YoY");
+  applyDupontVisibility();          // カード再描画のたびに表示状態を復元
+
+  // 4つの横棒グラフは売上高の降順で社順を固定し、どのグラフでも同じ並びで読めるようにする
+  const orderedCos = [...allCos].sort(
+    (a, b) => (getMetric(b, "Revenue") ?? -Infinity) - (getMetric(a, "Revenue") ?? -Infinity));
+  renderRevenueBar(orderedCos);
+  renderOpMarginBar(orderedCos);
+  renderYoYBar(orderedCos, "Revenue", "chart-yoy-revenue", "売上 YoY");
+  renderYoYBar(orderedCos, "OrdinaryIncome", "chart-yoy-op", "経常利益 YoY");
   renderTrendLine(allCos, "Revenue", "chart-trend-revenue", "売上高 (百万円)");
   renderTrendLine(allCos, "OrdinaryIncome", "chart-trend-op", "経常利益 (百万円)");
   renderRatioTrendLine(allCos, "gross_margin", "chart-trend-gross-margin", "売上総利益率 (%)", "pct");
@@ -547,6 +607,14 @@ async function main() {
       await loadAndRender(period);
     });
   });
+  // デュポンROE 表示トグル（期間・データセットを切り替えても状態を保持）
+  const dupontBtn = document.getElementById("dupont-toggle");
+  if (dupontBtn) {
+    dupontBtn.addEventListener("click", () => {
+      SHOW_DUPONT = !SHOW_DUPONT;
+      applyDupontVisibility();
+    });
+  }
   // 初期表示: 通常版 + 通期実績
   await loadAndRender("fy");
 }
@@ -563,6 +631,20 @@ function formatPeriod(periodCode, fiscalYearEnd) {
   const base = `${fy.replace("FY", "")}年${fiscalYearEnd}月期`;
   if (!suffix) return base;
   return `${base} ${PERIOD_SUFFIX_LABELS[suffix] || suffix}`;
+}
+
+// デュポンROE（純利益率・総資産回転率・財務レバレッジ・ROE）の表示状態。
+// 既定は非表示。項目が多くなりサマリーが読みにくくなるため。
+let SHOW_DUPONT = false;
+
+function applyDupontVisibility() {
+  const grid = document.getElementById("kpi-grid");
+  const btn = document.getElementById("dupont-toggle");
+  if (grid) grid.classList.toggle("dupont-on", SHOW_DUPONT);
+  if (btn) {
+    btn.classList.toggle("active", SHOW_DUPONT);
+    btn.setAttribute("aria-pressed", String(SHOW_DUPONT));
+  }
 }
 
 function renderKpiCards(cos) {
@@ -613,26 +695,26 @@ function renderKpiCards(cos) {
           <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
           <dt class="text-slate-500">　前期差</dt>
           <dd class="text-right font-mono ${yoyColor(omYoY)}">${fmtPt(omYoY)}</dd>
-          <div class="col-span-2 border-t border-dashed border-slate-300 my-1"></div>
-          <dt class="text-slate-500">純利益率</dt>
-          <dd class="text-right font-mono">${nm != null ? nm.toFixed(1) + "%" : "—"}</dd>
-          <dt class="text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率<span class="text-xs text-slate-400 whitespace-nowrap">（直近12M）</span></dt>
-          <dd class="text-right font-mono">${at != null ? at.toFixed(2) + "回" : "—"}</dd>
-          <dt class="text-slate-500" title="総資産 ÷ 自己資本">財務レバレッジ</dt>
-          <dd class="text-right font-mono">${lev != null ? lev.toFixed(2) + "倍" : "—"}</dd>
-          <dt class="text-slate-500" title="当期純利益 ÷ 自己資本">ROE</dt>
-          <dd class="text-right font-mono">${roe != null ? roe.toFixed(1) + "%" : "—"}</dd>
+          <div class="dupont-row col-span-2 border-t border-dashed border-slate-300 my-1"></div>
+          <dt class="dupont-row text-slate-500" title="当期純利益 ÷ 売上高（当該期間の実績）">純利益率</dt>
+          <dd class="dupont-row text-right font-mono">${nm != null ? nm.toFixed(1) + "%" : "—"}</dd>
+          <dt class="dupont-row text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率<span class="text-xs text-slate-400 whitespace-nowrap">（直近12M）</span></dt>
+          <dd class="dupont-row text-right font-mono">${at != null ? at.toFixed(2) + "回" : "—"}</dd>
+          <dt class="dupont-row text-slate-500" title="総資産 ÷ 自己資本">財務レバレッジ</dt>
+          <dd class="dupont-row text-right font-mono">${lev != null ? lev.toFixed(2) + "倍" : "—"}</dd>
+          <dt class="dupont-row text-slate-500" title="当期純利益 ÷ 自己資本">ROE</dt>
+          <dd class="dupont-row text-right font-mono">${roe != null ? roe.toFixed(1) + "%" : "—"}</dd>
         </dl>
       </div>
     `);
   });
 }
 
+// cos は呼び出し側で並び替え済み（売上高の降順）。ここでは並べ替えない。
 function rankAndPlotBar(cos, valueFn, canvasId, xLabel, options = {}) {
-  const sorted = [...cos].sort((a, b) => (valueFn(b) ?? -Infinity) - (valueFn(a) ?? -Infinity));
-  const labels = sorted.map(c => c.label);
-  const data = sorted.map(c => valueFn(c));
-  const colors = sorted.map(c => COLORS[c.key]);
+  const labels = cos.map(c => c.label);
+  const data = cos.map(c => valueFn(c));
+  const colors = cos.map(c => COLORS[c.key]);
 
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "bar",
@@ -680,11 +762,13 @@ function renderOpMarginBar(cos) {
   });
 }
 
+// cos は呼び出し側で並び替え済み（売上高の降順）。
+// 棒の色は他グラフと同じ社別カラーに統一し、4枚を横断して同じ社を追えるようにする。
+// 増減の符号は棒が0軸のどちら側に伸びるかで判別できる。
 function renderYoYBar(cos, item, canvasId, xLabel) {
-  const sorted = [...cos].sort((a, b) => (getYoY(b, item) ?? -Infinity) - (getYoY(a, item) ?? -Infinity));
-  const labels = sorted.map(c => c.label);
-  const values = sorted.map(c => getYoY(c, item));
-  const colors = values.map(v => v == null ? "#94a3b8" : (v >= 0 ? "#10b981" : "#ef4444"));
+  const labels = cos.map(c => c.label);
+  const values = cos.map(c => getYoY(c, item));
+  const colors = cos.map(c => COLORS[c.key]);
 
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "bar",
