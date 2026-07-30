@@ -103,6 +103,8 @@
   .dupont-toggle.active .switch::after { transform: translateX(0.72rem); }
   .dupont-row { display: none; }
   .dupont-on .dupont-row { display: block; }
+  /* デュポン表示時は、代わりに経常利益（金額）とそのYoYを畳んでカード丈を抑える */
+  .dupont-on .dupont-hide { display: none; }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -173,22 +175,36 @@
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高ランキング（百万円）</h3>
-      <p class="text-xs text-slate-500 mb-2">以下4つのグラフは、この売上高の降順で社の並びを揃えています</p>
+      <p class="text-xs text-slate-500 mb-2">以下6つのグラフは、この売上高の降順で社の並びを揃えています</p>
       <div class="chart-box"><canvas id="chart-revenue"></canvas></div>
     </div>
-    <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益率（%）</h3>
-      <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順（経常利益率の降順ではありません）</p>
-      <div class="chart-box"><canvas id="chart-opmargin"></canvas></div>
-    </div>
-  </section>
-
-  <!-- Section: YoY -->
-  <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高 前期比（%）</h3>
       <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順。増減は棒が0軸のどちら側に伸びるかで判別</p>
       <div class="chart-box"><canvas id="chart-yoy-revenue"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Section: 売上総利益率 -->
+  <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上総利益率（%）</h3>
+      <p class="text-xs text-slate-500 mb-2">売上総利益 ÷ 売上高。並び順は売上高の降順</p>
+      <div class="chart-box"><canvas id="chart-grossmargin"></canvas></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上総利益率 前期差（pt）</h3>
+      <p class="text-xs text-slate-500 mb-2">当期の売上総利益率 − 前期の売上総利益率。並び順は売上高の降順</p>
+      <div class="chart-box"><canvas id="chart-grossmargin-diff"></canvas></div>
+    </div>
+  </section>
+
+  <!-- Section: 経常利益 -->
+  <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益率（%）</h3>
+      <p class="text-xs text-slate-500 mb-2">経常利益 ÷ 売上高。並び順は売上高の降順</p>
+      <div class="chart-box"><canvas id="chart-opmargin"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益 前期比（%）</h3>
@@ -204,13 +220,13 @@
       <div class="chart-box-tall"><canvas id="chart-trend-revenue"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 id="trend-op-title" class="text-lg font-semibold mb-3 text-slate-900">経常利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
-      <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
-    </div>
-    <div class="bg-white rounded-lg shadow p-5">
       <h3 id="trend-gm-title" class="text-lg font-semibold mb-3 text-slate-900">売上総利益率 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <p class="text-xs text-slate-500 mb-2">売上総利益 ÷ 売上高</p>
       <div class="chart-box-tall"><canvas id="chart-trend-gross-margin"></canvas></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-5">
+      <h3 id="trend-op-title" class="text-lg font-semibold mb-3 text-slate-900">経常利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
+      <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
       <h3 id="trend-ni-title" class="text-lg font-semibold mb-3 text-slate-900">当期純利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
@@ -429,6 +445,7 @@ let CURRENT_PERIOD = "fy";  // "fy" | "q1" | "q2" | "h1" | "q3" | "q3cum" | "q4"
 // 全 canvas ID を列挙して、再描画前に既存チャートを破棄するために使う
 const ALL_CANVAS_IDS = [
   "chart-revenue", "chart-opmargin", "chart-yoy-revenue", "chart-yoy-op",
+  "chart-grossmargin", "chart-grossmargin-diff",
   "chart-trend-revenue", "chart-trend-op",
   "chart-trend-gross-margin", "chart-trend-net-income",
   "chart-trend-roe", "chart-trend-roic", "chart-trend-asset-turnover", "chart-trend-inventory-turnover",
@@ -538,13 +555,17 @@ function renderAll(cos) {
   // 4つの横棒グラフは売上高の降順で社順を固定し、どのグラフでも同じ並びで読めるようにする
   const orderedCos = [...allCos].sort(
     (a, b) => (getMetric(b, "Revenue") ?? -Infinity) - (getMetric(a, "Revenue") ?? -Infinity));
+  // 売上高 → 売上高前期比 → 売上総利益率 → 同前期差 → 経常利益率 → 経常利益前期比
   renderRevenueBar(orderedCos);
-  renderOpMarginBar(orderedCos);
   renderYoYBar(orderedCos, "Revenue", "chart-yoy-revenue", "売上 YoY");
+  renderGrossMarginBar(orderedCos);
+  renderGrossMarginDiffBar(orderedCos);
+  renderOpMarginBar(orderedCos);
   renderYoYBar(orderedCos, "OrdinaryIncome", "chart-yoy-op", "経常利益 YoY");
+  // 推移グラフ: 売上高 → 売上総利益率 → 経常利益 → 当期純利益
   renderTrendLine(allCos, "Revenue", "chart-trend-revenue", "売上高 (百万円)");
-  renderTrendLine(allCos, "OrdinaryIncome", "chart-trend-op", "経常利益 (百万円)");
   renderRatioTrendLine(allCos, "gross_margin", "chart-trend-gross-margin", "売上総利益率 (%)", "pct");
+  renderTrendLine(allCos, "OrdinaryIncome", "chart-trend-op", "経常利益 (百万円)");
   renderTrendLine(allCos, "NetIncome", "chart-trend-net-income", "当期純利益 (百万円)");
 
   // 直近四半期(LTM)ベースの回転率 推移（四半期タブのみ。通期は上の推移グラフと重複するため非表示）
@@ -687,10 +708,10 @@ function renderKpiCards(cos) {
           <dd class="text-right font-mono">${gm != null ? gm.toFixed(1) + "%" : "—"}</dd>
           <dt class="text-slate-500">　前期差</dt>
           <dd class="text-right font-mono ${yoyColor(gmYoY)}">${fmtPt(gmYoY)}</dd>
-          <dt class="text-slate-500">経常利益</dt>
-          <dd class="text-right font-mono">${fmtMillions(ord)}</dd>
-          <dt class="text-slate-500">　YoY</dt>
-          <dd class="text-right font-mono ${yoyColor(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</dd>
+          <dt class="dupont-hide text-slate-500">経常利益</dt>
+          <dd class="dupont-hide text-right font-mono">${fmtMillions(ord)}</dd>
+          <dt class="dupont-hide text-slate-500">　YoY</dt>
+          <dd class="dupont-hide text-right font-mono ${yoyColor(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</dd>
           <dt class="text-slate-500">経常利益率</dt>
           <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
           <dt class="text-slate-500">　前期差</dt>
@@ -755,11 +776,28 @@ function renderRevenueBar(cos) {
 }
 
 function renderOpMarginBar(cos) {
-  // 経常利益率ランキング (ratios.ordinary_margin_pct)
+  // 経常利益率 (ratios.ordinary_margin_pct)
   rankAndPlotBar(cos, (c) => c.ratios?.ordinary_margin_pct, "chart-opmargin", "経常利益率 (%)", {
     xTickFmt: (v) => v + "%",
     tooltipFmt: (v) => v.toFixed(2) + "%",
   });
+}
+
+function renderGrossMarginBar(cos) {
+  // 売上総利益率 (ratios.gross_margin_pct)
+  rankAndPlotBar(cos, (c) => c.ratios?.gross_margin_pct, "chart-grossmargin", "売上総利益率 (%)", {
+    xTickFmt: (v) => v + "%",
+    tooltipFmt: (v) => v.toFixed(2) + "%",
+  });
+}
+
+function renderGrossMarginDiffBar(cos) {
+  // 売上総利益率の前期差 (pt)。マイナスもあるので0軸をまたぐ
+  rankAndPlotBar(cos, (c) => c.ratios?.gross_margin_pt_yoy, "chart-grossmargin-diff",
+    "売上総利益率 前期差 (pt)", {
+      xTickFmt: (v) => v + "pt",
+      tooltipFmt: (v) => (v >= 0 ? "+" : "△") + Math.abs(v).toFixed(2) + "pt",
+    });
 }
 
 // cos は呼び出し側で並び替え済み（売上高の降順）。
