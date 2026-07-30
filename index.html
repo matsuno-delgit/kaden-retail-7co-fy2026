@@ -58,6 +58,26 @@
     box-shadow: 0 4px 6px -1px rgba(5, 150, 105, 0.3);
     font-weight: 700;
   }
+  /* 会計年度切替タブ */
+  .fy-tab {
+    transition: all 0.15s ease;
+    border: 2px solid #cbd5e1;
+  }
+  .fy-tab:not(:disabled):hover {
+    background-color: #eef2ff;
+    border-color: #a5b4fc;
+  }
+  .fy-tab.active {
+    background-color: #4f46e5;
+    color: white;
+    border-color: #4338ca;
+    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+    font-weight: 700;
+  }
+  .fy-tab:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
   /* デュポンROE 表示トグル */
   .dupont-toggle {
     transition: all 0.15s ease;
@@ -136,6 +156,23 @@
       <span class="text-slate-700 font-medium">表示中:</span>
       <span id="current-dataset-label" class="text-emerald-700 font-bold ml-1">通常版</span>
       <span class="ml-3 text-slate-400">※組替版: ビック・コジマを「3月〜翌2月」の集計に組替（2025年8月期下期＋2026年8月期上期等）</span>
+    </div>
+  </nav>
+
+  <!-- 会計年度切替タブ -->
+  <nav class="mb-3 bg-white rounded-lg shadow p-3">
+    <div class="text-xs text-slate-500 mb-2 font-semibold">🗓 会計年度を選択</div>
+    <div id="fy-tabs" class="flex flex-wrap gap-2">
+      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2027">2027年3月期</button>
+      <button class="fy-tab active px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2026">2026年3月期</button>
+      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2025" disabled
+              title="当該年度を当期とする集計Excelが未整備のため準備中">2025年3月期</button>
+      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2024">2024年3月期</button>
+    </div>
+    <div class="mt-2 text-xs text-slate-500">
+      <span class="text-slate-700 font-medium">現在表示中:</span>
+      <span id="current-fy-label" class="text-indigo-700 font-bold ml-1">2026年3月期</span>
+      <span class="ml-3 text-slate-400">※2027年3月期は1Qのみ（開示済みのノジマ・ビックカメラ・コジマ。他社は未開示で空欄）／2025年3月期は準備中</span>
     </div>
   </nav>
 
@@ -492,6 +529,62 @@ const PERIOD_LABELS = {
   "q3": "3Q単独", "q3cum": "3Q累計", "q4": "4Q単独", "h2": "下期",
 };
 
+// ------- 会計年度切替 -------
+// fy2026 は既存の companies*.json をそのまま使う（次期計画・組替版もここだけ）。
+// それ以外の年度は consolidate_fy.py が出力する companies_{fy}_{period}.json を読む。
+let CURRENT_FY = "fy2026";
+const FY_LABELS = {
+  fy2027: "2027年3月期", fy2026: "2026年3月期",
+  fy2025: "2025年3月期", fy2024: "2024年3月期",
+};
+// 年度ごとに選択できる期間。ここに無い期間はタブを無効化する。
+const FY_PERIODS = {
+  fy2027: ["q1"],
+  fy2026: ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"],
+  fy2025: [],
+  fy2024: ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"],
+};
+// 組替版を持つのは fy2026 のみ
+const FY_HAS_KUMIKAE = { fy2026: true };
+
+function dataFileFor(fy, period, dataset) {
+  if (fy === "fy2026") {
+    return dataset === "kumikae"
+      ? PERIOD_TO_FILE_KUMIKAE[period] : PERIOD_TO_FILE[period];
+  }
+  return `data/companies_${fy}_${period}.json`;
+}
+
+// 選択中の年度で使えない期間タブを無効化し、必要なら期間を切り替える
+function applyFyAvailability() {
+  const avail = FY_PERIODS[CURRENT_FY] || [];
+  document.querySelectorAll("#period-tabs .period-tab").forEach(b => {
+    const ok = avail.includes(b.dataset.period);
+    b.disabled = !ok;
+    b.title = ok ? "" : `${FY_LABELS[CURRENT_FY]}では未整備の期間です`;
+  });
+  // 組替版は fy2026 のみ
+  const kmkBtn = document.querySelector('#dataset-tabs .dataset-tab[data-dataset="kumikae"]');
+  if (kmkBtn) {
+    const ok = !!FY_HAS_KUMIKAE[CURRENT_FY];
+    kmkBtn.disabled = !ok;
+    kmkBtn.title = ok ? "" : "組替版は2026年3月期のみ用意しています";
+    if (!ok && DATASET_TYPE === "kumikae") {
+      DATASET_TYPE = "normal";
+      document.querySelectorAll("#dataset-tabs .dataset-tab").forEach(b =>
+        b.classList.toggle("active", b.dataset.dataset === "normal"));
+      const l = document.getElementById("current-dataset-label");
+      if (l) l.textContent = "通常版";
+    }
+  }
+  // 現在の期間が選べなくなったら、その年度で使える先頭の期間へ寄せる
+  if (!avail.includes(CURRENT_PERIOD) && avail.length) {
+    CURRENT_PERIOD = avail[0];
+    document.querySelectorAll("#period-tabs .period-tab").forEach(b =>
+      b.classList.toggle("active", b.dataset.period === CURRENT_PERIOD));
+  }
+}
+
 // BS依存指標を持たない（=セグメントなど）会社を除外するヘルパー
 function nonSegmentCos(cos) {
   return cos.filter(c => !c.is_segment);
@@ -499,22 +592,29 @@ function nonSegmentCos(cos) {
 
 // 期間に応じてセクション・グラフタイトルを表示制御
 // 「次期予想」関連は通期(fy)のみで表示。他期間は非表示。
+// 次期計画を持つのは2026年3月期のデータセットのみ（他年度は計画値を採録していない）
+function hasForecast() {
+  return CURRENT_FY === "fy2026";
+}
+
 function applyPeriodVisibility(period) {
   const isAnnual = (period === "fy");
   const sectionsAnnualOnly = [
     "section-ratios-trend",    // ROE/ROIC/総資産回転率/在庫回転率 推移
     "section-bs-bubble",       // 財務体質・総資産規模×自己資本比率
-    "section-forecast-table",  // 次期通期業績予想
   ];
   sectionsAnnualOnly.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = isAnnual ? "" : "none";
   });
+  // 次期通期業績予想は「通期タブ かつ 計画値を持つ年度」のときだけ
+  const fcEl = document.getElementById("section-forecast-table");
+  if (fcEl) fcEl.style.display = (isAnnual && hasForecast()) ? "" : "none";
   // 直近四半期(LTM)回転率は四半期タブ専用。通期は上の「収益性・効率性 推移」と重複するため出さない
   const ltmSec = document.getElementById("section-ltm-turnover");
   if (ltmSec) ltmSec.style.display = isAnnual ? "none" : "";
   // 推移グラフタイトル（次期予想を含むかどうか）
-  const trendSuffix = isAnnual ? "（前々期 / 前期 / 当期 / 次期予想）" : "（前々期 / 前期 / 当期）";
+  const trendSuffix = (isAnnual && hasForecast()) ? "（前々期 / 前期 / 当期 / 次期予想）" : "（前々期 / 前期 / 当期）";
   const t1 = document.getElementById("trend-revenue-title");
   if (t1) t1.textContent = `売上高 推移${trendSuffix}`;
   const t2 = document.getElementById("trend-op-title");
@@ -528,8 +628,7 @@ function applyPeriodVisibility(period) {
 async function loadAndRender(period) {
   CURRENT_PERIOD = period;
   applyPeriodVisibility(period);
-  const fileMap = (DATASET_TYPE === "kumikae") ? PERIOD_TO_FILE_KUMIKAE : PERIOD_TO_FILE;
-  const file = fileMap[period] || fileMap["fy"];
+  const file = dataFileFor(CURRENT_FY, period, DATASET_TYPE);
   try {
     // cache-busting: 毎回最新のJSONを取得
     const res = await fetch(`${file}?v=${Date.now()}`, { cache: "no-store" });
@@ -585,7 +684,7 @@ function renderAll(cos) {
     renderRatioTrendLine(fullCos, "asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
     renderRatioTrendLine(allCos,  "inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
     renderBsBubble(fullCos);          // 財務体質・総資産規模×自己資本比率
-    renderForecastTable(allCos);      // 次期通期業績予想
+    if (hasForecast()) renderForecastTable(allCos);   // 次期通期業績予想
   }
   renderDetailTablePrev(allCos);      // 前期実績テーブル
   renderDetailTable(allCos);          // 当期実績テーブル
@@ -632,6 +731,19 @@ async function main() {
       await loadAndRender(period);
     });
   });
+  // 会計年度切替タブ
+  document.querySelectorAll("#fy-tabs .fy-tab").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      if (btn.disabled) return;
+      CURRENT_FY = btn.dataset.fy;
+      document.querySelectorAll("#fy-tabs .fy-tab").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      const lbl = document.getElementById("current-fy-label");
+      if (lbl) lbl.textContent = FY_LABELS[CURRENT_FY] || CURRENT_FY;
+      applyFyAvailability();
+      await loadAndRender(CURRENT_PERIOD);
+    });
+  });
   // デュポンROE 表示トグル（期間・データセットを切り替えても状態を保持）
   const dupontBtn = document.getElementById("dupont-toggle");
   if (dupontBtn) {
@@ -641,6 +753,7 @@ async function main() {
     });
   }
   // 初期表示: 通常版 + 通期実績
+  applyFyAvailability();
   await loadAndRender("fy");
 }
 
@@ -846,7 +959,7 @@ function renderYoYBar(cos, item, canvasId, xLabel) {
 
 function renderTrendLine(cos, item, canvasId, yLabel) {
   // 通期(fy)は4点(前々期/前期/当期/次期予想)、その他期間は3点(前々期/前期/当期)
-  const isAnnual = (CURRENT_PERIOD === "fy");
+  const isAnnual = (CURRENT_PERIOD === "fy") && hasForecast();
   const labels = isAnnual ? ["前々期", "前期", "当期", "次期予想"] : ["前々期", "前期", "当期"];
   const datasets = cos.map(c => {
     const m = c.metrics?.[item];
@@ -891,7 +1004,7 @@ function renderTrendLine(cos, item, canvasId, yLabel) {
 // `unitKind`: "pct" → 軸/ツールチップを% / "turn" → 軸/ツールチップを回（小数2桁）
 function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
   // 通期(fy)は4点(前々期/前期/当期/次期予想)、その他期間は3点
-  const isAnnual = (CURRENT_PERIOD === "fy");
+  const isAnnual = (CURRENT_PERIOD === "fy") && hasForecast();
   const datasets = cos.map(c => {
     const r = c.trend_ratios?.[ratioKey];
     if (!r) return null;

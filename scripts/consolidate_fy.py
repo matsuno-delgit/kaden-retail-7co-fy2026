@@ -1,0 +1,208 @@
+"""会計年度セレクタ用の companies_fy{YYYY}_{period}.json を生成する。
+
+既存の consolidate*.py が「2026年3月期を当期」とする前提で組まれているのに対し、
+本スクリプトは任意の会計年度を「当期」として出力する。
+
+  fy2027 … 19_1Q実績_2027.03（1Qのみ。ノジマ・ビック・コジマ以外は未開示で空欄）
+  fy2024 … 10_〜17_ の2024.03系列（8期間フル）
+
+fy2026 は既存の companies*.json をそのまま使うため対象外。
+fy2025 は当該年度を当期とする集計Excelが未整備のため対象外（ダッシュボード側で無効化）。
+
+usage: python consolidate_fy.py
+"""
+import json
+import sys
+from datetime import date
+from pathlib import Path
+from openpyxl import load_workbook
+
+from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin
+
+ROOT = Path(__file__).parent.parent.parent          # 01_通期実績_2026.03
+PROJ = ROOT.parent                                   # 競合各社業績比較_20260520
+OUT_DIR = Path(__file__).parent.parent / "data"
+OUT_DIR.mkdir(exist_ok=True)
+
+COMPANIES_MAIN = [
+    {"key": "yamada", "label": "ヤマダHD", "ticker": "9831", "fy_end": "03", "consol": "consolidated", "col_curr": 4, "col_prev": 5, "url": "https://www.yamada-holdings.jp/ir/"},
+    {"key": "yamada_denki", "label": "ヤマダ（デンキセグメント）", "ticker": "9831-DK", "fy_end": "03", "consol": "segment", "col_curr": 6, "col_prev": 7, "url": "https://www.yamada-holdings.jp/ir/", "is_segment": True},
+    {"key": "ks", "label": "ケーズHD", "ticker": "8282", "fy_end": "03", "consol": "consolidated", "col_curr": 8, "col_prev": 9, "url": "https://www.ksdenki.co.jp/ir/"},
+    {"key": "edion", "label": "エディオン", "ticker": "2730", "fy_end": "03", "consol": "consolidated", "col_curr": 10, "col_prev": 11, "url": "https://www.edion.co.jp/ir/"},
+    {"key": "joshin", "label": "上新電機", "ticker": "8173", "fy_end": "03", "consol": "consolidated", "col_curr": 12, "col_prev": 13, "url": "https://www.joshin.co.jp/ir/"},
+    {"key": "nojima", "label": "ノジマ", "ticker": "7419", "fy_end": "03", "consol": "consolidated", "col_curr": 14, "col_prev": 15, "url": "https://www.nojima.co.jp/ir/"},
+    {"key": "bic", "label": "ビックカメラ（連結）", "ticker": "3048", "fy_end": "08", "consol": "consolidated", "col_curr": 22, "col_prev": 23, "url": "https://www.biccamera.co.jp/ir/"},
+    {"key": "kojima", "label": "コジマ", "ticker": "7513", "fy_end": "08", "consol": "non_consolidated", "col_curr": 18, "col_prev": 19, "url": "https://www.kojima.net/corporation/ir/"},
+]
+
+ROW_TO_METRIC = {
+    7: "Revenue", 8: "GrossProfit", 9: "SGA",
+    82: "OperatingIncome", 83: "OrdinaryIncome", 84: "NetIncome",
+    88: "InterestBearingDebt", 89: "TotalEquity",
+    100: "TotalAssets", 101: "Inventory", 86: "Tax",
+}
+
+# 会計年度 → {period: (当期Excelフォルダ, 前々期Excelフォルダ or None)}
+# 前々期が None の期間は推移グラフの1点目が空欄になる。
+FISCAL_YEARS = {
+    "fy2027": {
+        "label": "2027年3月期",
+        "curr_fy": {"03": "FY2027", "08": "FY2026"},
+        "prev_fy": {"03": "FY2026", "08": "FY2025"},
+        "pp_fy":   {"03": "FY2025", "08": "FY2024"},
+        "periods": {"q1": ("19_1Q実績_2027.03", "03_1Q実績_2026.03")},
+    },
+    "fy2024": {
+        "label": "2024年3月期",
+        "curr_fy": {"03": "FY2024", "08": "FY2023"},
+        "prev_fy": {"03": "FY2023", "08": "FY2022"},
+        "pp_fy":   {"03": "FY2022", "08": "FY2021"},
+        "periods": {
+            "fy":    ("10_通期実績_2024.03", None),
+            "q1":    ("11_1Q実績_2024.03", None),
+            "q2":    ("12_2Q単独_2024.03", None),
+            "h1":    ("13_上期実績_2024.03", None),
+            "q3":    ("14_3Q単独_2024.03", None),
+            "q3cum": ("15_3Q累計_2024.03", None),
+            "q4":    ("16_4Q単独_2024.03", None),
+            "h2":    ("17_下期実績_2024.03", None),
+        },
+    },
+}
+SUFFIX = {"fy": "", "q1": "-Q1", "q2": "-Q2", "h1": "-H1",
+          "q3": "-Q3", "q3cum": "-Q3CUM", "q4": "-Q4", "h2": "-H2"}
+# 8月決算社は暦月を合わせるため四半期番号がずれる年度がある。
+# fy2027の1Q（3月決算社の2026年4-6月）に対し、ビック・コジマは2026年8月期3Q単独(3-5月)。
+SUFFIX_OVERRIDE = {("fy2027", "q1", "08"): "-Q3"}
+
+
+def to_num(v):
+    if v is None or (isinstance(v, str) and v.startswith("=")):
+        return None
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def build_one(fy_key, conf, period, folders):
+    curr_folder, pp_folder = folders
+    ws = data_sheet(load_workbook(find_latest_xlsx(PROJ / curr_folder), data_only=False))
+    ws_pp = (data_sheet(load_workbook(find_latest_xlsx(PROJ / pp_folder), data_only=True))
+             if pp_folder else None)
+
+    companies_out = []
+    for co in COMPANIES_MAIN:
+        fe = co["fy_end"]
+        suf = SUFFIX_OVERRIDE.get((fy_key, period, fe), SUFFIX[period])
+        metrics = {}
+        for row, key in ROW_TO_METRIC.items():
+            metrics[key] = {
+                "prev_previous": (to_num(ws_pp.cell(row=row, column=co["col_curr"]).value)
+                                  if ws_pp else None),
+                "current": to_num(ws.cell(row=row, column=co["col_curr"]).value),
+                "previous": to_num(ws.cell(row=row, column=co["col_prev"]).value),
+                "forecast": None,
+                "forecast_annual": None,
+                "unit": "百万円",
+            }
+
+        yoy = {}
+        for key in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome"):
+            m = metrics[key]
+            cur, prev, pp = m["current"], m["previous"], m["prev_previous"]
+            yoy[key] = {
+                "current_yoy_pct": round((cur / prev - 1) * 100, 2) if cur and prev else None,
+                "previous_yoy_pct": round((prev / pp - 1) * 100, 2) if prev and pp else None,
+                "forecast_yoy_pct": None,
+            }
+
+        rev = metrics["Revenue"]["current"]
+        rev_p = metrics["Revenue"]["previous"]
+        rev_pp = metrics["Revenue"]["prev_previous"]
+        ta, te = metrics["TotalAssets"]["current"], metrics["TotalEquity"]["current"]
+        op, ord_c = metrics["OperatingIncome"]["current"], metrics["OrdinaryIncome"]["current"]
+        ord_p, ord_pp = metrics["OrdinaryIncome"]["previous"], metrics["OrdinaryIncome"]["prev_previous"]
+        gp_c, gp_p = metrics["GrossProfit"]["current"], metrics["GrossProfit"]["previous"]
+        ratios = {
+            "operating_margin_pct": margin(op, rev),
+            "ordinary_margin_pct": margin(ord_c, rev),
+            "ordinary_margin_pct_previous": margin(ord_p, rev_p),
+            "ordinary_margin_pct_prev_previous": margin(ord_pp, rev_pp),
+            "equity_ratio_pct": margin(te, ta),
+            "gross_margin_pct": margin(gp_c, rev),
+            "gross_margin_pct_previous": margin(gp_p, rev_p),
+            "gross_margin_pct_prev_previous": margin(metrics["GrossProfit"]["prev_previous"], rev_pp),
+            "net_margin_pct": margin(metrics["NetIncome"]["current"], rev),
+            "net_margin_pct_previous": margin(metrics["NetIncome"]["previous"], rev_p),
+            "net_margin_pct_prev_previous": margin(metrics["NetIncome"]["prev_previous"], rev_pp),
+        }
+        gm_c, gm_p = ratios["gross_margin_pct"], ratios["gross_margin_pct_previous"]
+        ratios["gross_margin_pt_yoy"] = (round(gm_c - gm_p, 2)
+                                         if gm_c is not None and gm_p is not None else None)
+        om_c, om_p = ratios["ordinary_margin_pct"], ratios["ordinary_margin_pct_previous"]
+        ratios["ordinary_margin_pt_yoy"] = (round(om_c - om_p, 2)
+                                            if om_c is not None and om_p is not None else None)
+        ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
+
+        ltm_data = build_ltm(ws, ws_pp, co) if ws_pp else {
+            k: build_ltm(ws, ws, co)[k] if k != "prev_previous" else build_ltm(ws, ws, co)["current"]
+            for k in ("current", "previous", "prev_previous")}
+        if not ws_pp:
+            from xlsx_utils import read_ltm
+            ltm_data = {"current": read_ltm(ws, co["col_curr"]),
+                        "previous": read_ltm(ws, co["col_prev"]),
+                        "prev_previous": read_ltm(None, None)}
+        ratios["roe_pct"] = ltm_data["current"]["roe_pct"]
+        ratios["roic_pct"] = ltm_data["current"]["roic_pct"]
+
+        trend = {}
+        for k in ("roe", "roic", "asset_turnover", "inventory_turnover", "gross_margin", "net_margin"):
+            trend[k] = {"prev_previous": None, "previous": None, "current": None, "forecast": None}
+        for p in ("prev_previous", "previous", "current"):
+            trend["gross_margin"][p] = margin(metrics["GrossProfit"][p], metrics["Revenue"][p])
+            trend["net_margin"][p] = margin(metrics["NetIncome"][p], metrics["Revenue"][p])
+        trend["ltm_asset_turnover"] = ltm_trend(ltm_data, "asset_turnover")
+        trend["ltm_inventory_turnover"] = ltm_trend(ltm_data, "inventory_turnover")
+        trend["roe"] = ltm_trend(ltm_data, "roe_pct")
+        trend["roic"] = ltm_trend(ltm_data, "roic_pct")
+
+        if co.get("is_segment"):
+            ratios["equity_ratio_pct"] = None
+
+        companies_out.append({
+            "key": co["key"], "label": co["label"], "ticker": co["ticker"],
+            "fiscal_year_end": fe, "consolidation": co["consol"],
+            "current_period": conf["curr_fy"][fe] + suf,
+            "previous_period": conf["prev_fy"][fe] + suf,
+            "prev_previous_period": conf["pp_fy"][fe] + suf,
+            "forecast_period": None,
+            "tanshin_url": co["url"], "metrics": metrics, "yoy": yoy, "ratios": ratios,
+            "trend_ratios": trend, "ltm": ltm_data,
+            "is_segment": bool(co.get("is_segment")),
+        })
+
+    out = {
+        "schema_version": "1.0",
+        "generated_at": date.today().isoformat(),
+        "source": f"各社決算短信 ({conf['label']} {period})",
+        "period_type": f"{fy_key}_{period}",
+        "companies": companies_out,
+    }
+    path = OUT_DIR / f"companies_{fy_key}_{period}.json"
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, indent=2)
+    filled = sum(1 for c in companies_out if c["metrics"]["Revenue"]["current"] is not None)
+    print(f"  → {path.name}  （売上高が入っている社: {filled}/8）")
+
+
+def main():
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    for fy_key, conf in FISCAL_YEARS.items():
+        print(f"\n========== {fy_key} ({conf['label']}) ==========")
+        for period, folders in conf["periods"].items():
+            build_one(fy_key, conf, period, folders)
+
+
+if __name__ == "__main__":
+    main()
