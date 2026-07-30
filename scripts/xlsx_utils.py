@@ -40,7 +40,12 @@ def data_sheet(wb):
 ROW_LTM_REVENUE = 117      # 直近12ヶ月売上高（LTM）
 ROW_LTM_AVG_TA = 118       # 平均総資産（2期平均）
 ROW_LTM_AVG_INV = 119      # 平均商品（棚卸資産）（2期平均）
-# R120/R121 は数式セルのため openpyxl では値を取得できない。117〜119から再計算する。
+ROW_LTM_OP = 122           # 直近12ヶ月営業利益（LTM）
+ROW_LTM_NI = 123           # 直近12ヶ月当期純利益（LTM）
+ROW_LTM_AVG_EQ = 124       # 平均自己資本（2期平均）
+ROW_LTM_AVG_DEBT = 125     # 平均有利子負債（2期平均）
+# R120/R121/R98/R99 は数式セルのため openpyxl では値を取得できない。上記の実数行から再計算する。
+EFFECTIVE_TAX_RATE = 0.35  # ROIC算定に使う実効税率（Excel R113 と同じ固定値）
 
 
 def _num(v):
@@ -58,24 +63,43 @@ def _div(a, b):
     return round(a / b, 3)
 
 
+_LTM_EMPTY = {"revenue": None, "avg_total_assets": None, "avg_inventory": None,
+              "asset_turnover": None, "inventory_turnover": None,
+              "operating_income": None, "net_income": None,
+              "avg_equity": None, "avg_debt": None,
+              "roe_pct": None, "roic_pct": None}
+
+
 def read_ltm(ws, col):
     """1列分の直近四半期(LTM)指標を返す。値が無ければ各キー None。
 
-    asset_turnover     = 直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）
-    inventory_turnover = 直近12ヶ月売上高 ÷ 平均棚卸資産（同上）
+    すべて「直近12ヶ月（直近4四半期）の損益 ÷ 2期平均残高」で統一している。
+      asset_turnover     = 直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の平均）
+      inventory_turnover = 直近12ヶ月売上高 ÷ 平均棚卸資産（同上）
+      roe_pct            = 直近12ヶ月当期純利益 ÷ 平均自己資本 ×100
+      roic_pct           = 直近12ヶ月営業利益 ×(1−35%) ÷（平均有利子負債＋平均自己資本）×100
     """
     if ws is None or not col:
-        return {"revenue": None, "avg_total_assets": None, "avg_inventory": None,
-                "asset_turnover": None, "inventory_turnover": None}
-    rev = _num(ws.cell(row=ROW_LTM_REVENUE, column=col).value)
-    ta = _num(ws.cell(row=ROW_LTM_AVG_TA, column=col).value)
-    inv = _num(ws.cell(row=ROW_LTM_AVG_INV, column=col).value)
+        return dict(_LTM_EMPTY)
+    g = lambda r: _num(ws.cell(row=r, column=col).value)
+    rev, ta, inv = g(ROW_LTM_REVENUE), g(ROW_LTM_AVG_TA), g(ROW_LTM_AVG_INV)
+    op, ni = g(ROW_LTM_OP), g(ROW_LTM_NI)
+    eq, debt = g(ROW_LTM_AVG_EQ), g(ROW_LTM_AVG_DEBT)
+    ic = (eq or 0) + (debt or 0)
+    roe = _div(ni, eq)
+    roic = _div(op * (1 - EFFECTIVE_TAX_RATE), ic) if op is not None and ic else None
     return {
         "revenue": rev,
         "avg_total_assets": ta,
         "avg_inventory": inv,
         "asset_turnover": _div(rev, ta),
         "inventory_turnover": _div(rev, inv),
+        "operating_income": op,
+        "net_income": ni,
+        "avg_equity": eq,
+        "avg_debt": debt,
+        "roe_pct": round(roe * 100, 2) if roe is not None else None,
+        "roic_pct": round(roic * 100, 2) if roic is not None else None,
     }
 
 

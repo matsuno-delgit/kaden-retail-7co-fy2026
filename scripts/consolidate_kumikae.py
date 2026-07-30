@@ -236,6 +236,17 @@ def build_one(pk, conf, is_annual):
         ltm_data = build_ltm(ws_curr, ws_pp, co, pp_col_key="col_prev")
         trend_ratios["ltm_asset_turnover"] = ltm_trend(ltm_data, "asset_turnover")
         trend_ratios["ltm_inventory_turnover"] = ltm_trend(ltm_data, "inventory_turnover")
+        # ROE / ROIC は直近12ヶ月ベースに統一する。
+        # 四半期の利益をそのまま自己資本で割ると期間の短さだけで小さく出るため。
+        # 次期予想の点は従来どおり計画値ベースで残す（LTMは実績のみ算定できるため）
+        _fc_roe = trend_ratios.get("roe", {}).get("forecast")
+        _fc_roic = trend_ratios.get("roic", {}).get("forecast")
+        trend_ratios["roe"] = ltm_trend(ltm_data, "roe_pct")
+        trend_ratios["roic"] = ltm_trend(ltm_data, "roic_pct")
+        trend_ratios["roe"]["forecast"] = _fc_roe
+        trend_ratios["roic"]["forecast"] = _fc_roic
+        ratios["roe_pct"] = ltm_data["current"]["roe_pct"]
+        ratios["roic_pct"] = ltm_data["current"]["roic_pct"]
 
         companies_out.append({
             "key": co["key"], "label": co["label"], "ticker": co["ticker"],
