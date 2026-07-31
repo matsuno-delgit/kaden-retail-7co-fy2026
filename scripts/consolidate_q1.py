@@ -207,6 +207,17 @@ def main():
         ratios["ordinary_margin_pt_yoy"] = (round(_om_c - _om_p, 2)
                                             if _om_c is not None and _om_p is not None else None)
         ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
+        # 純利益率の前期差(pt)
+        _nm_c, _nm_p = ratios["net_margin_pct"], ratios["net_margin_pct_previous"]
+        ratios["net_margin_pt_yoy"] = (round(_nm_c - _nm_p, 2)
+                                       if _nm_c is not None and _nm_p is not None else None)
+        # 財務レバレッジの前期差(倍)。前期末BSは metrics の previous から算出する
+        _ta_p, _te_p = metrics["TotalAssets"]["previous"], metrics["TotalEquity"]["previous"]
+        _lev_p = round(_ta_p / _te_p, 3) if _ta_p and _te_p else None
+        ratios["financial_leverage_previous"] = _lev_p
+        ratios["financial_leverage_diff"] = (round(ratios["financial_leverage"] - _lev_p, 3)
+                                             if ratios["financial_leverage"] is not None
+                                             and _lev_p is not None else None)
         ratios["roe_pct"] = margin(metrics["NetIncome"]["current"], te)
 
         # 推移用比率 (前々期/前期/当期、1Qのforecastは省略=null表示)
@@ -302,6 +313,13 @@ def main():
         trend_ratios["roic"]["forecast"] = _fc_roic
         ratios["roe_pct"] = ltm_data["current"]["roe_pct"]
         ratios["roic_pct"] = ltm_data["current"]["roic_pct"]
+        # 直近12ヶ月ベース指標の前期差
+        def _diff(cur, prev, nd):
+            return round(cur - prev, nd) if cur is not None and prev is not None else None
+        _lp, _lc = ltm_data["previous"], ltm_data["current"]
+        ratios["roe_pt_yoy"] = _diff(_lc["roe_pct"], _lp["roe_pct"], 2)
+        ratios["roic_pt_yoy"] = _diff(_lc["roic_pct"], _lp["roic_pct"], 2)
+        ratios["asset_turnover_diff"] = _diff(_lc["asset_turnover"], _lp["asset_turnover"], 3)
 
         co_out = {
             "key": co["key"],

@@ -143,8 +143,14 @@
         "net_margin_pct_prev_previous": 2.88,
         "ordinary_margin_pt_yoy": -0.37,
         "financial_leverage": 2.214,
+        "net_margin_pt_yoy": -0.2,
+        "financial_leverage_previous": 2.217,
+        "financial_leverage_diff": -0.003,
         "roe_pct": 4.2,
-        "roic_pct": 2.9
+        "roic_pct": 2.9,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -5.9,
+        "asset_turnover_diff": -0.01
       },
       "trend_ratios": {
         "roe": {
@@ -377,8 +383,14 @@
         "net_margin_pct_prev_previous": null,
         "ordinary_margin_pt_yoy": -0.69,
         "financial_leverage": null,
+        "net_margin_pt_yoy": null,
+        "financial_leverage_previous": null,
+        "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": null
+        "roic_pct": null,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": null,
+        "asset_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -611,8 +623,14 @@
         "net_margin_pct_prev_previous": 1.54,
         "ordinary_margin_pt_yoy": 0.39,
         "financial_leverage": 1.709,
+        "net_margin_pt_yoy": 0.92,
+        "financial_leverage_previous": 1.656,
+        "financial_leverage_diff": 0.053,
         "roe_pct": 4.4,
-        "roic_pct": 4.7
+        "roic_pct": 4.7,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -16.3,
+        "asset_turnover_diff": 0.106
       },
       "trend_ratios": {
         "roe": {
@@ -845,8 +863,14 @@
         "net_margin_pct_prev_previous": 0.68,
         "ordinary_margin_pt_yoy": 0.6,
         "financial_leverage": 2.001,
+        "net_margin_pt_yoy": 0.44,
+        "financial_leverage_previous": 2.052,
+        "financial_leverage_diff": -0.051,
         "roe_pct": 6.9,
-        "roic_pct": 5.2
+        "roic_pct": 5.2,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -14.4,
+        "asset_turnover_diff": -0.047
       },
       "trend_ratios": {
         "roe": {
@@ -1079,8 +1103,14 @@
         "net_margin_pct_prev_previous": 0.69,
         "ordinary_margin_pt_yoy": -0.52,
         "financial_leverage": 2.291,
+        "net_margin_pt_yoy": -0.02,
+        "financial_leverage_previous": 2.304,
+        "financial_leverage_diff": -0.013,
         "roe_pct": 3.3,
-        "roic_pct": 1.5
+        "roic_pct": 1.5,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -12.0,
+        "asset_turnover_diff": 0.037
       },
       "trend_ratios": {
         "roe": {
@@ -1313,8 +1343,14 @@
         "net_margin_pct_prev_previous": 1.95,
         "ordinary_margin_pt_yoy": 2.45,
         "financial_leverage": 2.964,
+        "net_margin_pt_yoy": 1.4,
+        "financial_leverage_previous": 3.134,
+        "financial_leverage_diff": -0.17,
         "roe_pct": 18.8,
-        "roic_pct": 12.4
+        "roic_pct": 12.4,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -15.4,
+        "asset_turnover_diff": 0.074
       },
       "trend_ratios": {
         "roe": {
@@ -1547,8 +1583,14 @@
         "net_margin_pct_prev_previous": 0.2,
         "ordinary_margin_pt_yoy": -0.19,
         "financial_leverage": 3.13,
+        "net_margin_pt_yoy": 0.37,
+        "financial_leverage_previous": 3.397,
+        "financial_leverage_diff": -0.267,
         "roe_pct": 12.0,
-        "roic_pct": 6.8
+        "roic_pct": 6.8,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -3.3,
+        "asset_turnover_diff": 0.082
       },
       "trend_ratios": {
         "roe": {
@@ -1781,8 +1823,14 @@
         "net_margin_pct_prev_previous": 0.88,
         "ordinary_margin_pt_yoy": -0.5,
         "financial_leverage": 1.742,
+        "net_margin_pt_yoy": -0.32,
+        "financial_leverage_previous": 1.71,
+        "financial_leverage_diff": 0.032,
         "roe_pct": 7.0,
-        "roic_pct": 6.2
+        "roic_pct": 6.2,
+        "roe_pt_yoy": null,
+        "roic_pt_yoy": -38.2,
+        "asset_turnover_diff": 0.013
       },
       "trend_ratios": {
         "roe": {

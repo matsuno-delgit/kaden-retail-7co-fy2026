@@ -149,13 +149,13 @@
   <nav class="mb-3 bg-white rounded-lg shadow p-3">
     <div class="text-xs text-slate-500 mb-2 font-semibold">🔀 データセットを選択</div>
     <div id="dataset-tabs" class="flex flex-wrap gap-2">
-      <button class="dataset-tab active px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="normal">通常版（各社の決算期そのまま）</button>
-      <button class="dataset-tab px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="kumikae">組替版（ビック・コジマを3月決算社と期間揃え）</button>
+      <button class="dataset-tab active px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="kumikae">組替版（ビック・コジマを3月決算社と期間揃え）</button>
+      <button class="dataset-tab px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="normal">通常版（各社の決算期そのまま）</button>
     </div>
     <div class="mt-2 text-xs text-slate-500">
       <span class="text-slate-700 font-medium">表示中:</span>
-      <span id="current-dataset-label" class="text-emerald-700 font-bold ml-1">通常版</span>
-      <span class="ml-3 text-slate-400">※組替版: ビック・コジマを「3月〜翌2月」の集計に組替（2025年8月期下期＋2026年8月期上期等）</span>
+      <span id="current-dataset-label" class="text-emerald-700 font-bold ml-1">組替版</span>
+      <span class="ml-3 text-slate-400">※既定は組替版。ビック・コジマを暦月で3月決算社に合わせる（例: 3月決算社の1Q=4-6月に対し、8月決算社は3Q単独=3-5月）。通常版は四半期番号どうしの比較（1Q vs 1Q）</span>
     </div>
   </nav>
 
@@ -522,7 +522,9 @@ const PERIOD_TO_FILE_KUMIKAE = {
   "q4":    "data/companies_kumikae_q4.json",
   "h2":    "data/companies_kumikae_h2.json",
 };
-let DATASET_TYPE = "normal";  // "normal" | "kumikae"
+// 既定は組替版。決算月の違う8月決算社（ビック・コジマ）を暦月で3月決算社に揃えた方が
+// 同じ市況を比べられるため、こちらを標準の見え方とする。
+let DATASET_TYPE = "kumikae";  // "kumikae" | "normal"
 const PERIOD_LABELS = {
   "fy": "通期実績 (＋次期計画)",
   "q1": "1Q実績", "q2": "2Q単独", "h1": "上期",
@@ -537,47 +539,58 @@ const FY_LABELS = {
   fy2027: "2027年3月期", fy2026: "2026年3月期",
   fy2025: "2025年3月期", fy2024: "2024年3月期",
 };
-// 年度ごとに選択できる期間。ここに無い期間はタブを無効化する。
-const FY_PERIODS = {
-  fy2027: ["q1"],
-  fy2026: ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"],
-  fy2025: [],
-  fy2024: ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"],
+const ALL_PERIODS = ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"];
+// データセット × 会計年度 で選択できる期間。ここに無い組み合わせはタブを無効化する。
+//   組替版: 2027(1Qのみ) / 2026 / 2025 の3年度
+//   通常版: 2026 / 2024 の2年度（2027は8月決算社の1Q単独が未抽出、2025は集計Excel未整備）
+const AVAILABILITY = {
+  kumikae: { fy2027: ["q1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
+  normal:  { fy2027: [],     fy2026: ALL_PERIODS, fy2025: [],          fy2024: ALL_PERIODS },
 };
-// 組替版を持つのは fy2026 のみ
-const FY_HAS_KUMIKAE = { fy2026: true };
+
+function periodsFor(dataset, fy) {
+  return (AVAILABILITY[dataset] || {})[fy] || [];
+}
 
 function dataFileFor(fy, period, dataset) {
-  if (fy === "fy2026") {
-    return dataset === "kumikae"
-      ? PERIOD_TO_FILE_KUMIKAE[period] : PERIOD_TO_FILE[period];
+  if (dataset === "kumikae") {
+    if (fy === "fy2026") return PERIOD_TO_FILE_KUMIKAE[period];
+    if (fy === "fy2025") return `data/companies_fy2025_kumikae_${period}.json`;
+    // 2027年3月期は暦月で揃えて作成しているため、そのまま組替版として扱う
+    if (fy === "fy2027") return `data/companies_fy2027_${period}.json`;
+    return null;
   }
+  if (fy === "fy2026") return PERIOD_TO_FILE[period];
   return `data/companies_${fy}_${period}.json`;
 }
 
-// 選択中の年度で使えない期間タブを無効化し、必要なら期間を切り替える
+// 選択中のデータセット・年度で使えないタブを無効化し、必要なら選択を寄せる
 function applyFyAvailability() {
-  const avail = FY_PERIODS[CURRENT_FY] || [];
+  // 年度タブ: そのデータセットで1期間も無い年度は無効
+  document.querySelectorAll("#fy-tabs .fy-tab").forEach(b => {
+    const ok = periodsFor(DATASET_TYPE, b.dataset.fy).length > 0;
+    b.disabled = !ok;
+    b.title = ok ? "" : `${DATASET_TYPE === "kumikae" ? "組替版" : "通常版"}では未整備の年度です`;
+  });
+  // 現在の年度が選べないなら、選べる先頭の年度へ寄せる
+  if (periodsFor(DATASET_TYPE, CURRENT_FY).length === 0) {
+    const fallback = ["fy2026", "fy2027", "fy2025", "fy2024"]
+      .find(f => periodsFor(DATASET_TYPE, f).length > 0);
+    if (fallback) {
+      CURRENT_FY = fallback;
+      document.querySelectorAll("#fy-tabs .fy-tab").forEach(b =>
+        b.classList.toggle("active", b.dataset.fy === CURRENT_FY));
+      const l = document.getElementById("current-fy-label");
+      if (l) l.textContent = FY_LABELS[CURRENT_FY];
+    }
+  }
+  // 期間タブ
+  const avail = periodsFor(DATASET_TYPE, CURRENT_FY);
   document.querySelectorAll("#period-tabs .period-tab").forEach(b => {
     const ok = avail.includes(b.dataset.period);
     b.disabled = !ok;
     b.title = ok ? "" : `${FY_LABELS[CURRENT_FY]}では未整備の期間です`;
   });
-  // 組替版は fy2026 のみ
-  const kmkBtn = document.querySelector('#dataset-tabs .dataset-tab[data-dataset="kumikae"]');
-  if (kmkBtn) {
-    const ok = !!FY_HAS_KUMIKAE[CURRENT_FY];
-    kmkBtn.disabled = !ok;
-    kmkBtn.title = ok ? "" : "組替版は2026年3月期のみ用意しています";
-    if (!ok && DATASET_TYPE === "kumikae") {
-      DATASET_TYPE = "normal";
-      document.querySelectorAll("#dataset-tabs .dataset-tab").forEach(b =>
-        b.classList.toggle("active", b.dataset.dataset === "normal"));
-      const l = document.getElementById("current-dataset-label");
-      if (l) l.textContent = "通常版";
-    }
-  }
-  // 現在の期間が選べなくなったら、その年度で使える先頭の期間へ寄せる
   if (!avail.includes(CURRENT_PERIOD) && avail.length) {
     CURRENT_PERIOD = avail[0];
     document.querySelectorAll("#period-tabs .period-tab").forEach(b =>
@@ -592,9 +605,9 @@ function nonSegmentCos(cos) {
 
 // 期間に応じてセクション・グラフタイトルを表示制御
 // 「次期予想」関連は通期(fy)のみで表示。他期間は非表示。
-// 次期計画を持つのは2026年3月期のデータセットのみ（他年度は計画値を採録していない）
+// 次期計画を採録しているのは通常版の2026年3月期だけ
 function hasForecast() {
-  return CURRENT_FY === "fy2026";
+  return CURRENT_FY === "fy2026" && DATASET_TYPE === "normal";
 }
 
 function applyPeriodVisibility(period) {
@@ -718,6 +731,7 @@ async function main() {
       btn.classList.add("active");
       const lbl = document.getElementById("current-dataset-label");
       if (lbl) lbl.textContent = (ds === "kumikae") ? "組替版" : "通常版";
+      applyFyAvailability();
       await loadAndRender(CURRENT_PERIOD || "fy");
     });
   });
@@ -793,20 +807,35 @@ function renderKpiCards(cos) {
     const ord = getMetric(c, "OrdinaryIncome");
     const yoyRev = getYoY(c, "Revenue");
     const yoyOrd = getYoY(c, "OrdinaryIncome");
+    const ni = getMetric(c, "NetIncome");
+    const yoyNi = getYoY(c, "NetIncome");
     const om = c.ratios?.ordinary_margin_pct;
     const omYoY = c.ratios?.ordinary_margin_pt_yoy;   // 経常利益率の前期差(pt)
     const gm = c.ratios?.gross_margin_pct;
     const gmYoY = c.ratios?.gross_margin_pt_yoy;      // 売上総利益率の前期差(pt)
     const nm = c.ratios?.net_margin_pct;
+    const nmYoY = c.ratios?.net_margin_pt_yoy;
     const at = c.ltm?.current?.asset_turnover;        // 直近12ヶ月ベースの総資産回転率
+    const atDiff = c.ratios?.asset_turnover_diff;
     const lev = c.ratios?.financial_leverage;         // 総資産 ÷ 自己資本
-    const roe = c.ratios?.roe_pct;                    // 純利益 ÷ 自己資本
+    const levDiff = c.ratios?.financial_leverage_diff;
+    const roe = c.ratios?.roe_pct;                    // 直近12ヶ月純利益 ÷ 平均自己資本
+    const roeYoY = c.ratios?.roe_pt_yoy;
     const periodLabel = `${formatPeriod(c.current_period, c.fiscal_year_end)}${
       c.consolidation === "non_consolidated" ? "(非連結)" :
       c.consolidation === "segment" ? "(セグメント)" : ""
     }`;
     const yoyColor = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
     const fmtPt = (v) => v == null ? "—" : `${v >= 0 ? "+" : "△"}${Math.abs(v).toFixed(2)}pt`;
+    // 「金額（率）」「YoY（前期差）」のように1行にまとめる。
+    // 縦の情報量を減らし、余っていた横スペースを使うため。
+    const pair = (main, sub, cls = "") =>
+      `<dd class="text-right font-mono ${cls}">${main}` +
+      `<span class="text-xs text-slate-400 whitespace-nowrap">（${sub}）</span></dd>`;
+    const fmtPctSigned = (v) => v == null ? "—" : `${v >= 0 ? "+" : "△"}${Math.abs(v).toFixed(2)}%`;
+    const fmtTurn = (v) => v == null ? "—" : v.toFixed(2) + "回";
+    const fmtTurnDiff = (v) => v == null ? "—" : `${v >= 0 ? "+" : "△"}${Math.abs(v).toFixed(2)}`;
+    const fmtLev = (v) => v == null ? "—" : v.toFixed(2) + "倍";
     grid.insertAdjacentHTML("beforeend", `
       <div class="kpi-card bg-white rounded-lg shadow p-4 border-l-4" style="border-left-color:${COLORS[c.key]}">
         <div class="flex justify-between items-baseline">
@@ -821,27 +850,27 @@ function renderKpiCards(cos) {
           <dd class="text-right font-mono">${fmtMillions(rev)}</dd>
           <dt class="text-slate-500">　YoY</dt>
           <dd class="text-right font-mono ${yoyColor(yoyRev)}">${fmtPctTriangle(yoyRev)}</dd>
-          <dt class="text-slate-500">売上総利益率</dt>
-          <dd class="text-right font-mono">${gm != null ? gm.toFixed(1) + "%" : "—"}</dd>
-          <dt class="text-slate-500">　前期差</dt>
-          <dd class="text-right font-mono ${yoyColor(gmYoY)}">${fmtPt(gmYoY)}</dd>
-          <dt class="dupont-hide text-slate-500">経常利益</dt>
-          <dd class="dupont-hide text-right font-mono">${fmtMillions(ord)}</dd>
-          <dt class="dupont-hide text-slate-500">　YoY</dt>
-          <dd class="dupont-hide text-right font-mono ${yoyColor(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</dd>
-          <dt class="text-slate-500">経常利益率</dt>
-          <dd class="text-right font-mono">${om != null ? om.toFixed(1) + "%" : "—"}</dd>
-          <dt class="text-slate-500">　前期差</dt>
-          <dd class="text-right font-mono ${yoyColor(omYoY)}">${fmtPt(omYoY)}</dd>
+          <dt class="dupont-hide text-slate-500">売上総利益率</dt>
+          <dd class="dupont-hide text-right font-mono">${gm != null ? gm.toFixed(1) + "%" : "—"}</dd>
+          <dt class="dupont-hide text-slate-500">　前期差</dt>
+          <dd class="dupont-hide text-right font-mono ${yoyColor(gmYoY)}">${fmtPt(gmYoY)}</dd>
+          <dt class="dupont-hide text-slate-500">経常利益（率）</dt>
+          ${pair(fmtMillions(ord), om != null ? om.toFixed(1) + "%" : "—", "dupont-hide")}
+          <dt class="dupont-hide text-slate-500">　YoY（前期差）</dt>
+          ${pair(fmtPctTriangle(yoyOrd), fmtPt(omYoY), "dupont-hide " + yoyColor(yoyOrd))}
+          <dt class="dupont-hide text-slate-500">純利益（率）</dt>
+          ${pair(fmtMillions(ni), nm != null ? nm.toFixed(1) + "%" : "—", "dupont-hide")}
+          <dt class="dupont-hide text-slate-500">　YoY（前期差）</dt>
+          ${pair(fmtPctTriangle(yoyNi), fmtPt(nmYoY), "dupont-hide " + yoyColor(yoyNi))}
           <div class="dupont-row col-span-2 border-t border-dashed border-slate-300 my-1"></div>
-          <dt class="dupont-row text-slate-500" title="当期純利益 ÷ 売上高（当該期間の実績）">純利益率</dt>
-          <dd class="dupont-row text-right font-mono">${nm != null ? nm.toFixed(1) + "%" : "—"}</dd>
-          <dt class="dupont-row text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率<span class="text-xs text-slate-400 whitespace-nowrap">（直近12M）</span></dt>
-          <dd class="dupont-row text-right font-mono">${at != null ? at.toFixed(2) + "回" : "—"}</dd>
-          <dt class="dupont-row text-slate-500" title="総資産 ÷ 自己資本">財務レバレッジ</dt>
-          <dd class="dupont-row text-right font-mono">${lev != null ? lev.toFixed(2) + "倍" : "—"}</dd>
-          <dt class="dupont-row text-slate-500" title="直近12ヶ月（直近4四半期）の当期純利益 ÷ 平均自己資本（当期末・前年同期末の2期平均）">ROE<span class="text-xs text-slate-400 whitespace-nowrap">（直近12M）</span></dt>
-          <dd class="dupont-row text-right font-mono">${roe != null ? roe.toFixed(1) + "%" : "—"}</dd>
+          <dt class="dupont-row text-slate-500" title="当期純利益 ÷ 売上高（当該期間の実績）">純利益率<span class="text-xs text-slate-400 whitespace-nowrap">（前期差）</span></dt>
+          ${pair(nm != null ? nm.toFixed(1) + "%" : "—", fmtPt(nmYoY), "dupont-row")}
+          <dt class="dupont-row text-slate-500" title="直近12ヶ月売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）">総資産回転率<span class="text-xs text-slate-400 whitespace-nowrap">（前期差）</span></dt>
+          ${pair(fmtTurn(at), fmtTurnDiff(atDiff), "dupont-row")}
+          <dt class="dupont-row text-slate-500" title="総資産 ÷ 自己資本">財務レバレッジ<span class="text-xs text-slate-400 whitespace-nowrap">（前期差）</span></dt>
+          ${pair(fmtLev(lev), fmtTurnDiff(levDiff), "dupont-row")}
+          <dt class="dupont-row text-slate-500" title="直近12ヶ月（直近4四半期）の当期純利益 ÷ 平均自己資本（当期末・前年同期末の2期平均）">ROE<span class="text-xs text-slate-400 whitespace-nowrap">（前期差）</span></dt>
+          ${pair(roe != null ? roe.toFixed(1) + "%" : "—", fmtPt(roeYoY), "dupont-row")}
         </dl>
       </div>
     `);

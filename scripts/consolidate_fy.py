@@ -52,6 +52,24 @@ FISCAL_YEARS = {
         "pp_fy":   {"03": "FY2025", "08": "FY2024"},
         "periods": {"q1": ("19_1Q実績_2027.03", "03_1Q実績_2026.03")},
     },
+    # 組替版の2025年3月期。期間揃え比較 09_〜16_ の当期列が
+    # 「2024年3月〜2025年2月」＝3月決算社のFY2025にあたる。
+    "fy2025_kumikae": {
+        "label": "2025年3月期（組替）",
+        "curr_fy": {"03": "FY2025", "08": "FY2025"},
+        "prev_fy": {"03": "FY2024", "08": "FY2024"},
+        "pp_fy":   {"03": "FY2023", "08": "FY2023"},
+        "periods": {
+            "fy":    (r"期間揃え比較\09_組替通期_2025.02", None),
+            "q1":    (r"期間揃え比較\10_組替1Q_2024.05", None),
+            "q2":    (r"期間揃え比較\11_組替2Q単独_2024.08", None),
+            "h1":    (r"期間揃え比較\12_組替上期_2024.08", None),
+            "q3":    (r"期間揃え比較\13_組替3Q単独_2024.11", None),
+            "q3cum": (r"期間揃え比較\14_組替3Q累計_2024.11", None),
+            "q4":    (r"期間揃え比較\15_組替4Q単独_2025.02", None),
+            "h2":    (r"期間揃え比較\16_組替下期_2025.02", None),
+        },
+    },
     "fy2024": {
         "label": "2024年3月期",
         "curr_fy": {"03": "FY2024", "08": "FY2023"},
@@ -144,6 +162,17 @@ def build_one(fy_key, conf, period, folders):
         ratios["ordinary_margin_pt_yoy"] = (round(om_c - om_p, 2)
                                             if om_c is not None and om_p is not None else None)
         ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
+        # 純利益率の前期差(pt)
+        _nm_c, _nm_p = ratios["net_margin_pct"], ratios["net_margin_pct_previous"]
+        ratios["net_margin_pt_yoy"] = (round(_nm_c - _nm_p, 2)
+                                       if _nm_c is not None and _nm_p is not None else None)
+        # 財務レバレッジの前期差(倍)。前期末BSは metrics の previous から算出する
+        _ta_p, _te_p = metrics["TotalAssets"]["previous"], metrics["TotalEquity"]["previous"]
+        _lev_p = round(_ta_p / _te_p, 3) if _ta_p and _te_p else None
+        ratios["financial_leverage_previous"] = _lev_p
+        ratios["financial_leverage_diff"] = (round(ratios["financial_leverage"] - _lev_p, 3)
+                                             if ratios["financial_leverage"] is not None
+                                             and _lev_p is not None else None)
 
         ltm_data = build_ltm(ws, ws_pp, co) if ws_pp else {
             k: build_ltm(ws, ws, co)[k] if k != "prev_previous" else build_ltm(ws, ws, co)["current"]
@@ -155,6 +184,13 @@ def build_one(fy_key, conf, period, folders):
                         "prev_previous": read_ltm(None, None)}
         ratios["roe_pct"] = ltm_data["current"]["roe_pct"]
         ratios["roic_pct"] = ltm_data["current"]["roic_pct"]
+        # 直近12ヶ月ベース指標の前期差
+        def _diff(cur, prev, nd):
+            return round(cur - prev, nd) if cur is not None and prev is not None else None
+        _lp, _lc = ltm_data["previous"], ltm_data["current"]
+        ratios["roe_pt_yoy"] = _diff(_lc["roe_pct"], _lp["roe_pct"], 2)
+        ratios["roic_pt_yoy"] = _diff(_lc["roic_pct"], _lp["roic_pct"], 2)
+        ratios["asset_turnover_diff"] = _diff(_lc["asset_turnover"], _lp["asset_turnover"], 3)
 
         trend = {}
         for k in ("roe", "roic", "asset_turnover", "inventory_turnover", "gross_margin", "net_margin"):
