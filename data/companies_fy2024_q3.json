@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-02",
   "source": "各社決算短信 (2024年3月期 q3)",
   "period_type": "fy2024_q3",
   "companies": [
@@ -14,6 +14,11 @@
       "previous_period": "FY2023-Q3",
       "prev_previous_period": "FY2022-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期 3Q単独",
+        "previous": "2023年03月期 3Q単独",
+        "prev_previous": "2022年03月期 3Q単独"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -146,10 +151,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 8.8,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 3.606,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -161,7 +168,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 8.8,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -213,7 +220,7 @@
           "avg_equity": null,
           "avg_debt": 321860.5,
           "roe_pct": null,
-          "roic_pct": 8.8
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,
@@ -254,6 +261,11 @@
       "previous_period": "FY2023-Q3",
       "prev_previous_period": "FY2022-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期 3Q単独",
+        "previous": "2023年03月期 3Q単独",
+        "prev_previous": "2022年03月期 3Q単独"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -389,7 +401,9 @@
         "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 3.659,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -494,6 +508,11 @@
       "previous_period": "FY2023-Q3",
       "prev_previous_period": "FY2022-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期 3Q単独",
+        "previous": "2023年03月期 3Q単独",
+        "prev_previous": "2022年03月期 3Q単独"
+      },
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -626,10 +645,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 26.9,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 3.817,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -641,7 +662,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 26.9,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -693,7 +714,7 @@
           "avg_equity": null,
           "avg_debt": 52945.5,
           "roe_pct": null,
-          "roic_pct": 26.9
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,
@@ -734,6 +755,11 @@
       "previous_period": "FY2023-Q3",
       "prev_previous_period": "FY2022-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期 3Q単独",
+        "previous": "2023年03月期 3Q単独",
+        "prev_previous": "2022年03月期 3Q単独"
+      },
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -866,10 +892,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 19.6,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 5.39,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -881,7 +909,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 19.6,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -933,7 +961,7 @@
           "avg_equity": null,
           "avg_debt": 57253.0,
           "roe_pct": null,
-          "roic_pct": 19.6
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,
@@ -974,6 +1002,11 @@
       "previous_period": "FY2023-Q3",
       "prev_previous_period": "FY2022-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期 3Q単独",
+        "previous": "2023年03月期 3Q単独",
+        "prev_previous": "2022年03月期 3Q単独"
+      },
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1106,10 +1139,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 16.8,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 4.607,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1121,7 +1156,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 16.8,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -1173,7 +1208,7 @@
           "avg_equity": null,
           "avg_debt": 33259.5,
           "roe_pct": null,
-          "roic_pct": 16.8
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,
@@ -1214,6 +1249,11 @@
       "previous_period": "FY2023-Q3",
       "prev_previous_period": "FY2022-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期 3Q単独",
+        "previous": "2023年03月期 3Q単独",
+        "prev_previous": "2022年03月期 3Q単独"
+      },
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1346,10 +1386,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 37.7,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 10.883,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1361,7 +1403,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 37.7,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -1413,7 +1455,7 @@
           "avg_equity": null,
           "avg_debt": 52222.0,
           "roe_pct": null,
-          "roic_pct": 37.7
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,
@@ -1454,6 +1496,11 @@
       "previous_period": "FY2022-Q3",
       "prev_previous_period": "FY2021-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2023年08月期 3Q単独",
+        "previous": "2022年08月期 3Q単独",
+        "prev_previous": "2021年08月期 3Q単独"
+      },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1586,10 +1633,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 6.5,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 7.082,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1601,7 +1650,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 6.5,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -1653,7 +1702,7 @@
           "avg_equity": null,
           "avg_debt": 134849.0,
           "roe_pct": null,
-          "roic_pct": 6.5
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,
@@ -1694,6 +1743,11 @@
       "previous_period": "FY2022-Q3",
       "prev_previous_period": "FY2021-Q3",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2023年08月期 3Q単独",
+        "previous": "2022年08月期 3Q単独",
+        "prev_previous": "2021年08月期 3Q単独"
+      },
       "tanshin_url": "https://www.kojima.net/corporation/ir/",
       "metrics": {
         "Revenue": {
@@ -1826,10 +1880,12 @@
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
-        "roic_pct": 32.3,
+        "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 6.522,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1841,7 +1897,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 32.3,
+          "current": null,
           "forecast": null
         },
         "asset_turnover": {
@@ -1893,7 +1949,7 @@
           "avg_equity": null,
           "avg_debt": 9746.0,
           "roe_pct": null,
-          "roic_pct": 32.3
+          "roic_pct": null
         },
         "previous": {
           "revenue": null,

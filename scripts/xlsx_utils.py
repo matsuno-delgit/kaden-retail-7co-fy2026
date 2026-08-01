@@ -85,7 +85,9 @@ def read_ltm(ws, col):
     rev, ta, inv = g(ROW_LTM_REVENUE), g(ROW_LTM_AVG_TA), g(ROW_LTM_AVG_INV)
     op, ni = g(ROW_LTM_OP), g(ROW_LTM_NI)
     eq, debt = g(ROW_LTM_AVG_EQ), g(ROW_LTM_AVG_DEBT)
-    ic = (eq or 0) + (debt or 0)
+    # 投下資本は「有利子負債＋自己資本」。自己資本が未取得の期に負債だけを分母にすると
+    # ROICが過大に出るため、自己資本が揃っている場合のみ算定する。
+    ic = (eq + (debt or 0)) if eq else None
     roe = _div(ni, eq)
     roic = _div(op * (1 - EFFECTIVE_TAX_RATE), ic) if op is not None and ic else None
     return {
@@ -135,3 +137,55 @@ def margin(num, den):
     if num is None or not den:
         return None
     return round(num / den * 100, 2)
+
+
+# ---------------------------------------------------------------------------
+# 期間ラベル
+# ---------------------------------------------------------------------------
+SUFFIX_LABEL = {
+    "": "", "-Q1": "1Q", "-Q2": "2Q単独", "-H1": "上期",
+    "-Q3": "3Q単独", "-Q3CUM": "3Q累計", "-Q4": "4Q単独", "-H2": "下期",
+}
+
+# 組替期間キー → 8月決算社における実際の期間。
+#   (FYオフセット, サフィックス)  … 自社の四半期と1対1で対応する場合
+#   ("SPAN", テンプレ)            … 自社の会計年度をまたぎ1対1対応しない場合
+# 組替FY(3月決算社基準)を base とすると、組替期間の暦月は
+#   通期 base-1年3月〜base年2月 / 1Q 3-5月 / 2Q 6-8月 / 3Q 9-11月 / 4Q 12-2月。
+KUMIKAE_08_PERIOD = {
+    "fy":    ("SPAN", "{p}年3月〜{c}年2月"),
+    "q1":    (-1, "-Q3"),      # base-1年3〜5月   = 8月期3Q
+    "q2":    (-1, "-Q4"),      # base-1年6〜8月   = 8月期4Q
+    "h1":    (-1, "-H2"),      # base-1年3〜8月   = 8月期下期
+    "q3":    (0,  "-Q1"),      # base-1年9〜11月  = 翌8月期1Q
+    "q3cum": ("SPAN", "{p}年3月〜11月"),
+    "q4":    (0,  "-Q2"),      # base-1年12〜base年2月 = 翌8月期2Q
+    "h2":    (0,  "-H1"),      # base-1年9〜base年2月  = 翌8月期上期
+}
+
+
+def period_label(code, fy_end):
+    """期間コード ("FY2026-Q3CUM" 等) を日本語ラベルに変換する。"""
+    if not code:
+        return ""
+    fy, _, suffix = code.partition("-")
+    base = f"{fy.replace('FY', '')}年{fy_end}月期"
+    lab = SUFFIX_LABEL.get(f"-{suffix}" if suffix else "", suffix)
+    return f"{base} {lab}".strip()
+
+
+def kumikae_labels_08(period_key, base_fy):
+    """組替版で8月決算社の (当期, 前期, 前々期) 実期間ラベルを返す。
+
+    base_fy は3月決算社基準の組替FY(int)。組替FY2026なら2025/3〜2026/2。
+    """
+    spec = KUMIKAE_08_PERIOD[period_key]
+    out = []
+    for shift in (0, -1, -2):
+        b = base_fy + shift
+        if spec[0] == "SPAN":
+            out.append(spec[1].format(p=b - 1, c=b))
+        else:
+            off, suf = spec
+            out.append(period_label(f"FY{b + off}{suf}", "08"))
+    return tuple(out)

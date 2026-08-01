@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-02",
   "source": "各社決算短信 (2024年3月期 fy)",
   "period_type": "fy2024_fy",
   "companies": [
@@ -14,6 +14,11 @@
       "previous_period": "FY2023",
       "prev_previous_period": "FY2022",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期",
+        "previous": "2023年03月期",
+        "prev_previous": "2022年03月期"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -149,7 +154,9 @@
         "roic_pct": 2.9,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 3.983,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -254,6 +261,11 @@
       "previous_period": "FY2023",
       "prev_previous_period": "FY2022",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期",
+        "previous": "2023年03月期",
+        "prev_previous": "2022年03月期"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -389,7 +401,9 @@
         "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 4.071,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -494,6 +508,11 @@
       "previous_period": "FY2023",
       "prev_previous_period": "FY2022",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期",
+        "previous": "2023年03月期",
+        "prev_previous": "2022年03月期"
+      },
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -629,7 +648,9 @@
         "roic_pct": 3.7,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 4.01,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -734,6 +755,11 @@
       "previous_period": "FY2023",
       "prev_previous_period": "FY2022",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期",
+        "previous": "2023年03月期",
+        "prev_previous": "2022年03月期"
+      },
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -869,7 +895,9 @@
         "roic_pct": 4.2,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 6.164,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -974,6 +1002,11 @@
       "previous_period": "FY2023",
       "prev_previous_period": "FY2022",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期",
+        "previous": "2023年03月期",
+        "prev_previous": "2022年03月期"
+      },
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1109,7 +1142,9 @@
         "roic_pct": 3.9,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 5.222,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1214,6 +1249,11 @@
       "previous_period": "FY2023",
       "prev_previous_period": "FY2022",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2024年03月期",
+        "previous": "2023年03月期",
+        "prev_previous": "2022年03月期"
+      },
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1349,7 +1389,9 @@
         "roic_pct": 12.0,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 11.13,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1454,6 +1496,11 @@
       "previous_period": "FY2022",
       "prev_previous_period": "FY2021",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2023年08月期",
+        "previous": "2022年08月期",
+        "prev_previous": "2021年08月期"
+      },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1589,7 +1636,9 @@
         "roic_pct": 3.5,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 7.913,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {
@@ -1694,6 +1743,11 @@
       "previous_period": "FY2022",
       "prev_previous_period": "FY2021",
       "forecast_period": null,
+      "period_labels": {
+        "current": "2023年08月期",
+        "previous": "2022年08月期",
+        "prev_previous": "2021年08月期"
+      },
       "tanshin_url": "https://www.kojima.net/corporation/ir/",
       "metrics": {
         "Revenue": {
@@ -1829,7 +1883,9 @@
         "roic_pct": 4.3,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 6.983,
+        "inventory_turnover_diff": null
       },
       "trend_ratios": {
         "roe": {

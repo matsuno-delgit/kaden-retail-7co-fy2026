@@ -320,6 +320,8 @@ def main():
         ratios["roe_pt_yoy"] = _diff(_lc["roe_pct"], _lp["roe_pct"], 2)
         ratios["roic_pt_yoy"] = _diff(_lc["roic_pct"], _lp["roic_pct"], 2)
         ratios["asset_turnover_diff"] = _diff(_lc["asset_turnover"], _lp["asset_turnover"], 3)
+        ratios["inventory_turnover_ltm"] = _lc["inventory_turnover"]
+        ratios["inventory_turnover_diff"] = _diff(_lc["inventory_turnover"], _lp["inventory_turnover"], 3)
 
         co_out = {
             "key": co["key"],

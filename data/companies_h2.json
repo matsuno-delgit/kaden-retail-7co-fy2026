@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-02",
   "source": "各社決算短信・決算説明会資料 (下期)",
   "period_type": "quarterly_h2",
   "companies": [
@@ -149,7 +149,9 @@
         "roic_pct": 1.1,
         "roe_pt_yoy": -2.0,
         "roic_pt_yoy": -1.9,
-        "asset_turnover_diff": 0.041
+        "asset_turnover_diff": 0.041,
+        "inventory_turnover_ltm": 4.368,
+        "inventory_turnover_diff": 0.328
       },
       "trend_ratios": {
         "roe": {
@@ -389,7 +391,9 @@
         "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 4.427,
+        "inventory_turnover_diff": 0.28
       },
       "trend_ratios": {
         "roe": {
@@ -629,7 +633,9 @@
         "roic_pct": 5.6,
         "roe_pt_yoy": 2.0,
         "roic_pt_yoy": 1.1,
-        "asset_turnover_diff": 0.083
+        "asset_turnover_diff": 0.083,
+        "inventory_turnover_ltm": 4.422,
+        "inventory_turnover_diff": 0.076
       },
       "trend_ratios": {
         "roe": {
@@ -869,7 +875,9 @@
         "roic_pct": 5.5,
         "roe_pt_yoy": 0.3,
         "roic_pt_yoy": 0.4,
-        "asset_turnover_diff": 0.055
+        "asset_turnover_diff": 0.055,
+        "inventory_turnover_ltm": 6.721,
+        "inventory_turnover_diff": 0.266
       },
       "trend_ratios": {
         "roe": {
@@ -1109,7 +1117,9 @@
         "roic_pct": 2.4,
         "roe_pt_yoy": -0.2,
         "roic_pt_yoy": 0.8,
-        "asset_turnover_diff": 0.16
+        "asset_turnover_diff": 0.16,
+        "inventory_turnover_ltm": 6.231,
+        "inventory_turnover_diff": 0.806
       },
       "trend_ratios": {
         "roe": {
@@ -1349,7 +1359,9 @@
         "roic_pct": 12.3,
         "roe_pt_yoy": 0.3,
         "roic_pt_yoy": -4.4,
-        "asset_turnover_diff": 0.155
+        "asset_turnover_diff": 0.155,
+        "inventory_turnover_ltm": 12.98,
+        "inventory_turnover_diff": 0.766
       },
       "trend_ratios": {
         "roe": {
@@ -1589,7 +1601,9 @@
         "roic_pct": 7.6,
         "roe_pt_yoy": 1.3,
         "roic_pt_yoy": 1.5,
-        "asset_turnover_diff": 0.02
+        "asset_turnover_diff": 0.02,
+        "inventory_turnover_ltm": 8.675,
+        "inventory_turnover_diff": 0.083
       },
       "trend_ratios": {
         "roe": {
@@ -1829,7 +1843,9 @@
         "roic_pct": 6.2,
         "roe_pt_yoy": 0.7,
         "roic_pt_yoy": 0.5,
-        "asset_turnover_diff": -0.009
+        "asset_turnover_diff": -0.009,
+        "inventory_turnover_ltm": 7.797,
+        "inventory_turnover_diff": 0.496
       },
       "trend_ratios": {
         "roe": {

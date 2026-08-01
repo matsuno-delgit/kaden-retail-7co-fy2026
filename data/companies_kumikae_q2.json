@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-02",
   "source": "組替版 (組替2Q単独 (6〜8月))",
   "period_type": "kumikae_q2",
   "dataset_type": "kumikae",
@@ -11,10 +11,15 @@
       "ticker": "9831",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 2Q単独",
+        "previous": "2025年03月期 2Q単独",
+        "prev_previous": "2024年03月期 2Q単独"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -149,8 +154,10 @@
         "roe_pct": 4.3,
         "roic_pct": 2.8,
         "roe_pt_yoy": null,
-        "roic_pt_yoy": -5.8,
-        "asset_turnover_diff": -0.009
+        "roic_pt_yoy": null,
+        "asset_turnover_diff": -0.009,
+        "inventory_turnover_ltm": 3.741,
+        "inventory_turnover_diff": -0.014
       },
       "trend_ratios": {
         "roe": {
@@ -161,7 +168,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 8.6,
+          "previous": null,
           "current": 2.8,
           "forecast": null
         },
@@ -227,7 +234,7 @@
           "avg_equity": null,
           "avg_debt": 336023.0,
           "roe_pct": null,
-          "roic_pct": 8.6
+          "roic_pct": null
         },
         "prev_previous": {
           "revenue": null,
@@ -251,10 +258,15 @@
       "ticker": "9831-DK",
       "fiscal_year_end": "03",
       "consolidation": "segment",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 2Q単独",
+        "previous": "2025年03月期 2Q単独",
+        "prev_previous": "2024年03月期 2Q単独"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -390,7 +402,9 @@
         "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 3.771,
+        "inventory_turnover_diff": -0.061
       },
       "trend_ratios": {
         "roe": {
@@ -491,10 +505,15 @@
       "ticker": "8282",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 2Q単独",
+        "previous": "2025年03月期 2Q単独",
+        "prev_previous": "2024年03月期 2Q単独"
+      },
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -629,8 +648,10 @@
         "roe_pct": 4.4,
         "roic_pct": 4.9,
         "roe_pt_yoy": null,
-        "roic_pt_yoy": -22.6,
-        "asset_turnover_diff": 0.098
+        "roic_pt_yoy": null,
+        "asset_turnover_diff": 0.098,
+        "inventory_turnover_ltm": 4.615,
+        "inventory_turnover_diff": 0.193
       },
       "trend_ratios": {
         "roe": {
@@ -641,7 +662,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 27.5,
+          "previous": null,
           "current": 4.9,
           "forecast": null
         },
@@ -707,7 +728,7 @@
           "avg_equity": null,
           "avg_debt": 46701.0,
           "roe_pct": null,
-          "roic_pct": 27.5
+          "roic_pct": null
         },
         "prev_previous": {
           "revenue": null,
@@ -731,10 +752,15 @@
       "ticker": "2730",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 2Q単独",
+        "previous": "2025年03月期 2Q単独",
+        "prev_previous": "2024年03月期 2Q単独"
+      },
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -869,8 +895,10 @@
         "roe_pct": 5.9,
         "roic_pct": 5.0,
         "roe_pt_yoy": null,
-        "roic_pt_yoy": -23.9,
-        "asset_turnover_diff": -0.061
+        "roic_pt_yoy": null,
+        "asset_turnover_diff": -0.061,
+        "inventory_turnover_ltm": 6.503,
+        "inventory_turnover_diff": 0.271
       },
       "trend_ratios": {
         "roe": {
@@ -881,7 +909,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 28.9,
+          "previous": null,
           "current": 5.0,
           "forecast": null
         },
@@ -947,7 +975,7 @@
           "avg_equity": null,
           "avg_debt": 46495.5,
           "roe_pct": null,
-          "roic_pct": 28.9
+          "roic_pct": null
         },
         "prev_previous": {
           "revenue": null,
@@ -971,10 +999,15 @@
       "ticker": "8173",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 2Q単独",
+        "previous": "2025年03月期 2Q単独",
+        "prev_previous": "2024年03月期 2Q単独"
+      },
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1109,8 +1142,10 @@
         "roe_pct": 3.0,
         "roic_pct": 1.8,
         "roe_pt_yoy": null,
-        "roic_pt_yoy": -8.4,
-        "asset_turnover_diff": 0.124
+        "roic_pt_yoy": null,
+        "asset_turnover_diff": 0.124,
+        "inventory_turnover_ltm": 5.676,
+        "inventory_turnover_diff": 0.549
       },
       "trend_ratios": {
         "roe": {
@@ -1121,7 +1156,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 10.2,
+          "previous": null,
           "current": 1.8,
           "forecast": null
         },
@@ -1187,7 +1222,7 @@
           "avg_equity": null,
           "avg_debt": 35656.0,
           "roe_pct": null,
-          "roic_pct": 10.2
+          "roic_pct": null
         },
         "prev_previous": {
           "revenue": null,
@@ -1211,10 +1246,15 @@
       "ticker": "7419",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 2Q単独",
+        "previous": "2025年03月期 2Q単独",
+        "prev_previous": "2024年03月期 2Q単独"
+      },
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1349,8 +1389,10 @@
         "roe_pct": 18.4,
         "roic_pct": 12.5,
         "roe_pt_yoy": null,
-        "roic_pt_yoy": -25.3,
-        "asset_turnover_diff": 0.203
+        "roic_pt_yoy": null,
+        "asset_turnover_diff": 0.203,
+        "inventory_turnover_ltm": 13.014,
+        "inventory_turnover_diff": 0.818
       },
       "trend_ratios": {
         "roe": {
@@ -1361,7 +1403,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 37.8,
+          "previous": null,
           "current": 12.5,
           "forecast": null
         },
@@ -1427,7 +1469,7 @@
           "avg_equity": null,
           "avg_debt": 63643.5,
           "roe_pct": null,
-          "roic_pct": 37.8
+          "roic_pct": null
         },
         "prev_previous": {
           "revenue": null,
@@ -1451,10 +1493,15 @@
       "ticker": "3048",
       "fiscal_year_end": "08",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2025年08月期 4Q単独",
+        "previous": "2024年08月期 4Q単独",
+        "prev_previous": "2023年08月期 4Q単独"
+      },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1590,7 +1637,9 @@
         "roic_pct": 7.6,
         "roe_pt_yoy": 1.3,
         "roic_pt_yoy": 1.5,
-        "asset_turnover_diff": 0.02
+        "asset_turnover_diff": 0.02,
+        "inventory_turnover_ltm": 8.675,
+        "inventory_turnover_diff": 0.083
       },
       "trend_ratios": {
         "roe": {
@@ -1691,10 +1740,15 @@
       "ticker": "7513",
       "fiscal_year_end": "08",
       "consolidation": "non_consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q2",
+      "previous_period": "FY2025-Q2",
+      "prev_previous_period": "FY2024-Q2",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2025年08月期 4Q単独",
+        "previous": "2024年08月期 4Q単独",
+        "prev_previous": "2023年08月期 4Q単独"
+      },
       "tanshin_url": "https://www.kojima.net/corporation/ir/",
       "metrics": {
         "Revenue": {
@@ -1830,7 +1884,9 @@
         "roic_pct": 6.2,
         "roe_pt_yoy": 0.7,
         "roic_pt_yoy": 0.5,
-        "asset_turnover_diff": -0.009
+        "asset_turnover_diff": -0.009,
+        "inventory_turnover_ltm": 7.797,
+        "inventory_turnover_diff": 0.496
       },
       "trend_ratios": {
         "roe": {

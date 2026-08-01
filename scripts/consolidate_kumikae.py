@@ -12,7 +12,14 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin
+from xlsx_utils import (find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin,
+                        period_label, kumikae_labels_08)
+
+# 組替版の当期は組替FY2026 (2025/3〜2026/2)。8月決算社のラベル生成の基準年。
+KUMIKAE_BASE_FY = 2026
+# 組替期間キー → 3月決算社の期間コードサフィックス
+SUFFIX_03 = {"fy": "", "q1": "-Q1", "q2": "-Q2", "h1": "-H1",
+             "q3": "-Q3", "q3cum": "-Q3CUM", "q4": "-Q4", "h2": "-H2"}
 
 ROOT = Path(__file__).parent.parent.parent  # 01_通期実績_2026.03
 PROJ = ROOT.parent  # 競合各社業績比較_20260520
@@ -106,11 +113,19 @@ def build_one(pk, conf, is_annual):
 
     companies_out = []
     for co in COMPANIES_MAIN:
-        # 統一期間ラベル: 全社FY2026/FY2025/FY2024
-        current_period = "FY2026"
-        previous_period = "FY2025"
-        prev_previous_period = "FY2024"
-        forecast_period = "FY2027"
+        # 組替の期間コードは3月決算社基準で統一 (FY2026/FY2025/FY2024 + 期間サフィックス)。
+        # ただし画面表示は各社の実際の決算期間が分かるよう period_labels を別途持たせる。
+        suf = SUFFIX_03[pk]
+        current_period = f"FY{KUMIKAE_BASE_FY}{suf}"
+        previous_period = f"FY{KUMIKAE_BASE_FY - 1}{suf}"
+        prev_previous_period = f"FY{KUMIKAE_BASE_FY - 2}{suf}"
+        forecast_period = f"FY{KUMIKAE_BASE_FY + 1}"
+        if co["fy_end"] == "08":
+            lab_c, lab_p, lab_pp = kumikae_labels_08(pk, KUMIKAE_BASE_FY)
+        else:
+            lab_c = period_label(current_period, "03")
+            lab_p = period_label(previous_period, "03")
+            lab_pp = period_label(prev_previous_period, "03")
 
         metrics = {}
         for row, key in ROW_TO_METRIC.items():
@@ -265,12 +280,15 @@ def build_one(pk, conf, is_annual):
         ratios["roe_pt_yoy"] = _diff(_lc["roe_pct"], _lp["roe_pct"], 2)
         ratios["roic_pt_yoy"] = _diff(_lc["roic_pct"], _lp["roic_pct"], 2)
         ratios["asset_turnover_diff"] = _diff(_lc["asset_turnover"], _lp["asset_turnover"], 3)
+        ratios["inventory_turnover_ltm"] = _lc["inventory_turnover"]
+        ratios["inventory_turnover_diff"] = _diff(_lc["inventory_turnover"], _lp["inventory_turnover"], 3)
 
         companies_out.append({
             "key": co["key"], "label": co["label"], "ticker": co["ticker"],
             "fiscal_year_end": co["fy_end"], "consolidation": co["consol"],
             "current_period": current_period, "previous_period": previous_period,
             "prev_previous_period": prev_previous_period, "forecast_period": forecast_period,
+            "period_labels": {"current": lab_c, "previous": lab_p, "prev_previous": lab_pp},
             "tanshin_url": co["url"], "metrics": metrics, "yoy": yoy, "ratios": ratios,
             "trend_ratios": trend_ratios,
             "ltm": ltm_data,

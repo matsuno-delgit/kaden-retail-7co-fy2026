@@ -191,8 +191,7 @@
     <div id="fy-tabs" class="flex flex-wrap gap-2">
       <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2027">2027年3月期</button>
       <button class="fy-tab active px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2026">2026年3月期</button>
-      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2025" disabled
-              title="当該年度を当期とする集計Excelが未整備のため準備中">2025年3月期</button>
+      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2025">2025年3月期</button>
       <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2024">2024年3月期</button>
     </div>
     <div class="mt-2 text-xs text-slate-500">
@@ -227,7 +226,7 @@
     <div class="flex flex-wrap items-center gap-3 mb-4">
       <h2 class="text-xl font-semibold text-slate-900">📊 7社サマリー（直近通期 実績）</h2>
       <button id="dupont-toggle" type="button" class="dupont-toggle"
-              aria-pressed="false" title="純利益率・総資産回転率・財務レバレッジ・ROE の表示を切り替えます">
+              aria-pressed="false" title="在庫回転率・純利益率・総資産回転率・財務レバレッジ・ROE の表示を切り替えます">
         <span class="switch"></span>デュポンROEを表示
       </button>
     </div>
@@ -557,11 +556,12 @@ const FY_LABELS = {
 };
 const ALL_PERIODS = ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"];
 // データセット × 会計年度 で選択できる期間。ここに無い組み合わせはタブを無効化する。
-//   組替版: 2027(1Qのみ) / 2026 / 2025 の3年度
-//   通常版: 2026 / 2024 の2年度（2027は8月決算社の1Q単独が未抽出、2025は集計Excel未整備）
+//   組替版: 2027(1Qのみ) / 2026 / 2025 の3年度（2024は前々期版の連続性が担保できず対象外）
+//   通常版: 2027(1Qのみ) / 2026 / 2025 / 2024 の4年度
+// 2027年3月期の1Qは、3月決算社ではノジマのみ開示済み。他社は枠だけ用意している。
 const AVAILABILITY = {
   kumikae: { fy2027: ["q1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
-  normal:  { fy2027: [],     fy2026: ALL_PERIODS, fy2025: [],          fy2024: ALL_PERIODS },
+  normal:  { fy2027: ["q1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: ALL_PERIODS },
 };
 
 function periodsFor(dataset, fy) {
@@ -572,8 +572,7 @@ function dataFileFor(fy, period, dataset) {
   if (dataset === "kumikae") {
     if (fy === "fy2026") return PERIOD_TO_FILE_KUMIKAE[period];
     if (fy === "fy2025") return `data/companies_fy2025_kumikae_${period}.json`;
-    // 2027年3月期は暦月で揃えて作成しているため、そのまま組替版として扱う
-    if (fy === "fy2027") return `data/companies_fy2027_${period}.json`;
+    if (fy === "fy2027") return `data/companies_fy2027_kumikae_${period}.json`;
     return null;
   }
   if (fy === "fy2026") return PERIOD_TO_FILE[period];
@@ -723,8 +722,8 @@ function updateDetailTableTitles(cos) {
   // 3月決算社の current_period / previous_period から年を取得して表示
   const c3 = cos.find(c => c.fiscal_year_end === "03");
   if (!c3) return;
-  const curr = formatPeriod(c3.current_period, c3.fiscal_year_end);
-  const prev = formatPeriod(c3.previous_period, c3.fiscal_year_end);
+  const curr = periodOf(c3, "current");
+  const prev = periodOf(c3, "previous");
   if (curr) {
     const t = document.getElementById("detail-table-title");
     if (t) t.textContent = `📋 7社 詳細業績テーブル（${curr}）`;
@@ -798,6 +797,17 @@ function formatPeriod(periodCode, fiscalYearEnd) {
   if (!suffix) return base;
   return `${base} ${PERIOD_SUFFIX_LABELS[suffix] || suffix}`;
 }
+// 各社の実際の決算期間ラベル。組替版では8月決算社の四半期番号がずれるため、
+// JSON側が period_labels を持っていればそれを優先する（例:「2025年08月期 3Q単独」）。
+function periodOf(c, which = "current") {
+  const explicit = c.period_labels?.[which];
+  if (explicit) return explicit;
+  const code = which === "current" ? c.current_period
+             : which === "previous" ? c.previous_period
+             : which === "forecast" ? c.forecast_period
+             : c.prev_previous_period;
+  return formatPeriod(code, c.fiscal_year_end);
+}
 
 // デュポンROE（純利益率・総資産回転率・財務レバレッジ・ROE）の表示状態。
 // 既定は非表示。項目が多くなりサマリーが読みにくくなるため。
@@ -831,11 +841,13 @@ function renderKpiCards(cos) {
     const nmYoY = c.ratios?.net_margin_pt_yoy;
     const at = c.ltm?.current?.asset_turnover;        // 直近12ヶ月ベースの総資産回転率
     const atDiff = c.ratios?.asset_turnover_diff;
+    const invT = c.ltm?.current?.inventory_turnover;  // 直近12ヶ月ベースの在庫回転率
+    const invDiff = c.ratios?.inventory_turnover_diff;
     const lev = c.ratios?.financial_leverage;         // 総資産 ÷ 自己資本
     const levDiff = c.ratios?.financial_leverage_diff;
     const roe = c.ratios?.roe_pct;                    // 直近12ヶ月純利益 ÷ 平均自己資本
     const roeYoY = c.ratios?.roe_pt_yoy;
-    const periodLabel = `${formatPeriod(c.current_period, c.fiscal_year_end)}${
+    const periodLabel = `${periodOf(c, "current")}${
       c.consolidation === "non_consolidated" ? "(非連結)" :
       c.consolidation === "segment" ? "(セグメント)" : ""
     }`;
@@ -861,6 +873,8 @@ function renderKpiCards(cos) {
         </div>
         <dl class="kpi-dl mt-3">
           ${row("売上高", fmtMillions(rev), fmtPctTriangle(yoyRev), yoyRev)}
+          ${row("在庫回転率", fmtTurn(invT), fmtTurnDiff(invDiff), invDiff, "dupont-row",
+                "直近12ヶ月売上高 ÷ 平均棚卸資産（当期末・前年同期末の2期平均）")}
           ${row("売上総利益率", fmtPctVal(gm), fmtPt(gmYoY), gmYoY, "dupont-hide")}
           ${row("経常利益", fmtMillions(ord), fmtPctTriangle(yoyOrd), yoyOrd, "dupont-hide")}
           ${row("経常利益率", fmtPctVal(om), fmtPt(omYoY), omYoY, "dupont-hide")}
@@ -1107,7 +1121,7 @@ function renderDetailTable(cos) {
   tbody.innerHTML = "";
   const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
   cos.forEach(c => {
-    const periodLabel = `${c.current_period.replace("FY","")}年${c.fiscal_year_end}月期`;
+    const periodLabel = periodOf(c, "current");
     const yoyRev = getYoY(c, "Revenue");
     const yoyOrd = getYoY(c, "OrdinaryIncome");
     const yoyNi = getYoY(c, "NetIncome");
@@ -1147,9 +1161,7 @@ function renderDetailTablePrev(cos) {
   tbody.innerHTML = "";
   const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
   cos.forEach(c => {
-    const periodLabel = c.previous_period
-      ? `${c.previous_period.replace("FY","")}年${c.fiscal_year_end}月期`
-      : "—";
+    const periodLabel = periodOf(c, "previous") || "—";
     const yoyRev = getYoY(c, "Revenue", "previous_yoy_pct");
     const yoyOrd = getYoY(c, "OrdinaryIncome", "previous_yoy_pct");
     const yoyNi = getYoY(c, "NetIncome", "previous_yoy_pct");
@@ -1185,7 +1197,7 @@ function renderForecastTable(cos) {
   const tbody = document.getElementById("forecast-table-body");
   tbody.innerHTML = "";
   cos.forEach(c => {
-    const forecastLabel = `${c.forecast_period.replace("FY","")}年${c.fiscal_year_end}月期`;
+    const forecastLabel = periodOf(c, "forecast");
     // 四半期/上期/下期ダッシュボードでは forecast=null（推移グラフのスケール歪み回避用）。
     // 「次期通期業績予想」表は通期計画値 forecast_annual を優先参照、無ければ forecast。
     const revF = getMetric(c, "Revenue", "forecast_annual") ?? getMetric(c, "Revenue", "forecast");

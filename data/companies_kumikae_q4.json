@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-07-31",
+  "generated_at": "2026-08-02",
   "source": "組替版 (組替4Q単独 (12〜翌2月))",
   "period_type": "kumikae_q4",
   "dataset_type": "kumikae",
@@ -11,10 +11,15 @@
       "ticker": "9831",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 4Q単独",
+        "previous": "2025年03月期 4Q単独",
+        "prev_previous": "2024年03月期 4Q単独"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -150,7 +155,9 @@
         "roic_pct": 1.1,
         "roe_pt_yoy": -2.0,
         "roic_pt_yoy": -1.9,
-        "asset_turnover_diff": 0.041
+        "asset_turnover_diff": 0.041,
+        "inventory_turnover_ltm": 4.368,
+        "inventory_turnover_diff": 0.328
       },
       "trend_ratios": {
         "roe": {
@@ -251,10 +258,15 @@
       "ticker": "9831-DK",
       "fiscal_year_end": "03",
       "consolidation": "segment",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 4Q単独",
+        "previous": "2025年03月期 4Q単独",
+        "prev_previous": "2024年03月期 4Q単独"
+      },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -390,7 +402,9 @@
         "roic_pct": null,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
-        "asset_turnover_diff": null
+        "asset_turnover_diff": null,
+        "inventory_turnover_ltm": 4.427,
+        "inventory_turnover_diff": 0.28
       },
       "trend_ratios": {
         "roe": {
@@ -491,10 +505,15 @@
       "ticker": "8282",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 4Q単独",
+        "previous": "2025年03月期 4Q単独",
+        "prev_previous": "2024年03月期 4Q単独"
+      },
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -630,7 +649,9 @@
         "roic_pct": 5.6,
         "roe_pt_yoy": 2.0,
         "roic_pt_yoy": 1.1,
-        "asset_turnover_diff": 0.083
+        "asset_turnover_diff": 0.083,
+        "inventory_turnover_ltm": 4.422,
+        "inventory_turnover_diff": 0.076
       },
       "trend_ratios": {
         "roe": {
@@ -731,10 +752,15 @@
       "ticker": "2730",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 4Q単独",
+        "previous": "2025年03月期 4Q単独",
+        "prev_previous": "2024年03月期 4Q単独"
+      },
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -870,7 +896,9 @@
         "roic_pct": 5.5,
         "roe_pt_yoy": 0.3,
         "roic_pt_yoy": 0.4,
-        "asset_turnover_diff": 0.055
+        "asset_turnover_diff": 0.055,
+        "inventory_turnover_ltm": 6.721,
+        "inventory_turnover_diff": 0.266
       },
       "trend_ratios": {
         "roe": {
@@ -971,10 +999,15 @@
       "ticker": "8173",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 4Q単独",
+        "previous": "2025年03月期 4Q単独",
+        "prev_previous": "2024年03月期 4Q単独"
+      },
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1110,7 +1143,9 @@
         "roic_pct": 2.4,
         "roe_pt_yoy": -0.2,
         "roic_pt_yoy": 0.8,
-        "asset_turnover_diff": 0.16
+        "asset_turnover_diff": 0.16,
+        "inventory_turnover_ltm": 6.231,
+        "inventory_turnover_diff": 0.806
       },
       "trend_ratios": {
         "roe": {
@@ -1211,10 +1246,15 @@
       "ticker": "7419",
       "fiscal_year_end": "03",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年03月期 4Q単独",
+        "previous": "2025年03月期 4Q単独",
+        "prev_previous": "2024年03月期 4Q単独"
+      },
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1350,7 +1390,9 @@
         "roic_pct": 12.3,
         "roe_pt_yoy": 0.3,
         "roic_pt_yoy": -4.4,
-        "asset_turnover_diff": 0.155
+        "asset_turnover_diff": 0.155,
+        "inventory_turnover_ltm": 12.98,
+        "inventory_turnover_diff": 0.766
       },
       "trend_ratios": {
         "roe": {
@@ -1451,10 +1493,15 @@
       "ticker": "3048",
       "fiscal_year_end": "08",
       "consolidation": "consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年08月期 2Q単独",
+        "previous": "2025年08月期 2Q単独",
+        "prev_previous": "2024年08月期 2Q単独"
+      },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1590,7 +1637,9 @@
         "roic_pct": 8.1,
         "roe_pt_yoy": 0.2,
         "roic_pt_yoy": 1.2,
-        "asset_turnover_diff": 0.055
+        "asset_turnover_diff": 0.055,
+        "inventory_turnover_ltm": 7.668,
+        "inventory_turnover_diff": -0.018
       },
       "trend_ratios": {
         "roe": {
@@ -1691,10 +1740,15 @@
       "ticker": "7513",
       "fiscal_year_end": "08",
       "consolidation": "non_consolidated",
-      "current_period": "FY2026",
-      "previous_period": "FY2025",
-      "prev_previous_period": "FY2024",
+      "current_period": "FY2026-Q4",
+      "previous_period": "FY2025-Q4",
+      "prev_previous_period": "FY2024-Q4",
       "forecast_period": "FY2027",
+      "period_labels": {
+        "current": "2026年08月期 2Q単独",
+        "previous": "2025年08月期 2Q単独",
+        "prev_previous": "2024年08月期 2Q単独"
+      },
       "tanshin_url": "https://www.kojima.net/corporation/ir/",
       "metrics": {
         "Revenue": {
@@ -1830,7 +1884,9 @@
         "roic_pct": 6.6,
         "roe_pt_yoy": -0.2,
         "roic_pt_yoy": 0.0,
-        "asset_turnover_diff": -0.023
+        "asset_turnover_diff": -0.023,
+        "inventory_turnover_ltm": 7.211,
+        "inventory_turnover_diff": 0.305
       },
       "trend_ratios": {
         "roe": {
