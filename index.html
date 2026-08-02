@@ -276,6 +276,12 @@
   </section>
 
   <!-- Section: Trend -->
+  <p class="text-xs text-slate-600 bg-slate-50 border border-slate-200 rounded px-3 py-2 mb-3">
+    推移グラフは、選択中のデータセット・期間で用意している<strong>全決算期</strong>を古い順に並べている
+    （年度を切り替えても横軸は変わらない）。
+    <span style="display:inline-block;vertical-align:middle;width:1rem;height:0.75rem;margin:0 .25rem;background:rgba(56,189,248,0.35);border:1px solid rgba(2,132,199,0.5)"></span>
+    の薄い青帯が、いま選択している決算期の位置。破線でつないだ点は会社計画（実績ではない）。
+  </p>
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 id="trend-revenue-title" class="text-lg font-semibold mb-3 text-slate-900">売上高 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
@@ -299,7 +305,7 @@
 
   <!-- Section: Profitability & Efficiency Trend (ROE / ROIC / 総資産回転率 / 在庫回転率) -->
   <section id="section-ratios-trend" class="mb-10">
-    <h2 class="text-xl font-semibold mb-3 text-slate-900">📐 収益性・効率性 推移（前々期 / 前期 / 当期 / 次期予想）</h2>
+    <h2 id="ratios-trend-title" class="text-xl font-semibold mb-3 text-slate-900">📐 収益性・効率性 推移</h2>
     <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 inline-block mb-3">
       ※ 次期予想のBS（総資産・自己資本・有利子負債・棚卸資産）は各社非開示のため、暫定的に当期実績BSを流用して算出。
       法人税は当期実効率（Tax / OP）を予想営業利益に適用して推計。
@@ -320,18 +326,23 @@
         <div class="chart-box-tall"><canvas id="chart-trend-roic"></canvas></div>
       </div>
       <div class="bg-white rounded-lg shadow p-5">
-        <h3 class="text-lg font-semibold mb-3 text-slate-900">総資産回転率 推移（回）</h3>
-        <p class="text-xs text-slate-500 mb-2">売上高 ÷ 総資産</p>
+        <h3 class="text-lg font-semibold mb-3 text-slate-900">総資産回転率 推移（回）<span class="text-sm text-slate-500">／直近12ヶ月ベース</span></h3>
+        <p class="text-xs text-slate-500 mb-2">
+          直近12ヶ月（直近4四半期）の売上高 ÷ 平均総資産（当期末・前年同期末の2期平均）
+        </p>
         <div class="chart-box-tall"><canvas id="chart-trend-asset-turnover"></canvas></div>
       </div>
       <div class="bg-white rounded-lg shadow p-5">
-        <h3 class="text-lg font-semibold mb-3 text-slate-900">在庫回転率 推移（回）</h3>
-        <p class="text-xs text-slate-500 mb-1">売上高 ÷ 棚卸資産</p>
+        <h3 class="text-lg font-semibold mb-3 text-slate-900">在庫回転率 推移（回）<span class="text-sm text-slate-500">／直近12ヶ月ベース</span></h3>
+        <p class="text-xs text-slate-500 mb-1">
+          直近12ヶ月（直近4四半期）の売上高 ÷ 平均棚卸資産（当期末・前年同期末の2期平均）
+        </p>
         <p class="text-xs text-sky-700 bg-sky-50 border border-sky-200 rounded px-2 py-1 mb-2 inline-block">
-          ※ ヤマダHDは連結BSベース（商品及び製品＋販売用不動産を分母）、
-          ヤマダ（デンキセグメント）は<strong>会社開示値</strong>（ヤマダデンキPOSベース実績/計画。
+          ※ ヤマダHDは連結BSベース（商品及び製品＋販売用不動産を分母）。
+          ヤマダ（デンキセグメント）だけは連結BSから2期平均を組めないため<strong>会社開示値</strong>
+          （ヤマダデンキPOSベース。期末在庫÷通期売上の年度指標で、他社の2期平均とは分母が異なる。
           説明会資料 2025/5/8 P25・P42、2026/5/8 P16・P28・P37・P44）。
-          前々期(2024/3期)のみ回転率の直接開示が無いため、在庫回転日数100日から365÷100＝3.65回で換算
+          2024年3月期のみ回転率の直接開示が無いため、在庫回転日数100日から365÷100＝3.65回で換算
         </p>
         <div class="chart-box-tall"><canvas id="chart-trend-inventory-turnover"></canvas></div>
       </div>
@@ -345,7 +356,7 @@
       各四半期時点で「直近12ヶ月（当該四半期＋その前3四半期）の売上高」を分子、
       「当該四半期末と前年同四半期末の平均残高」を分母として算定。
       四半期の売上を期末残高で割る単純計算と違い、期間の長さと期末残高の季節性の影響を受けないため、
-      同じ四半期時点どうしを前々期・前期・当期で並べて比較できる。
+      同じ四半期時点どうしを年度をまたいで並べて比較できる。
     </p>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="bg-white rounded-lg shadow p-5">
@@ -618,6 +629,131 @@ function nonSegmentCos(cos) {
   return cos.filter(c => !c.is_segment);
 }
 
+// ---------------------------------------------------------------------------
+// 推移グラフ用の時系列
+//
+// 従来は選択中の年度が持つ「前々期 / 前期 / 当期」の3点だけを描いていたため、
+// 2024年3月期を選ぶとその先の実績が見えなかった。ここでは同じデータセット・
+// 同じ期間種別で用意されている全年度のJSONを読み、古い順に1本の時系列へ束ねる。
+// 先頭には最古年度の「前期」を足して1点ぶん過去へ伸ばす。
+// ---------------------------------------------------------------------------
+const FY_ASC = ["fy2024", "fy2025", "fy2026", "fy2027"];
+const JSON_CACHE = new Map();
+let TREND_SERIES = null;
+
+function fetchYear(fy, period, dataset) {
+  const file = dataFileFor(fy, period, dataset);
+  if (!file) return Promise.resolve(null);
+  if (!JSON_CACHE.has(file)) {
+    JSON_CACHE.set(file, fetch(`${file}?v=${Date.now()}`, { cache: "no-store" })
+      .then(r => (r.ok ? r.json() : null)).catch(() => null));
+  }
+  return JSON_CACHE.get(file);
+}
+
+// 「FY2026-Q1」→ ["2026年3月期", "1Q"]。軸ラベルは3月決算社の期間コードで統一する
+// （8月決算社は決算期がずれるため、各社の実期間はツールチップ側で補う）。
+function axisLabelFromCode(code) {
+  if (!code) return [""];
+  const [fy, suffix] = code.split("-");
+  return [`${fy.replace("FY", "")}年3月期`, PERIOD_SUFFIX_LABELS[suffix] || "通期"];
+}
+
+async function buildTrendSeries(period) {
+  const years = FY_ASC.filter(fy => periodsFor(DATASET_TYPE, fy).includes(period));
+  const datas = await Promise.all(years.map(fy => fetchYear(fy, period, DATASET_TYPE)));
+  const points = [];   // 軸の各点 {fy, label, kind}
+  const src = [];      // 各点の値の取り出し方 {data, field}
+  years.forEach((fy, i) => {
+    const d = datas[i];
+    if (!d) return;
+    const c3 = d.companies.find(c => c.fiscal_year_end === "03");
+    if (!src.length) {   // 最古年度の前期を先頭に足す
+      points.push({ fy: null, label: axisLabelFromCode(c3?.previous_period), kind: "prev" });
+      src.push({ data: d, field: "previous" });
+    }
+    points.push({ fy, label: axisLabelFromCode(c3?.current_period), kind: "actual" });
+    src.push({ data: d, field: "current" });
+  });
+  // 次期計画を持つのは通常版の通期だけ。最新年度(2026年3月期)のJSONから取る。
+  if (DATASET_TYPE === "normal" && period === "fy" && src.length) {
+    points.push({ fy: null, label: ["2027年3月期", "計画"], kind: "forecast" });
+    src.push({ data: src[src.length - 1].data, field: "forecast" });
+  }
+  TREND_SERIES = {
+    points, src,
+    currentIndex: points.findIndex(p => p.fy === CURRENT_FY),
+    forecastIndex: points.findIndex(p => p.kind === "forecast"),
+  };
+}
+
+function seriesOf(coKey, pick) {
+  if (!TREND_SERIES) return [];
+  return TREND_SERIES.src.map(s => {
+    const c = s.data.companies.find(x => x.key === coKey);
+    return (c ? pick(c)?.[s.field] : null) ?? null;
+  });
+}
+
+// 選択中の決算期を薄い縦帯で示す。全期間を並べると「今どこか」が分からなくなるため。
+const currentBandPlugin = {
+  id: "currentBand",
+  beforeDatasetsDraw(chart, _args, opts) {
+    const i = opts?.index;
+    if (i == null || i < 0) return;
+    const x = chart.scales.x;
+    if (!x) return;
+    const n = x.getLabels().length || 1;
+    const half = (x.width / n) / 2;
+    const cx = x.getPixelForValue(i);
+    const { ctx, chartArea } = chart;
+    ctx.save();
+    ctx.fillStyle = "rgba(56,189,248,0.16)";
+    ctx.fillRect(cx - half, chartArea.top, half * 2, chartArea.bottom - chartArea.top);
+    ctx.strokeStyle = "rgba(2,132,199,0.35)";
+    ctx.lineWidth = 1;
+    ctx.strokeRect(cx - half, chartArea.top, half * 2, chartArea.bottom - chartArea.top);
+    ctx.restore();
+  },
+};
+
+// 推移グラフ共通のオプション断片（選択中決算期の帯・凡例・軸ラベル）
+function trendCommon(yLabel, yTicks, tooltipLabel) {
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      currentBand: { index: TREND_SERIES?.currentIndex ?? -1 },
+      legend: { position: "bottom", labels: { boxWidth: 14 } },
+      tooltip: {
+        callbacks: {
+          title: (items) => {
+            const p = TREND_SERIES?.points[items[0].dataIndex];
+            if (!p) return items[0].label;
+            return p.label.join(" ") + (p.kind === "forecast" ? "（会社計画）" : "");
+          },
+          label: tooltipLabel,
+        },
+      },
+    },
+    scales: {
+      y: { ticks: { callback: yTicks }, title: { display: true, text: yLabel } },
+    },
+  };
+}
+
+function trendPointStyle(fcIdx) {
+  return {
+    tension: 0.2,
+    borderWidth: 2,
+    pointRadius: 4,
+    pointHoverRadius: 6,
+    spanGaps: true,
+    // 会社計画の点は実績と区別するため破線でつなぐ
+    segment: { borderDash: (ctx) => (fcIdx >= 0 && ctx.p1DataIndex === fcIdx ? [6, 4] : undefined) },
+  };
+}
+
 // 期間に応じてセクション・グラフタイトルを表示制御
 // 「次期予想」関連は通期(fy)のみで表示。他期間は非表示。
 // 次期計画を採録しているのは通常版の2026年3月期だけ
@@ -640,16 +776,24 @@ function applyPeriodVisibility(period) {
   // 直近四半期(LTM)回転率は四半期タブ専用。通期は上の「収益性・効率性 推移」と重複するため出さない
   const ltmSec = document.getElementById("section-ltm-turnover");
   if (ltmSec) ltmSec.style.display = isAnnual ? "none" : "";
-  // 推移グラフタイトル（次期予想を含むかどうか）
-  const trendSuffix = (isAnnual && hasForecast()) ? "（前々期 / 前期 / 当期 / 次期予想）" : "（前々期 / 前期 / 当期）";
-  const t1 = document.getElementById("trend-revenue-title");
-  if (t1) t1.textContent = `売上高 推移${trendSuffix}`;
-  const t2 = document.getElementById("trend-op-title");
-  if (t2) t2.textContent = `経常利益 推移${trendSuffix}`;
-  const t3 = document.getElementById("trend-gm-title");
-  if (t3) t3.textContent = `売上総利益率 推移${trendSuffix}`;
-  const t4 = document.getElementById("trend-ni-title");
-  if (t4) t4.textContent = `当期純利益 推移${trendSuffix}`;
+}
+
+// 推移グラフのタイトルを実際の期間レンジで書く（例:「2023年3月期 通期 〜 2027年3月期 計画」）
+function updateTrendTitles() {
+  const pts = TREND_SERIES?.points ?? [];
+  const span = pts.length
+    ? `（${pts[0].label.join(" ")} 〜 ${pts[pts.length - 1].label.join(" ")}）`
+    : "";
+  const t = (id, name) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = `${name} 推移${span}`;
+  };
+  t("trend-revenue-title", "売上高");
+  t("trend-op-title", "経常利益");
+  t("trend-gm-title", "売上総利益率");
+  t("trend-ni-title", "当期純利益");
+  const sec = document.getElementById("ratios-trend-title");
+  if (sec) sec.textContent = `📐 収益性・効率性 推移${span}`;
 }
 
 async function loadAndRender(period) {
@@ -664,6 +808,7 @@ async function loadAndRender(period) {
     DASHBOARD_DATA = data;
     document.getElementById("generated-at").textContent = data.generated_at;
     document.getElementById("current-period-label").textContent = PERIOD_LABELS[period] || period;
+    await buildTrendSeries(period);   // 推移グラフ用に全年度を束ねる
     renderAll(data.companies);
   } catch (err) {
     console.error("Failed to load period:", period, err);
@@ -681,6 +826,7 @@ function renderAll(cos) {
 
   renderKpiCards(allCos);
   applyDupontVisibility();          // カード再描画のたびに表示状態を復元
+  updateTrendTitles();
 
   // 4つの横棒グラフは売上高の降順で社順を固定し、どのグラフでも同じ並びで読めるようにする
   const orderedCos = [...allCos].sort(
@@ -708,8 +854,11 @@ function renderAll(cos) {
   if (CURRENT_PERIOD === "fy") {
     renderRatioTrendLine(fullCos, "roe",            "chart-trend-roe",            "ROE (%)",          "pct");
     renderRatioTrendLine(fullCos, "roic",           "chart-trend-roic",           "ROIC (%)",         "pct");
-    renderRatioTrendLine(fullCos, "asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
-    renderRatioTrendLine(allCos,  "inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
+    // 回転率はサマリーカード・四半期グラフと同じ「直近12ヶ月売上 ÷ 2期平均残高」に統一。
+    // デンキセグメントだけは連結BSから2期平均を組めないため会社開示の年度指標を使う。
+    renderRatioTrendLine(fullCos, "ltm_asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
+    renderRatioTrendLine(allCos,  "ltm_inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn",
+                         { segmentKey: "inventory_turnover" });
     if (hasForecast()) renderForecastTable(allCos);   // 次期通期業績予想
   }
   renderDetailTablePrev(allCos);      // 前期実績テーブル
@@ -1004,73 +1153,53 @@ function renderYoYBar(cos, item, canvasId, xLabel) {
 }
 
 function renderTrendLine(cos, item, canvasId, yLabel) {
-  // 通期(fy)は4点(前々期/前期/当期/次期予想)、その他期間は3点(前々期/前期/当期)
-  const isAnnual = (CURRENT_PERIOD === "fy") && hasForecast();
-  const labels = isAnnual ? ["前々期", "前期", "当期", "次期予想"] : ["前々期", "前期", "当期"];
+  const fcIdx = TREND_SERIES?.forecastIndex ?? -1;
   const datasets = cos.map(c => {
-    const m = c.metrics?.[item];
-    if (!m) return null;
-    const dataPoints = isAnnual
-      ? [m.prev_previous, m.previous, m.current, m.forecast]
-      : [m.prev_previous, m.previous, m.current];
+    if (!c.metrics?.[item]) return null;
+    const data = seriesOf(c.key, (x) => x.metrics?.[item]);
+    if (data.every(v => v == null)) return null;
     return {
       label: c.label,
-      data: dataPoints,
+      data,
       borderColor: COLORS[c.key],
       backgroundColor: COLORS[c.key] + "33",
-      tension: 0.2,
-      borderWidth: 2,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      spanGaps: true,
+      ...trendPointStyle(fcIdx),
     };
   }).filter(d => d);
 
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "line",
+    plugins: [currentBandPlugin],
     data: {
-      labels: labels,
+      labels: TREND_SERIES?.points.map(p => p.label) ?? [],
       datasets,
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { position: "bottom", labels: { boxWidth: 14 } },
-        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y == null ? "—" : ctx.parsed.y.toLocaleString()}` } },
-      },
-      scales: {
-        y: { ticks: { callback: (v) => (v / 1000).toFixed(0) + "K" }, title: { display: true, text: yLabel } },
-      },
-    },
+    options: trendCommon(
+      yLabel,
+      (v) => (v / 1000).toFixed(0) + "K",
+      (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y == null ? "—" : ctx.parsed.y.toLocaleString()}`),
   });
 }
 
 // 比率推移グラフ（ROE/ROIC/総資産回転率/在庫回転率）
 // `unitKind`: "pct" → 軸/ツールチップを% / "turn" → 軸/ツールチップを回（小数2桁）
-function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
-  // 通期(fy)は4点(前々期/前期/当期/次期予想)、その他期間は3点
-  const isAnnual = (CURRENT_PERIOD === "fy") && hasForecast();
+// opts.segmentKey: セグメント（デンキ）は連結BSから2期平均を組めないため、
+// 会社開示の年度指標を持つ別キーに差し替える。
+function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind, opts = {}) {
+  const fcIdx = TREND_SERIES?.forecastIndex ?? -1;
   const datasets = cos.map(c => {
-    const r = c.trend_ratios?.[ratioKey];
-    if (!r) return null;
+    const useDisclosed = !!(opts.segmentKey && c.is_segment);
+    const key = useDisclosed ? opts.segmentKey : ratioKey;
+    if (!c.trend_ratios?.[key]) return null;
+    const data = seriesOf(c.key, (x) => x.trend_ratios?.[key]);
     // データが全て null の会社（=非該当）はデータセットから除外
-    if (r.prev_previous == null && r.previous == null && r.current == null && r.forecast == null) return null;
+    if (data.every(v => v == null)) return null;
     return {
       label: c.label,
-      data: isAnnual ? [r.prev_previous, r.previous, r.current, r.forecast]
-                     : [r.prev_previous, r.previous, r.current],
+      data,
       borderColor: COLORS[c.key],
       backgroundColor: COLORS[c.key] + "33",
-      tension: 0.2,
-      borderWidth: 2,
-      pointRadius: 4,
-      pointHoverRadius: 6,
-      // 次期予想の点（4点目）は暫定値なので破線でつなぐ
-      segment: {
-        borderDash: (ctx) => ctx.p1DataIndex === 3 ? [6, 4] : undefined,
-      },
-      spanGaps: true,
+      ...trendPointStyle(fcIdx),
     };
   }).filter(d => d);
 
@@ -1080,30 +1209,15 @@ function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
 
   new Chart(document.getElementById(canvasId).getContext("2d"), {
     type: "line",
+    plugins: [currentBandPlugin],
     data: {
-      labels: isAnnual ? ["前々期", "前期", "当期", "次期予想*"] : ["前々期", "前期", "当期"],
+      labels: TREND_SERIES?.points.map(p => p.label) ?? [],
       datasets,
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { position: "bottom", labels: { boxWidth: 14 } },
-        tooltip: {
-          callbacks: {
-            label: (ctx) => `${ctx.dataset.label}: ${fmtY(ctx.parsed.y)}${ctx.dataIndex === 2 ? " (暫定)" : ""}`,
-          },
-        },
-      },
-      scales: {
-        y: {
-          ticks: {
-            callback: unitKind === "pct" ? ((v) => v + "%") : ((v) => v.toFixed(1)),
-          },
-          title: { display: true, text: yLabel },
-        },
-      },
-    },
+    options: trendCommon(
+      yLabel,
+      unitKind === "pct" ? ((v) => v + "%") : ((v) => v.toFixed(1)),
+      (ctx) => `${ctx.dataset.label}: ${fmtY(ctx.parsed.y)}`),
   });
 }
 

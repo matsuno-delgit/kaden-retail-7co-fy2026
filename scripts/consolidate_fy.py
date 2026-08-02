@@ -140,6 +140,12 @@ SUFFIX = {"fy": "", "q1": "-Q1", "q2": "-Q2", "h1": "-H1",
 SUFFIX_OVERRIDE = {("fy2027_kumikae", "q1", "08"): "-Q3"}
 
 
+# ヤマダ（デンキセグメント）の在庫回転率は会社開示値（ヤマダデンキPOSベース）を使う。
+# 連結BSからは算定できないため。2024年3月期は在庫回転日数100日の開示から 365÷100。
+# 出所: ヤマダHD 決算説明会資料 2025/5/8 P25・P42、2026/5/8 P16・P28・P37・P44
+DENKI_DISCLOSED_TURNOVER = {"FY2024": 3.65, "FY2025": 4.0, "FY2026": 4.5, "FY2027": 5.0}
+
+
 def to_num(v):
     if v is None or (isinstance(v, str) and v.startswith("=")):
         return None
@@ -147,6 +153,12 @@ def to_num(v):
         return float(v)
     except (TypeError, ValueError):
         return None
+
+
+def turnover(num, den):
+    if num is None or not den:
+        return None
+    return round(num / den, 3)
 
 
 def build_one(fy_key, conf, period, folders):
@@ -258,6 +270,10 @@ def build_one(fy_key, conf, period, folders):
         for p in ("prev_previous", "previous", "current"):
             trend["gross_margin"][p] = margin(metrics["GrossProfit"][p], metrics["Revenue"][p])
             trend["net_margin"][p] = margin(metrics["NetIncome"][p], metrics["Revenue"][p])
+            # 通期グラフ用の回転率。consolidate.py / consolidate_kumikae.py と同じ
+            # 「当該期間売上 ÷ 期末残高」で揃える（LTM・2期平均ベースは ltm_* 側）。
+            trend["asset_turnover"][p] = turnover(metrics["Revenue"][p], metrics["TotalAssets"][p])
+            trend["inventory_turnover"][p] = turnover(metrics["Revenue"][p], metrics["Inventory"][p])
         trend["ltm_asset_turnover"] = ltm_trend(ltm_data, "asset_turnover")
         trend["ltm_inventory_turnover"] = ltm_trend(ltm_data, "inventory_turnover")
         trend["roe"] = ltm_trend(ltm_data, "roe_pct")
@@ -265,6 +281,15 @@ def build_one(fy_key, conf, period, folders):
 
         if co.get("is_segment"):
             ratios["equity_ratio_pct"] = None
+            # デンキセグメントはBS非開示のため総資産系は出せない
+            trend["asset_turnover"] = {k: None for k in trend["asset_turnover"]}
+            # 在庫回転率は会社開示値（ヤマダデンキPOSベース）。年度指標のため通期のみ。
+            trend["inventory_turnover"] = {
+                "prev_previous": DENKI_DISCLOSED_TURNOVER.get(conf["pp_fy"][fe]) if period == "fy" else None,
+                "previous": DENKI_DISCLOSED_TURNOVER.get(conf["prev_fy"][fe]) if period == "fy" else None,
+                "current": DENKI_DISCLOSED_TURNOVER.get(conf["curr_fy"][fe]) if period == "fy" else None,
+                "forecast": None,
+            }
 
         companies_out.append({
             "key": co["key"], "label": co["label"], "ticker": co["ticker"],

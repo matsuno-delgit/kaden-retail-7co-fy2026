@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-02",
+  "generated_at": "2026-08-03",
   "source": "各社決算短信 (2027年3月期（組替） q1)",
   "period_type": "fy2027_kumikae_q1",
   "companies": [
@@ -172,13 +172,13 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 0.277,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 0.84,
           "previous": null,
           "current": null,
           "forecast": null
@@ -666,13 +666,13 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 0.398,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.0,
           "previous": null,
           "current": null,
           "forecast": null
@@ -913,13 +913,13 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 0.396,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.313,
           "previous": null,
           "current": null,
           "forecast": null
@@ -1160,13 +1160,13 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 0.378,
           "previous": null,
           "current": null,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.104,
           "previous": null,
           "current": null,
           "forecast": null
@@ -1407,15 +1407,15 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
-          "previous": null,
-          "current": null,
+          "prev_previous": 0.34,
+          "previous": 0.364,
+          "current": 0.411,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
-          "previous": null,
-          "current": null,
+          "prev_previous": 2.661,
+          "previous": 2.985,
+          "current": 2.591,
           "forecast": null
         },
         "gross_margin": {
@@ -1654,15 +1654,15 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
-          "previous": null,
-          "current": null,
+          "prev_previous": 0.479,
+          "previous": 0.495,
+          "current": 0.513,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
-          "previous": null,
-          "current": null,
+          "prev_previous": 1.939,
+          "previous": 1.905,
+          "current": 2.041,
           "forecast": null
         },
         "gross_margin": {
@@ -1901,15 +1901,15 @@
           "forecast": null
         },
         "asset_turnover": {
-          "prev_previous": null,
-          "previous": null,
-          "current": null,
+          "prev_previous": 0.618,
+          "previous": 0.608,
+          "current": 0.594,
           "forecast": null
         },
         "inventory_turnover": {
-          "prev_previous": null,
-          "previous": null,
-          "current": null,
+          "prev_previous": 1.734,
+          "previous": 1.799,
+          "current": 1.938,
           "forecast": null
         },
         "gross_margin": {
