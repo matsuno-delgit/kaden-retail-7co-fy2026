@@ -225,6 +225,7 @@
   <section class="mb-10">
     <div class="flex flex-wrap items-center gap-3 mb-4">
       <h2 class="text-xl font-semibold text-slate-900">📊 7社サマリー（直近通期 実績）</h2>
+      <span class="text-xs text-slate-500">金額は百万円（グラフの軸は億円）</span>
       <button id="dupont-toggle" type="button" class="dupont-toggle"
               aria-pressed="false" title="在庫回転率・純利益率・総資産回転率・財務レバレッジ・ROE の表示を切り替えます">
         <span class="switch"></span>デュポンROEを表示
@@ -233,10 +234,10 @@
     <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
   </section>
 
-  <!-- Section: 売上高ランキング & 経常利益率ランキング -->
+  <!-- Section: 売上高ランキング & 営業利益率ランキング -->
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高ランキング（百万円）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">売上高ランキング（億円）</h3>
       <p class="text-xs text-slate-500 mb-2">以下6つのグラフは、この売上高の降順で社の並びを揃えています</p>
       <div class="chart-box"><canvas id="chart-revenue"></canvas></div>
     </div>
@@ -261,15 +262,15 @@
     </div>
   </section>
 
-  <!-- Section: 経常利益 -->
+  <!-- Section: 営業利益 -->
   <section class="mb-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益（百万円）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益（億円）</h3>
       <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順</p>
       <div class="chart-box"><canvas id="chart-op-income"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">経常利益 前期比（%）</h3>
+      <h3 class="text-lg font-semibold mb-3 text-slate-900">営業利益 前期比（%）</h3>
       <p class="text-xs text-slate-500 mb-2">並び順は売上高の降順。増減は棒が0軸のどちら側に伸びるかで判別</p>
       <div class="chart-box"><canvas id="chart-yoy-op"></canvas></div>
     </div>
@@ -293,12 +294,12 @@
       <div class="chart-box-tall"><canvas id="chart-trend-gross-margin"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 id="trend-op-title" class="text-lg font-semibold mb-3 text-slate-900">経常利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
+      <h3 id="trend-op-title" class="text-lg font-semibold mb-3 text-slate-900">営業利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
       <div class="chart-box-tall"><canvas id="chart-trend-op"></canvas></div>
     </div>
     <div class="bg-white rounded-lg shadow p-5">
       <h3 id="trend-ni-title" class="text-lg font-semibold mb-3 text-slate-900">当期純利益 推移（前々期 / 前期 / 当期 / 次期予想）</h3>
-      <p class="text-xs text-slate-500 mb-2">金額（百万円）。ヤマダ（デンキセグメント）は純利益がセグメント開示されないため表示なし</p>
+      <p class="text-xs text-slate-500 mb-2">金額（億円）。ヤマダ（デンキセグメント）は純利益がセグメント開示されないため表示なし</p>
       <div class="chart-box-tall"><canvas id="chart-trend-net-income"></canvas></div>
     </div>
   </section>
@@ -338,11 +339,10 @@
           直近12ヶ月（直近4四半期）の売上高 ÷ 平均棚卸資産（当期末・前年同期末の2期平均）
         </p>
         <p class="text-xs text-sky-700 bg-sky-50 border border-sky-200 rounded px-2 py-1 mb-2 inline-block">
-          ※ ヤマダHDは連結BSベース（商品及び製品＋販売用不動産を分母）。
-          ヤマダ（デンキセグメント）だけは連結BSから2期平均を組めないため<strong>会社開示値</strong>
-          （ヤマダデンキPOSベース。期末在庫÷通期売上の年度指標で、他社の2期平均とは分母が異なる。
-          説明会資料 2025/5/8 P25・P42、2026/5/8 P16・P28・P37・P44）。
-          2024年3月期のみ回転率の直接開示が無いため、在庫回転日数100日から365÷100＝3.65回で換算
+          ※ ヤマダHDは連結BS「商品及び製品＋販売用不動産」が分母。
+          ヤマダ（デンキセグメント）は分母だけが<strong>推定値</strong>で、
+          連結BS「商品及び製品」×92%をデンキ在庫とみなしている（比率は会社非開示）。
+          算式は他社と同じ「直近12ヶ月売上 ÷ 2期平均棚卸資産」で統一している
         </p>
         <div class="chart-box-tall"><canvas id="chart-trend-inventory-turnover"></canvas></div>
       </div>
@@ -391,9 +391,9 @@
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">売上総利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">経常利益</th>
+              <th class="px-3 py-2 text-right">営業利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">経常利益率</th>
+              <th class="px-3 py-2 text-right">営業利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">純利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
@@ -403,7 +403,7 @@
           <tbody id="detail-table-prev-body" class="divide-y divide-slate-200"></tbody>
         </table>
       </div>
-      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。YoYは前々期(2024年3月期)比。△は減益・減収。</p>
+      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。YoYは前々期比。△は減益・減収。</p>
     </div>
   </section>
 
@@ -421,9 +421,9 @@
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">売上総利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">経常利益</th>
+              <th class="px-3 py-2 text-right">営業利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">経常利益率</th>
+              <th class="px-3 py-2 text-right">営業利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">純利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
@@ -433,7 +433,7 @@
           <tbody id="detail-table-body" class="divide-y divide-slate-200"></tbody>
         </table>
       </div>
-      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。YoYは前期(2025年3月期)比。△は減益・減収。</p>
+      <p class="text-xs text-slate-500 mt-2">数値はすべて百万円（特記なき場合）。YoYは前期比。△は減益・減収。</p>
     </div>
   </section>
 
@@ -451,9 +451,9 @@
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">売上総利益率予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">経常利益予想</th>
+              <th class="px-3 py-2 text-right">営業利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">経常利益率予想</th>
+              <th class="px-3 py-2 text-right">営業利益率予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
               <th class="px-3 py-2 text-right">純利益予想</th>
               <th class="px-3 py-2 text-right">YoY</th>
@@ -491,6 +491,11 @@ const COLORS = {
 
 // ------- ユーティリティ -------
 const fmtMillions = (v) => v == null ? "—" : v.toLocaleString("ja-JP", { maximumFractionDigits: 0 });
+// グラフの軸は「百万」表記だと 100K のような単位が混ざって読みにくいので億円に統一する。
+// データ自体は百万円のまま持ち、表示だけ 1/100 する。
+const okuTick = (v) => (v / 100).toLocaleString("ja-JP", { maximumFractionDigits: 0 });
+const fmtOku = (v) => v == null ? "—"
+  : (v / 100).toLocaleString("ja-JP", { maximumFractionDigits: 1 }) + " 億円";
 const fmtPct = (v) => v == null ? "—" : (v >= 0 ? "+" : "") + v.toFixed(2) + "%";
 const fmtYen = (v) => v == null ? "—" : v.toLocaleString("ja-JP", { maximumFractionDigits: 2 });
 
@@ -789,7 +794,7 @@ function updateTrendTitles() {
     if (el) el.textContent = `${name} 推移${span}`;
   };
   t("trend-revenue-title", "売上高");
-  t("trend-op-title", "経常利益");
+  t("trend-op-title", "営業利益");
   t("trend-gm-title", "売上総利益率");
   t("trend-ni-title", "当期純利益");
   const sec = document.getElementById("ratios-trend-title");
@@ -831,18 +836,18 @@ function renderAll(cos) {
   // 4つの横棒グラフは売上高の降順で社順を固定し、どのグラフでも同じ並びで読めるようにする
   const orderedCos = [...allCos].sort(
     (a, b) => (getMetric(b, "Revenue") ?? -Infinity) - (getMetric(a, "Revenue") ?? -Infinity));
-  // 売上高 → 売上高前期比 → 売上総利益率 → 同前期差 → 経常利益率 → 経常利益前期比
+  // 売上高 → 売上高前期比 → 売上総利益率 → 同前期差 → 営業利益率 → 営業利益前期比
   renderRevenueBar(orderedCos);
   renderYoYBar(orderedCos, "Revenue", "chart-yoy-revenue", "売上 YoY");
   renderGrossMarginBar(orderedCos);
   renderGrossMarginDiffBar(orderedCos);
   renderOpIncomeBar(orderedCos);
-  renderYoYBar(orderedCos, "OrdinaryIncome", "chart-yoy-op", "経常利益 YoY");
-  // 推移グラフ: 売上高 → 売上総利益率 → 経常利益 → 当期純利益
-  renderTrendLine(allCos, "Revenue", "chart-trend-revenue", "売上高 (百万円)");
+  renderYoYBar(orderedCos, "OperatingIncome", "chart-yoy-op", "営業利益 YoY");
+  // 推移グラフ: 売上高 → 売上総利益率 → 営業利益 → 当期純利益
+  renderTrendLine(allCos, "Revenue", "chart-trend-revenue", "売上高（単位：億円）");
   renderRatioTrendLine(allCos, "gross_margin", "chart-trend-gross-margin", "売上総利益率 (%)", "pct");
-  renderTrendLine(allCos, "OrdinaryIncome", "chart-trend-op", "経常利益 (百万円)");
-  renderTrendLine(allCos, "NetIncome", "chart-trend-net-income", "当期純利益 (百万円)");
+  renderTrendLine(allCos, "OperatingIncome", "chart-trend-op", "営業利益（単位：億円）");
+  renderTrendLine(allCos, "NetIncome", "chart-trend-net-income", "当期純利益（単位：億円）");
 
   // 直近四半期(LTM)ベースの回転率 推移（四半期タブのみ。通期は上の推移グラフと重複するため非表示）
   if (CURRENT_PERIOD !== "fy") {
@@ -854,11 +859,9 @@ function renderAll(cos) {
   if (CURRENT_PERIOD === "fy") {
     renderRatioTrendLine(fullCos, "roe",            "chart-trend-roe",            "ROE (%)",          "pct");
     renderRatioTrendLine(fullCos, "roic",           "chart-trend-roic",           "ROIC (%)",         "pct");
-    // 回転率はサマリーカード・四半期グラフと同じ「直近12ヶ月売上 ÷ 2期平均残高」に統一。
-    // デンキセグメントだけは連結BSから2期平均を組めないため会社開示の年度指標を使う。
+    // 回転率は全社・全期間で「直近12ヶ月売上 ÷ 2期平均残高」に統一する。
     renderRatioTrendLine(fullCos, "ltm_asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
-    renderRatioTrendLine(allCos,  "ltm_inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn",
-                         { segmentKey: "inventory_turnover" });
+    renderRatioTrendLine(allCos,  "ltm_inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
     if (hasForecast()) renderForecastTable(allCos);   // 次期通期業績予想
   }
   renderDetailTablePrev(allCos);      // 前期実績テーブル
@@ -977,13 +980,13 @@ function renderKpiCards(cos) {
   grid.innerHTML = "";
   cos.forEach(c => {
     const rev = getMetric(c, "Revenue");
-    const ord = getMetric(c, "OrdinaryIncome");
+    const ord = getMetric(c, "OperatingIncome");
     const yoyRev = getYoY(c, "Revenue");
-    const yoyOrd = getYoY(c, "OrdinaryIncome");
+    const yoyOrd = getYoY(c, "OperatingIncome");
     const ni = getMetric(c, "NetIncome");
     const yoyNi = getYoY(c, "NetIncome");
-    const om = c.ratios?.ordinary_margin_pct;
-    const omYoY = c.ratios?.ordinary_margin_pt_yoy;   // 経常利益率の前期差(pt)
+    const om = c.ratios?.operating_margin_pct;
+    const omYoY = c.ratios?.operating_margin_pt_yoy;   // 営業利益率の前期差(pt)
     const gm = c.ratios?.gross_margin_pct;
     const gmYoY = c.ratios?.gross_margin_pt_yoy;      // 売上総利益率の前期差(pt)
     const nm = c.ratios?.net_margin_pct;
@@ -1025,8 +1028,8 @@ function renderKpiCards(cos) {
           ${row("在庫回転率", fmtTurn(invT), fmtTurnDiff(invDiff), invDiff, "dupont-row",
                 "直近12ヶ月売上高 ÷ 平均棚卸資産（当期末・前年同期末の2期平均）")}
           ${row("売上総利益率", fmtPctVal(gm), fmtPt(gmYoY), gmYoY, "dupont-hide")}
-          ${row("経常利益", fmtMillions(ord), fmtPctTriangle(yoyOrd), yoyOrd, "dupont-hide")}
-          ${row("経常利益率", fmtPctVal(om), fmtPt(omYoY), omYoY, "dupont-hide")}
+          ${row("営業利益", fmtMillions(ord), fmtPctTriangle(yoyOrd), yoyOrd, "dupont-hide")}
+          ${row("営業利益率", fmtPctVal(om), fmtPt(omYoY), omYoY, "dupont-hide")}
           ${row("純利益", fmtMillions(ni), fmtPctTriangle(yoyNi), yoyNi, "dupont-hide")}
           <div class="sep dupont-row"></div>
           ${row("純利益率", fmtPctVal(nm), fmtPt(nmYoY), nmYoY, "",
@@ -1081,6 +1084,8 @@ function rankAndPlotBar(cos, valueFn, canvasId, xLabel, options = {}) {
           suggestedMin: options.suggestedMin,
           suggestedMax: options.suggestedMax,
           ticks: { callback: options.xTickFmt || ((v) => v.toLocaleString()) },
+          // 単位は軸に明示する。凡例は非表示なので、ここが唯一の手掛かりになる。
+          title: { display: !!options.axisTitle, text: options.axisTitle || "" },
         },
       },
     },
@@ -1088,17 +1093,19 @@ function rankAndPlotBar(cos, valueFn, canvasId, xLabel, options = {}) {
 }
 
 function renderRevenueBar(cos) {
-  rankAndPlotBar(cos, (c) => getMetric(c, "Revenue"), "chart-revenue", "売上高 (百万円)", {
-    xTickFmt: (v) => (v / 1000).toFixed(0) + "K",
-    tooltipFmt: (v) => v.toLocaleString() + " 百万円",
+  rankAndPlotBar(cos, (c) => getMetric(c, "Revenue"), "chart-revenue", "売上高", {
+    axisTitle: "単位：億円",
+    xTickFmt: okuTick,
+    tooltipFmt: fmtOku,
   });
 }
 
 function renderOpIncomeBar(cos) {
-  // 経常利益（金額）。赤字もあるので0起点のまま
-  rankAndPlotBar(cos, (c) => getMetric(c, "OrdinaryIncome"), "chart-op-income", "経常利益 (百万円)", {
-    xTickFmt: (v) => (v / 1000).toFixed(0) + "K",
-    tooltipFmt: (v) => v.toLocaleString() + " 百万円",
+  // 営業利益（金額）。赤字もあるので0起点のまま
+  rankAndPlotBar(cos, (c) => getMetric(c, "OperatingIncome"), "chart-op-income", "営業利益", {
+    axisTitle: "単位：億円",
+    xTickFmt: okuTick,
+    tooltipFmt: fmtOku,
   });
 }
 
@@ -1176,22 +1183,18 @@ function renderTrendLine(cos, item, canvasId, yLabel) {
     },
     options: trendCommon(
       yLabel,
-      (v) => (v / 1000).toFixed(0) + "K",
-      (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y == null ? "—" : ctx.parsed.y.toLocaleString()}`),
+      okuTick,
+      (ctx) => `${ctx.dataset.label}: ${fmtOku(ctx.parsed.y)}`),
   });
 }
 
 // 比率推移グラフ（ROE/ROIC/総資産回転率/在庫回転率）
 // `unitKind`: "pct" → 軸/ツールチップを% / "turn" → 軸/ツールチップを回（小数2桁）
-// opts.segmentKey: セグメント（デンキ）は連結BSから2期平均を組めないため、
-// 会社開示の年度指標を持つ別キーに差し替える。
-function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind, opts = {}) {
+function renderRatioTrendLine(cos, ratioKey, canvasId, yLabel, unitKind) {
   const fcIdx = TREND_SERIES?.forecastIndex ?? -1;
   const datasets = cos.map(c => {
-    const useDisclosed = !!(opts.segmentKey && c.is_segment);
-    const key = useDisclosed ? opts.segmentKey : ratioKey;
-    if (!c.trend_ratios?.[key]) return null;
-    const data = seriesOf(c.key, (x) => x.trend_ratios?.[key]);
+    if (!c.trend_ratios?.[ratioKey]) return null;
+    const data = seriesOf(c.key, (x) => x.trend_ratios?.[ratioKey]);
     // データが全て null の会社（=非該当）はデータセットから除外
     if (data.every(v => v == null)) return null;
     return {
@@ -1237,15 +1240,15 @@ function renderDetailTable(cos) {
   cos.forEach(c => {
     const periodLabel = periodOf(c, "current");
     const yoyRev = getYoY(c, "Revenue");
-    const yoyOrd = getYoY(c, "OrdinaryIncome");
+    const yoyOrd = getYoY(c, "OperatingIncome");
     const yoyNi = getYoY(c, "NetIncome");
     // 売上総利益率(当期) と YoY(pp) = 当期 - 前期
     const gmCurr = c.ratios?.gross_margin_pct;
     const gmPrev = c.ratios?.gross_margin_pct_previous;
     const gmYoY = (gmCurr != null && gmPrev != null) ? (gmCurr - gmPrev) : null;
-    // 経常利益率(当期) と YoY(pp)
-    const omCurr = c.ratios?.ordinary_margin_pct;
-    const omPrev = c.ratios?.ordinary_margin_pct_previous;
+    // 営業利益率(当期) と YoY(pp)
+    const omCurr = c.ratios?.operating_margin_pct;
+    const omPrev = c.ratios?.operating_margin_pct_previous;
     const omYoY = (omCurr != null && omPrev != null) ? (omCurr - omPrev) : null;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
@@ -1255,7 +1258,7 @@ function renderDetailTable(cos) {
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
         <td class="px-3 py-2 text-right font-mono text-slate-700">${gmCurr != null ? gmCurr.toFixed(2) + "%" : "—"}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(gmYoY)}">${fmtPpDelta(gmYoY)}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OrdinaryIncome"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OperatingIncome"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
         <td class="px-3 py-2 text-right font-mono text-slate-700">${omCurr != null ? omCurr.toFixed(2) + "%" : "—"}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(omYoY)}">${fmtPpDelta(omYoY)}</td>
@@ -1277,15 +1280,15 @@ function renderDetailTablePrev(cos) {
   cos.forEach(c => {
     const periodLabel = periodOf(c, "previous") || "—";
     const yoyRev = getYoY(c, "Revenue", "previous_yoy_pct");
-    const yoyOrd = getYoY(c, "OrdinaryIncome", "previous_yoy_pct");
+    const yoyOrd = getYoY(c, "OperatingIncome", "previous_yoy_pct");
     const yoyNi = getYoY(c, "NetIncome", "previous_yoy_pct");
     // 売上総利益率(前期) と YoY(pp) = 前期 - 前々期
     const gmPrev = c.ratios?.gross_margin_pct_previous;
     const gmPp = c.ratios?.gross_margin_pct_prev_previous;
     const gmYoY = (gmPrev != null && gmPp != null) ? (gmPrev - gmPp) : null;
-    // 経常利益率(前期) と YoY(pp)
-    const omPrev = c.ratios?.ordinary_margin_pct_previous;
-    const omPp = c.ratios?.ordinary_margin_pct_prev_previous;
+    // 営業利益率(前期) と YoY(pp)
+    const omPrev = c.ratios?.operating_margin_pct_previous;
+    const omPp = c.ratios?.operating_margin_pct_prev_previous;
     const omYoY = (omPrev != null && omPp != null) ? (omPrev - omPp) : null;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
@@ -1295,7 +1298,7 @@ function renderDetailTablePrev(cos) {
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
         <td class="px-3 py-2 text-right font-mono text-slate-700">${gmPrev != null ? gmPrev.toFixed(2) + "%" : "—"}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(gmYoY)}">${fmtPpDelta(gmYoY)}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OrdinaryIncome", "previous"))}</td>
+        <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "OperatingIncome", "previous"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
         <td class="px-3 py-2 text-right font-mono text-slate-700">${omPrev != null ? omPrev.toFixed(2) + "%" : "—"}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(omYoY)}">${fmtPpDelta(omYoY)}</td>
@@ -1315,18 +1318,18 @@ function renderForecastTable(cos) {
     // 四半期/上期/下期ダッシュボードでは forecast=null（推移グラフのスケール歪み回避用）。
     // 「次期通期業績予想」表は通期計画値 forecast_annual を優先参照、無ければ forecast。
     const revF = getMetric(c, "Revenue", "forecast_annual") ?? getMetric(c, "Revenue", "forecast");
-    const ordF = getMetric(c, "OrdinaryIncome", "forecast_annual") ?? getMetric(c, "OrdinaryIncome", "forecast");
+    const ordF = getMetric(c, "OperatingIncome", "forecast_annual") ?? getMetric(c, "OperatingIncome", "forecast");
     const niF = getMetric(c, "NetIncome", "forecast_annual") ?? getMetric(c, "NetIncome", "forecast");
     const yoyRev = getYoY(c, "Revenue", "forecast_yoy_pct");
-    const yoyOrd = getYoY(c, "OrdinaryIncome", "forecast_yoy_pct");
+    const yoyOrd = getYoY(c, "OperatingIncome", "forecast_yoy_pct");
     const yoyNi = getYoY(c, "NetIncome", "forecast_yoy_pct");
     const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
-    // 経常利益率予想 = ordF / revF × 100
+    // 営業利益率予想 = ordF / revF × 100
     const ordMarginF = (ordF != null && revF != null && revF !== 0) ? (ordF / revF * 100) : null;
     const ordMarginStr = ordMarginF == null ? "—" : `${ordMarginF.toFixed(2)}%`;
-    // 当期経常利益率 (実績)
-    const ordMarginC = c.ratios?.ordinary_margin_pct;
-    // YoY (pp) = forecast経常利益率 - 当期経常利益率
+    // 当期営業利益率 (実績)
+    const ordMarginC = c.ratios?.operating_margin_pct;
+    // YoY (pp) = forecast営業利益率 - 当期営業利益率
     const ordMarginYoY = (ordMarginF != null && ordMarginC != null) ? (ordMarginF - ordMarginC) : null;
     const ordMarginYoYClass = ordMarginYoY == null ? "text-slate-400" :
       (ordMarginYoY >= 0 ? "text-emerald-600" : "text-rose-600");

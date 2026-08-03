@@ -140,12 +140,6 @@ SUFFIX = {"fy": "", "q1": "-Q1", "q2": "-Q2", "h1": "-H1",
 SUFFIX_OVERRIDE = {("fy2027_kumikae", "q1", "08"): "-Q3"}
 
 
-# ヤマダ（デンキセグメント）の在庫回転率は会社開示値（ヤマダデンキPOSベース）を使う。
-# 連結BSからは算定できないため。2024年3月期は在庫回転日数100日の開示から 365÷100。
-# 出所: ヤマダHD 決算説明会資料 2025/5/8 P25・P42、2026/5/8 P16・P28・P37・P44
-DENKI_DISCLOSED_TURNOVER = {"FY2024": 3.65, "FY2025": 4.0, "FY2026": 4.5, "FY2027": 5.0}
-
-
 def to_num(v):
     if v is None or (isinstance(v, str) and v.startswith("=")):
         return None
@@ -234,6 +228,19 @@ def build_one(fy_key, conf, period, folders):
         om_c, om_p = ratios["ordinary_margin_pct"], ratios["ordinary_margin_pct_previous"]
         ratios["ordinary_margin_pt_yoy"] = (round(om_c - om_p, 2)
                                             if om_c is not None and om_p is not None else None)
+
+        # 営業利益率の前期・前々期と前期差(pt)。ダッシュボードの主指標を経常利益から
+        # 営業利益に切り替えたため、経常利益率と同じ一式を持たせる。
+        def _opm(a, b):
+            return round(a / b * 100, 2) if a and b else None
+        ratios["operating_margin_pct_previous"] = _opm(
+            metrics["OperatingIncome"]["previous"], metrics["Revenue"]["previous"])
+        ratios["operating_margin_pct_prev_previous"] = _opm(
+            metrics["OperatingIncome"]["prev_previous"], metrics["Revenue"]["prev_previous"])
+        _pm_c = ratios["operating_margin_pct"]
+        _pm_p = ratios["operating_margin_pct_previous"]
+        ratios["operating_margin_pt_yoy"] = (round(_pm_c - _pm_p, 2)
+                                             if _pm_c is not None and _pm_p is not None else None)
         ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
         # 純利益率の前期差(pt)
         _nm_c, _nm_p = ratios["net_margin_pct"], ratios["net_margin_pct_previous"]
@@ -281,15 +288,9 @@ def build_one(fy_key, conf, period, folders):
 
         if co.get("is_segment"):
             ratios["equity_ratio_pct"] = None
-            # デンキセグメントはBS非開示のため総資産系は出せない
+            # デンキセグメントはBS非開示のため総資産系は出せない。
+            # 在庫回転率は他社と同じ算式のまま（分母は連結BS「商品及び製品」×92%の推定値）。
             trend["asset_turnover"] = {k: None for k in trend["asset_turnover"]}
-            # 在庫回転率は会社開示値（ヤマダデンキPOSベース）。年度指標のため通期のみ。
-            trend["inventory_turnover"] = {
-                "prev_previous": DENKI_DISCLOSED_TURNOVER.get(conf["pp_fy"][fe]) if period == "fy" else None,
-                "previous": DENKI_DISCLOSED_TURNOVER.get(conf["prev_fy"][fe]) if period == "fy" else None,
-                "current": DENKI_DISCLOSED_TURNOVER.get(conf["curr_fy"][fe]) if period == "fy" else None,
-                "forecast": None,
-            }
 
         companies_out.append({
             "key": co["key"], "label": co["label"], "ticker": co["ticker"],

@@ -187,6 +187,19 @@ def build_one(pk, conf, is_annual):
         _om_c, _om_p = ratios["ordinary_margin_pct"], ratios["ordinary_margin_pct_previous"]
         ratios["ordinary_margin_pt_yoy"] = (round(_om_c - _om_p, 2)
                                             if _om_c is not None and _om_p is not None else None)
+
+        # 営業利益率の前期・前々期と前期差(pt)。ダッシュボードの主指標を経常利益から
+        # 営業利益に切り替えたため、経常利益率と同じ一式を持たせる。
+        def _opm(a, b):
+            return round(a / b * 100, 2) if a and b else None
+        ratios["operating_margin_pct_previous"] = _opm(
+            metrics["OperatingIncome"]["previous"], metrics["Revenue"]["previous"])
+        ratios["operating_margin_pct_prev_previous"] = _opm(
+            metrics["OperatingIncome"]["prev_previous"], metrics["Revenue"]["prev_previous"])
+        _pm_c = ratios["operating_margin_pct"]
+        _pm_p = ratios["operating_margin_pct_previous"]
+        ratios["operating_margin_pt_yoy"] = (round(_pm_c - _pm_p, 2)
+                                             if _pm_c is not None and _pm_p is not None else None)
         ratios["financial_leverage"] = round(ta / te, 3) if ta and te else None
         # 純利益率の前期差(pt)
         _nm_c, _nm_p = ratios["net_margin_pct"], ratios["net_margin_pct_previous"]
@@ -252,10 +265,10 @@ def build_one(pk, conf, is_annual):
         if co.get("is_segment"):
             for k in ("roe", "roic", "asset_turnover"):
                 trend_ratios[k] = {"prev_previous": None, "previous": None, "current": None, "forecast": None}
-            if is_annual:
-                trend_ratios["inventory_turnover"] = {
-                    "prev_previous": 3.65, "previous": 4.0, "current": 4.5, "forecast": None,
-                }
+            # 在庫回転率は他社と同じ算式（売上高 ÷ 商品）で算定する。
+            # 分母は連結BS「商品及び製品」×92%の推定値（比率は会社非開示）。
+            # 以前は説明会資料の開示値（年度ベース3.65/4.0/4.5/5.0回）を入れていたが、
+            # 「期末在庫÷通期売上」で他社と基準が揃わないため全社統一の指示により廃止。
             ratios["equity_ratio_pct"] = None
 
         # 直近四半期(LTM)回転率も推移グラフ用の形に持たせる
