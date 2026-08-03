@@ -34,7 +34,8 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin
+from xlsx_utils import (find_latest_xlsx, data_sheet, build_ltm, read_ltm,
+                        ltm_trend, margin)
 
 # プロジェクトルートからの相対パス
 ROOT = Path(__file__).parent.parent.parent  # kaden-retail-7co-fy2026 の親
@@ -418,13 +419,16 @@ def main():
         trend_ratios["ltm_inventory_turnover"] = ltm_trend(ltm_data, "inventory_turnover")
         # ROE / ROIC は直近12ヶ月ベースに統一する。
         # 四半期の利益をそのまま自己資本で割ると期間の短さだけで小さく出るため。
-        # 次期予想の点は従来どおり計画値ベースで残す（LTMは実績のみ算定できるため）
-        _fc_roe = trend_ratios.get("roe", {}).get("forecast")
-        _fc_roic = trend_ratios.get("roic", {}).get("forecast")
         trend_ratios["roe"] = ltm_trend(ltm_data, "roe_pct")
         trend_ratios["roic"] = ltm_trend(ltm_data, "roic_pct")
-        trend_ratios["roe"]["forecast"] = _fc_roe
-        trend_ratios["roic"]["forecast"] = _fc_roic
+        # 次期計画の点も実績4点と同じ「直近12ヶ月 ÷ 2期平均」で揃える。
+        # 02_通期計画のR117〜R125（計画PLと、計画期末BSを概算した2期平均）を読む。
+        # 計画期末BSは各社非開示のため当期末BSから推計している点は注記で明示。
+        _plan = read_ltm(ws_plan, co["col_curr"])
+        for _k, _src in (("roe", "roe_pct"), ("roic", "roic_pct"),
+                         ("ltm_asset_turnover", "asset_turnover"),
+                         ("ltm_inventory_turnover", "inventory_turnover")):
+            trend_ratios[_k]["forecast"] = _plan[_src]
         ratios["roe_pct"] = ltm_data["current"]["roe_pct"]
         ratios["roic_pct"] = ltm_data["current"]["roic_pct"]
         # 直近12ヶ月ベース指標の前期差
