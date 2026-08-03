@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-03",
+  "generated_at": "2026-08-04",
   "source": "各社決算短信 (2024年3月期 q4)",
   "period_type": "fy2024_q4",
   "companies": [
@@ -1814,7 +1814,7 @@
         "NetIncome": {
           "prev_previous": null,
           "current": 701.0,
-          "previous": null,
+          "previous": 1299.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -1877,7 +1877,7 @@
           "forecast_yoy_pct": null
         },
         "NetIncome": {
-          "current_yoy_pct": null,
+          "current_yoy_pct": -46.04,
           "previous_yoy_pct": null,
           "forecast_yoy_pct": null
         }
@@ -1892,7 +1892,7 @@
         "gross_margin_pct_previous": 27.41,
         "gross_margin_pct_prev_previous": null,
         "net_margin_pct": 1.06,
-        "net_margin_pct_previous": null,
+        "net_margin_pct_previous": 1.85,
         "net_margin_pct_prev_previous": null,
         "gross_margin_pt_yoy": -0.02,
         "ordinary_margin_pt_yoy": 0.1,
@@ -1900,12 +1900,12 @@
         "operating_margin_pct_prev_previous": null,
         "operating_margin_pt_yoy": 0.09,
         "financial_leverage": 1.716,
-        "net_margin_pt_yoy": null,
+        "net_margin_pt_yoy": -0.79,
         "financial_leverage_previous": 1.895,
         "financial_leverage_diff": -0.179,
         "roe_pct": 4.6,
         "roic_pct": 4.3,
-        "roe_pt_yoy": null,
+        "roe_pt_yoy": -4.9,
         "roic_pt_yoy": -2.8,
         "asset_turnover_diff": -0.066,
         "inventory_turnover_ltm": 6.983,
@@ -1914,7 +1914,7 @@
       "trend_ratios": {
         "roe": {
           "prev_previous": null,
-          "previous": null,
+          "previous": 9.5,
           "current": 4.6,
           "forecast": null
         },
@@ -1944,7 +1944,7 @@
         },
         "net_margin": {
           "prev_previous": null,
-          "previous": null,
+          "previous": 1.85,
           "current": 1.06,
           "forecast": null
         },
@@ -1982,10 +1982,10 @@
           "asset_turnover": 2.433,
           "inventory_turnover": 7.422,
           "operating_income": 8107.0,
-          "net_income": null,
+          "net_income": 5761.0,
           "avg_equity": 60386.5,
           "avg_debt": 13817.0,
-          "roe_pct": null,
+          "roe_pct": 9.5,
           "roic_pct": 7.1
         },
         "prev_previous": {

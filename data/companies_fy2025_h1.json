@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-03",
+  "generated_at": "2026-08-04",
   "source": "各社決算短信 (2025年3月期 h1)",
   "period_type": "fy2025_h1",
   "companies": [
@@ -1812,7 +1812,7 @@
           "unit": "百万円"
         },
         "NetIncome": {
-          "prev_previous": null,
+          "prev_previous": 3401.0,
           "current": 1633.0,
           "previous": 1601.0,
           "forecast": null,
@@ -1878,7 +1878,7 @@
         },
         "NetIncome": {
           "current_yoy_pct": 2.0,
-          "previous_yoy_pct": null,
+          "previous_yoy_pct": -52.93,
           "forecast_yoy_pct": null
         }
       },
@@ -1893,7 +1893,7 @@
         "gross_margin_pct_prev_previous": 27.1,
         "net_margin_pct": 1.26,
         "net_margin_pct_previous": 1.17,
-        "net_margin_pct_prev_previous": null,
+        "net_margin_pct_prev_previous": 2.46,
         "gross_margin_pt_yoy": 0.74,
         "ordinary_margin_pt_yoy": -0.15,
         "operating_margin_pct_previous": 1.83,
@@ -1943,7 +1943,7 @@
           "forecast": null
         },
         "net_margin": {
-          "prev_previous": null,
+          "prev_previous": 2.46,
           "previous": 1.17,
           "current": 1.26,
           "forecast": null
@@ -1982,7 +1982,7 @@
           "asset_turnover": 2.47,
           "inventory_turnover": 6.926,
           "operating_income": 5848.0,
-          "net_income": null,
+          "net_income": 3961.0,
           "avg_equity": null,
           "avg_debt": 10296.5,
           "roe_pct": null,

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-03",
+  "generated_at": "2026-08-04",
   "source": "各社決算短信・決算説明会資料 (3Q単独)",
   "period_type": "quarterly_q3",
   "companies": [
@@ -1955,7 +1955,7 @@
           "asset_turnover": 2.393,
           "inventory_turnover": 6.522,
           "operating_income": 4843.0,
-          "net_income": null,
+          "net_income": 3467.0,
           "avg_equity": null,
           "avg_debt": 9746.0,
           "roe_pct": null,

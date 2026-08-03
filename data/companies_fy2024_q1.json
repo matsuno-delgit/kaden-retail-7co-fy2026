@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-03",
+  "generated_at": "2026-08-04",
   "source": "各社決算短信 (2024年3月期 q1)",
   "period_type": "fy2024_q1",
   "companies": [
@@ -1814,7 +1814,7 @@
         "NetIncome": {
           "prev_previous": null,
           "current": 337.0,
-          "previous": null,
+          "previous": 1011.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -1877,7 +1877,7 @@
           "forecast_yoy_pct": null
         },
         "NetIncome": {
-          "current_yoy_pct": null,
+          "current_yoy_pct": -66.67,
           "previous_yoy_pct": null,
           "forecast_yoy_pct": null
         }
@@ -1892,7 +1892,7 @@
         "gross_margin_pct_previous": 27.77,
         "gross_margin_pct_prev_previous": null,
         "net_margin_pct": 0.53,
-        "net_margin_pct_previous": null,
+        "net_margin_pct_previous": 1.62,
         "net_margin_pct_prev_previous": null,
         "gross_margin_pt_yoy": -1.16,
         "ordinary_margin_pt_yoy": -1.72,
@@ -1900,7 +1900,7 @@
         "operating_margin_pct_prev_previous": null,
         "operating_margin_pt_yoy": -1.54,
         "financial_leverage": null,
-        "net_margin_pt_yoy": null,
+        "net_margin_pt_yoy": -1.09,
         "financial_leverage_previous": null,
         "financial_leverage_diff": null,
         "roe_pct": null,
@@ -1944,7 +1944,7 @@
         },
         "net_margin": {
           "prev_previous": null,
-          "previous": null,
+          "previous": 1.62,
           "current": 0.53,
           "forecast": null
         },
@@ -1969,7 +1969,7 @@
           "asset_turnover": 2.438,
           "inventory_turnover": 6.738,
           "operating_income": 7157.0,
-          "net_income": null,
+          "net_income": 5087.0,
           "avg_equity": null,
           "avg_debt": 10797.5,
           "roe_pct": null,

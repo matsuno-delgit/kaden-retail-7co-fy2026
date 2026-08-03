@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-03",
+  "generated_at": "2026-08-04",
   "source": "各社決算短信・決算説明会資料 (TDnet公開資料、2026/8月発表分の1Q決算)",
   "note": "ヤマダ・ケーズ・エディオン・上新・ノジマ=2026年3月期第1四半期。ビックカメラ・コジマ=2025年8月期第1四半期。",
   "period_type": "quarterly_1Q",
@@ -1956,7 +1956,7 @@
           "asset_turnover": 2.438,
           "inventory_turnover": 6.738,
           "operating_income": 7157.0,
-          "net_income": null,
+          "net_income": 5087.0,
           "avg_equity": null,
           "avg_debt": 10797.5,
           "roe_pct": null,
