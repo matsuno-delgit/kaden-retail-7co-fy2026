@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-04",
+  "generated_at": "2026-08-06",
   "source": "各社決算短信 (2024年3月期 q1)",
   "period_type": "fy2024_q1",
   "companies": [
@@ -72,7 +72,7 @@
         "InterestBearingDebt": {
           "prev_previous": null,
           "current": 340805.0,
-          "previous": 302665.0,
+          "previous": 267163.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -154,7 +154,7 @@
         "financial_leverage_previous": 2.021,
         "financial_leverage_diff": 0.213,
         "roe_pct": 4.4,
-        "roic_pct": 2.9,
+        "roic_pct": 3.0,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -171,7 +171,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 2.9,
+          "current": 3.0,
           "forecast": null
         },
         "asset_turnover": {
@@ -221,9 +221,9 @@
           "operating_income": 42875.0,
           "net_income": 27635.0,
           "avg_equity": 625616.5,
-          "avg_debt": 321735.0,
+          "avg_debt": 303984.0,
           "roe_pct": 4.4,
-          "roic_pct": 2.9
+          "roic_pct": 3.0
         },
         "previous": {
           "revenue": null,
@@ -572,7 +572,7 @@
         "InterestBearingDebt": {
           "prev_previous": null,
           "current": 57304.0,
-          "previous": 52787.0,
+          "previous": 12526.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -654,7 +654,7 @@
         "financial_leverage_previous": 1.527,
         "financial_leverage_diff": 0.152,
         "roe_pct": 6.6,
-        "roic_pct": 5.1,
+        "roic_pct": 5.4,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -671,7 +671,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 5.1,
+          "current": 5.4,
           "forecast": null
         },
         "asset_turnover": {
@@ -721,9 +721,9 @@
           "operating_income": 25885.0,
           "net_income": 18179.0,
           "avg_equity": 275830.5,
-          "avg_debt": 55045.5,
+          "avg_debt": 34915.0,
           "roe_pct": 6.6,
-          "roic_pct": 5.1
+          "roic_pct": 5.4
         },
         "previous": {
           "revenue": null,
@@ -822,7 +822,7 @@
         "InterestBearingDebt": {
           "prev_previous": null,
           "current": 33186.0,
-          "previous": 27511.0,
+          "previous": 37548.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -904,7 +904,7 @@
         "financial_leverage_previous": 1.932,
         "financial_leverage_diff": -0.056,
         "roe_pct": 5.2,
-        "roic_pct": 5.0,
+        "roic_pct": 4.9,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -921,7 +921,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 5.0,
+          "current": 4.9,
           "forecast": null
         },
         "asset_turnover": {
@@ -971,9 +971,9 @@
           "operating_income": 17836.0,
           "net_income": 10315.0,
           "avg_equity": 200166.5,
-          "avg_debt": 30348.5,
+          "avg_debt": 35367.0,
           "roe_pct": 5.2,
-          "roic_pct": 5.0
+          "roic_pct": 4.9
         },
         "previous": {
           "revenue": null,
@@ -1072,7 +1072,7 @@
         "InterestBearingDebt": {
           "prev_previous": null,
           "current": 38567.0,
-          "previous": 30964.0,
+          "previous": 26694.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -1154,7 +1154,7 @@
         "financial_leverage_previous": 2.327,
         "financial_leverage_diff": 0.013,
         "roe_pct": 4.6,
-        "roic_pct": 3.9,
+        "roic_pct": 4.0,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -1171,7 +1171,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 3.9,
+          "current": 4.0,
           "forecast": null
         },
         "asset_turnover": {
@@ -1221,9 +1221,9 @@
           "operating_income": 8011.0,
           "net_income": 4576.0,
           "avg_equity": 98950.5,
-          "avg_debt": 34765.5,
+          "avg_debt": 32630.5,
           "roe_pct": 4.6,
-          "roic_pct": 3.9
+          "roic_pct": 4.0
         },
         "previous": {
           "revenue": null,
@@ -1330,7 +1330,7 @@
         "TotalEquity": {
           "prev_previous": null,
           "current": 159456.0,
-          "previous": null,
+          "previous": 140450.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -1401,10 +1401,10 @@
         "operating_margin_pt_yoy": -2.98,
         "financial_leverage": 3.316,
         "net_margin_pt_yoy": -2.57,
-        "financial_leverage_previous": null,
-        "financial_leverage_diff": null,
-        "roe_pct": null,
-        "roic_pct": null,
+        "financial_leverage_previous": 2.266,
+        "financial_leverage_diff": 1.05,
+        "roe_pct": 13.7,
+        "roic_pct": 9.2,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -1415,13 +1415,13 @@
         "roe": {
           "prev_previous": null,
           "previous": null,
-          "current": null,
+          "current": 13.7,
           "forecast": null
         },
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": null,
+          "current": 9.2,
           "forecast": null
         },
         "asset_turnover": {
@@ -1470,10 +1470,10 @@
           "inventory_turnover": 10.959,
           "operating_income": 30638.0,
           "net_income": 20530.0,
-          "avg_equity": null,
+          "avg_equity": 149953.0,
           "avg_debt": 65908.0,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 13.7,
+          "roic_pct": 9.2
         },
         "previous": {
           "revenue": null,
@@ -1572,7 +1572,7 @@
         "InterestBearingDebt": {
           "prev_previous": null,
           "current": 139265.0,
-          "previous": 132505.0,
+          "previous": 152111.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -1654,7 +1654,7 @@
         "financial_leverage_previous": 3.623,
         "financial_leverage_diff": 0.052,
         "roe_pct": 3.9,
-        "roic_pct": 4.2,
+        "roic_pct": 4.0,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -1671,7 +1671,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 4.2,
+          "current": 4.0,
           "forecast": null
         },
         "asset_turnover": {
@@ -1721,9 +1721,9 @@
           "operating_income": 17173.0,
           "net_income": 5201.0,
           "avg_equity": 131686.0,
-          "avg_debt": 135885.0,
+          "avg_debt": 145688.0,
           "roe_pct": 3.9,
-          "roic_pct": 4.2
+          "roic_pct": 4.0
         },
         "previous": {
           "revenue": null,
@@ -1822,7 +1822,7 @@
         "InterestBearingDebt": {
           "prev_previous": null,
           "current": 10192.0,
-          "previous": 11403.0,
+          "previous": 14914.0,
           "forecast": null,
           "forecast_annual": null,
           "unit": "百万円"
@@ -1904,7 +1904,7 @@
         "financial_leverage_previous": 2.047,
         "financial_leverage_diff": -0.192,
         "roe_pct": 8.6,
-        "roic_pct": 6.7,
+        "roic_pct": 6.5,
         "roe_pt_yoy": null,
         "roic_pt_yoy": null,
         "asset_turnover_diff": null,
@@ -1921,7 +1921,7 @@
         "roic": {
           "prev_previous": null,
           "previous": null,
-          "current": 6.7,
+          "current": 6.5,
           "forecast": null
         },
         "asset_turnover": {
@@ -1971,9 +1971,9 @@
           "operating_income": 7157.0,
           "net_income": 5087.0,
           "avg_equity": 59089.0,
-          "avg_debt": 10797.5,
+          "avg_debt": 12553.0,
           "roe_pct": 8.6,
-          "roic_pct": 6.7
+          "roic_pct": 6.5
         },
         "previous": {
           "revenue": null,

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-04",
+  "generated_at": "2026-08-06",
   "source": "組替版 (組替2Q単独 (6〜8月))",
   "period_type": "kumikae_q2",
   "dataset_type": "kumikae",
@@ -164,13 +164,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 4.4,
           "previous": 3.9,
           "current": 4.3,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 3.2,
           "previous": 3.0,
           "current": 2.8,
           "forecast": null
@@ -200,13 +200,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.261,
           "previous": 1.235,
           "current": 1.226,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 3.913,
           "previous": 3.755,
           "current": 3.741,
           "forecast": null
@@ -240,17 +240,17 @@
           "roic_pct": 3.0
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 1601155.0,
           "avg_total_assets": 1269473.0,
           "avg_inventory": 409206.0,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
+          "asset_turnover": 1.261,
+          "inventory_turnover": 3.913,
+          "operating_income": 44655.0,
+          "net_income": 27438.0,
           "avg_equity": 616643.0,
           "avg_debt": 301374.5,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 4.4,
+          "roic_pct": 3.2
         }
       },
       "is_segment": false
@@ -456,7 +456,7 @@
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 3.951,
           "previous": 3.832,
           "current": 3.771,
           "forecast": null
@@ -490,12 +490,12 @@
           "roic_pct": null
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 1310543.0,
           "avg_total_assets": null,
           "avg_inventory": 331689.5,
           "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
+          "inventory_turnover": 3.951,
+          "operating_income": 33795.0,
           "net_income": null,
           "avg_equity": null,
           "avg_debt": null,
@@ -664,13 +664,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 6.1,
           "previous": 2.8,
           "current": 4.4,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 5.2,
           "previous": 4.1,
           "current": 4.9,
           "forecast": null
@@ -700,13 +700,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.663,
           "previous": 1.709,
           "current": 1.807,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 4.167,
           "previous": 4.422,
           "current": 4.615,
           "forecast": null
@@ -740,17 +740,17 @@
           "roic_pct": 4.1
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 730588.0,
           "avg_total_assets": 439352.0,
           "avg_inventory": 175327.5,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
+          "asset_turnover": 1.663,
+          "inventory_turnover": 4.167,
+          "operating_income": 24935.0,
+          "net_income": 17212.0,
           "avg_equity": 280208.5,
           "avg_debt": 33171.5,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 6.1,
+          "roic_pct": 5.2
         }
       },
       "is_segment": false
@@ -914,13 +914,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 5.6,
           "previous": 5.5,
           "current": 5.9,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 5.4,
           "previous": 5.1,
           "current": 5.0,
           "forecast": null
@@ -950,13 +950,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.921,
           "previous": 1.902,
           "current": 1.841,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 5.959,
           "previous": 6.232,
           "current": 6.503,
           "forecast": null
@@ -990,17 +990,17 @@
           "roic_pct": 5.1
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 722046.0,
           "avg_total_assets": 375920.0,
           "avg_inventory": 121176.0,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
+          "asset_turnover": 1.921,
+          "inventory_turnover": 5.959,
+          "operating_income": 19632.0,
+          "net_income": 11539.0,
           "avg_equity": 205904.0,
           "avg_debt": 31865.5,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 5.6,
+          "roic_pct": 5.4
         }
       },
       "is_segment": false
@@ -1164,13 +1164,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 5.0,
           "previous": 3.9,
           "current": 3.0,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 4.4,
           "previous": 2.6,
           "current": 1.8,
           "forecast": null
@@ -1200,13 +1200,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.783,
           "previous": 1.728,
           "current": 1.852,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 5.116,
           "previous": 5.127,
           "current": 5.676,
           "forecast": null
@@ -1240,17 +1240,17 @@
           "roic_pct": 2.6
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 408025.0,
           "avg_total_assets": 228867.5,
           "avg_inventory": 79753.0,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
+          "asset_turnover": 1.783,
+          "inventory_turnover": 5.116,
+          "operating_income": 8793.0,
+          "net_income": 5076.0,
           "avg_equity": 100999.5,
           "avg_debt": 29703.5,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 5.0,
+          "roic_pct": 4.4
         }
       },
       "is_segment": false
@@ -1414,13 +1414,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 12.6,
           "previous": 14.3,
           "current": 18.4,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 12.3,
           "previous": 10.1,
           "current": 12.5,
           "forecast": null
@@ -1450,13 +1450,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.668,
           "previous": 1.466,
           "current": 1.669,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 11.617,
           "previous": 12.196,
           "current": 13.014,
           "forecast": null
@@ -1490,17 +1490,17 @@
           "roic_pct": 10.1
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 711908.0,
           "avg_total_assets": 426704.5,
           "avg_inventory": 61280.0,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
-          "avg_equity": null,
+          "asset_turnover": 1.668,
+          "inventory_turnover": 11.617,
+          "operating_income": 29668.0,
+          "net_income": 19749.0,
+          "avg_equity": 156241.5,
           "avg_debt": null,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 12.6,
+          "roic_pct": 12.3
         }
       },
       "is_segment": false
@@ -1664,13 +1664,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 2.2,
           "previous": 9.6,
           "current": 10.9,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 3.5,
           "previous": 6.1,
           "current": 7.6,
           "forecast": null
@@ -1700,13 +1700,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 1.8,
           "previous": 1.988,
           "current": 2.008,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 7.913,
           "previous": 8.592,
           "current": 8.675,
           "forecast": null
@@ -1740,17 +1740,17 @@
           "roic_pct": 6.1
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 815560.0,
           "avg_total_assets": 453153.0,
           "avg_inventory": 103066.0,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
+          "asset_turnover": 1.8,
+          "inventory_turnover": 7.913,
+          "operating_income": 14215.0,
+          "net_income": 2936.0,
           "avg_equity": 134274.0,
           "avg_debt": 127991.5,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 2.2,
+          "roic_pct": 3.5
         }
       },
       "is_segment": false
@@ -1914,13 +1914,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 4.6,
           "previous": 6.2,
           "current": 6.9,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 4.3,
           "previous": 5.7,
           "current": 6.2,
           "forecast": null
@@ -1950,13 +1950,13 @@
           "forecast": null
         },
         "ltm_asset_turnover": {
-          "prev_previous": null,
+          "prev_previous": 2.367,
           "previous": 2.411,
           "current": 2.402,
           "forecast": null
         },
         "ltm_inventory_turnover": {
-          "prev_previous": null,
+          "prev_previous": 6.983,
           "previous": 7.301,
           "current": 7.797,
           "forecast": null
@@ -1990,17 +1990,17 @@
           "roic_pct": 5.7
         },
         "prev_previous": {
-          "revenue": null,
+          "revenue": 267893.0,
           "avg_total_assets": 113199.0,
           "avg_inventory": 38364.0,
-          "asset_turnover": null,
-          "inventory_turnover": null,
-          "operating_income": null,
-          "net_income": null,
+          "asset_turnover": 2.367,
+          "inventory_turnover": 6.983,
+          "operating_income": 4819.0,
+          "net_income": 2869.0,
           "avg_equity": 62747.5,
           "avg_debt": 9495.0,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 4.6,
+          "roic_pct": 4.3
         }
       },
       "is_segment": false

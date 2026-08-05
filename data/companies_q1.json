@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-04",
+  "generated_at": "2026-08-06",
   "source": "各社決算短信・決算説明会資料 (TDnet公開資料、2026/8月発表分の1Q決算)",
   "note": "ヤマダ・ケーズ・エディオン・上新・ノジマ=2026年3月期第1四半期。ビックカメラ・コジマ=2025年8月期第1四半期。",
   "period_type": "quarterly_1Q",
@@ -165,7 +165,7 @@
           "forecast": null
         },
         "roic": {
-          "prev_previous": 2.9,
+          "prev_previous": 3.0,
           "previous": 3.1,
           "current": 2.9,
           "forecast": null
@@ -243,9 +243,9 @@
           "operating_income": 42875.0,
           "net_income": 27635.0,
           "avg_equity": 625616.5,
-          "avg_debt": 321735.0,
+          "avg_debt": 303984.0,
           "roe_pct": 4.4,
-          "roic_pct": 2.9
+          "roic_pct": 3.0
         }
       },
       "is_segment": false
@@ -655,7 +655,7 @@
           "forecast": null
         },
         "roic": {
-          "prev_previous": 5.1,
+          "prev_previous": 5.4,
           "previous": 4.0,
           "current": 4.7,
           "forecast": null
@@ -733,9 +733,9 @@
           "operating_income": 25885.0,
           "net_income": 18179.0,
           "avg_equity": 275830.5,
-          "avg_debt": 55045.5,
+          "avg_debt": 34915.0,
           "roe_pct": 6.6,
-          "roic_pct": 5.1
+          "roic_pct": 5.4
         }
       },
       "is_segment": false
@@ -900,7 +900,7 @@
           "forecast": null
         },
         "roic": {
-          "prev_previous": 5.0,
+          "prev_previous": 4.9,
           "previous": 4.5,
           "current": 5.2,
           "forecast": null
@@ -978,9 +978,9 @@
           "operating_income": 17836.0,
           "net_income": 10315.0,
           "avg_equity": 200166.5,
-          "avg_debt": 30348.5,
+          "avg_debt": 35367.0,
           "roe_pct": 5.2,
-          "roic_pct": 5.0
+          "roic_pct": 4.9
         }
       },
       "is_segment": false
@@ -1145,7 +1145,7 @@
           "forecast": null
         },
         "roic": {
-          "prev_previous": 3.9,
+          "prev_previous": 4.0,
           "previous": 3.8,
           "current": 1.5,
           "forecast": null
@@ -1223,9 +1223,9 @@
           "operating_income": 8011.0,
           "net_income": 4576.0,
           "avg_equity": 98950.5,
-          "avg_debt": 34765.5,
+          "avg_debt": 32630.5,
           "roe_pct": 4.6,
-          "roic_pct": 3.9
+          "roic_pct": 4.0
         }
       },
       "is_segment": false
@@ -1384,13 +1384,13 @@
       },
       "trend_ratios": {
         "roe": {
-          "prev_previous": null,
+          "prev_previous": 13.7,
           "previous": 13.2,
           "current": 18.8,
           "forecast": null
         },
         "roic": {
-          "prev_previous": null,
+          "prev_previous": 9.2,
           "previous": 8.7,
           "current": 12.4,
           "forecast": null
@@ -1467,10 +1467,10 @@
           "inventory_turnover": 10.959,
           "operating_income": 30638.0,
           "net_income": 20530.0,
-          "avg_equity": null,
+          "avg_equity": 149953.0,
           "avg_debt": 65908.0,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 13.7,
+          "roic_pct": 9.2
         }
       },
       "is_segment": false
@@ -1635,7 +1635,7 @@
           "forecast": null
         },
         "roic": {
-          "prev_previous": 4.2,
+          "prev_previous": 4.0,
           "previous": 3.6,
           "current": 6.3,
           "forecast": null
@@ -1713,9 +1713,9 @@
           "operating_income": 17173.0,
           "net_income": 5201.0,
           "avg_equity": 131686.0,
-          "avg_debt": 135885.0,
+          "avg_debt": 145688.0,
           "roe_pct": 3.9,
-          "roic_pct": 4.2
+          "roic_pct": 4.0
         }
       },
       "is_segment": false
@@ -1880,7 +1880,7 @@
           "forecast": null
         },
         "roic": {
-          "prev_previous": 6.7,
+          "prev_previous": 6.5,
           "previous": 4.3,
           "current": 6.1,
           "forecast": null
@@ -1958,9 +1958,9 @@
           "operating_income": 7157.0,
           "net_income": 5087.0,
           "avg_equity": 59089.0,
-          "avg_debt": 10797.5,
+          "avg_debt": 12553.0,
           "roe_pct": 8.6,
-          "roic_pct": 6.7
+          "roic_pct": 6.5
         }
       },
       "is_segment": false

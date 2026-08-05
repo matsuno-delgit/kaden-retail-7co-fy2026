@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-04",
+  "generated_at": "2026-08-06",
   "source": "各社決算短信 (2025年3月期 q1)",
   "period_type": "fy2025_q1",
   "companies": [
@@ -70,7 +70,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 302665.0,
+          "prev_previous": 267163.0,
           "current": 316739.0,
           "previous": 340805.0,
           "forecast": null,
@@ -156,7 +156,7 @@
         "roe_pct": 3.8,
         "roic_pct": 3.1,
         "roe_pt_yoy": -0.6,
-        "roic_pt_yoy": 0.2,
+        "roic_pt_yoy": 0.1,
         "asset_turnover_diff": -0.009,
         "inventory_turnover_ltm": 3.638,
         "inventory_turnover_diff": -0.116
@@ -170,7 +170,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 2.9,
+          "previous": 3.0,
           "current": 3.1,
           "forecast": null
         },
@@ -234,9 +234,9 @@
           "operating_income": 42875.0,
           "net_income": 27635.0,
           "avg_equity": 625616.5,
-          "avg_debt": 321735.0,
+          "avg_debt": 303984.0,
           "roe_pct": 4.4,
-          "roic_pct": 2.9
+          "roic_pct": 3.0
         },
         "prev_previous": {
           "revenue": null,
@@ -570,7 +570,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 52787.0,
+          "prev_previous": 12526.0,
           "current": 68058.0,
           "previous": 57304.0,
           "forecast": null,
@@ -656,7 +656,7 @@
         "roe_pct": 2.9,
         "roic_pct": 4.0,
         "roe_pt_yoy": -3.7,
-        "roic_pt_yoy": -1.1,
+        "roic_pt_yoy": -1.4,
         "asset_turnover_diff": -0.022,
         "inventory_turnover_ltm": 3.932,
         "inventory_turnover_diff": -0.169
@@ -670,7 +670,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 5.1,
+          "previous": 5.4,
           "current": 4.0,
           "forecast": null
         },
@@ -734,9 +734,9 @@
           "operating_income": 25885.0,
           "net_income": 18179.0,
           "avg_equity": 275830.5,
-          "avg_debt": 55045.5,
+          "avg_debt": 34915.0,
           "roe_pct": 6.6,
-          "roic_pct": 5.1
+          "roic_pct": 5.4
         },
         "prev_previous": {
           "revenue": null,
@@ -820,7 +820,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 27511.0,
+          "prev_previous": 37548.0,
           "current": 89373.0,
           "previous": 33186.0,
           "forecast": null,
@@ -906,7 +906,7 @@
         "roe_pct": 4.9,
         "roic_pct": 4.5,
         "roe_pt_yoy": -0.3,
-        "roic_pt_yoy": -0.5,
+        "roic_pt_yoy": -0.4,
         "asset_turnover_diff": -0.083,
         "inventory_turnover_ltm": 5.456,
         "inventory_turnover_diff": -0.169
@@ -920,7 +920,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 5.0,
+          "previous": 4.9,
           "current": 4.5,
           "forecast": null
         },
@@ -984,9 +984,9 @@
           "operating_income": 17836.0,
           "net_income": 10315.0,
           "avg_equity": 200166.5,
-          "avg_debt": 30348.5,
+          "avg_debt": 35367.0,
           "roe_pct": 5.2,
-          "roic_pct": 5.0
+          "roic_pct": 4.9
         },
         "prev_previous": {
           "revenue": null,
@@ -1070,7 +1070,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 30964.0,
+          "prev_previous": 26694.0,
           "current": 40134.0,
           "previous": 38567.0,
           "forecast": null,
@@ -1156,7 +1156,7 @@
         "roe_pct": 4.6,
         "roic_pct": 3.8,
         "roe_pt_yoy": 0.0,
-        "roic_pt_yoy": -0.1,
+        "roic_pt_yoy": -0.2,
         "asset_turnover_diff": -0.046,
         "inventory_turnover_ltm": 4.891,
         "inventory_turnover_diff": -0.11
@@ -1170,7 +1170,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 3.9,
+          "previous": 4.0,
           "current": 3.8,
           "forecast": null
         },
@@ -1234,9 +1234,9 @@
           "operating_income": 8011.0,
           "net_income": 4576.0,
           "avg_equity": 98950.5,
-          "avg_debt": 34765.5,
+          "avg_debt": 32630.5,
           "roe_pct": 4.6,
-          "roic_pct": 3.9
+          "roic_pct": 4.0
         },
         "prev_previous": {
           "revenue": null,
@@ -1328,7 +1328,7 @@
           "unit": "百万円"
         },
         "TotalEquity": {
-          "prev_previous": null,
+          "prev_previous": 140450.0,
           "current": 177677.0,
           "previous": null,
           "forecast": null,
@@ -1405,8 +1405,8 @@
         "financial_leverage_diff": null,
         "roe_pct": 13.2,
         "roic_pct": 8.7,
-        "roe_pt_yoy": null,
-        "roic_pt_yoy": null,
+        "roe_pt_yoy": -0.5,
+        "roic_pt_yoy": -0.5,
         "asset_turnover_diff": -0.129,
         "inventory_turnover_ltm": 11.201,
         "inventory_turnover_diff": 0.242
@@ -1414,13 +1414,13 @@
       "trend_ratios": {
         "roe": {
           "prev_previous": null,
-          "previous": null,
+          "previous": 13.7,
           "current": 13.2,
           "forecast": null
         },
         "roic": {
           "prev_previous": null,
-          "previous": null,
+          "previous": 9.2,
           "current": 8.7,
           "forecast": null
         },
@@ -1483,10 +1483,10 @@
           "inventory_turnover": 10.959,
           "operating_income": 30638.0,
           "net_income": 20530.0,
-          "avg_equity": null,
+          "avg_equity": 149953.0,
           "avg_debt": 65908.0,
-          "roe_pct": null,
-          "roic_pct": null
+          "roe_pct": 13.7,
+          "roic_pct": 9.2
         },
         "prev_previous": {
           "revenue": null,
@@ -1570,7 +1570,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 132505.0,
+          "prev_previous": 152111.0,
           "current": 141157.0,
           "previous": 139265.0,
           "forecast": null,
@@ -1656,7 +1656,7 @@
         "roe_pct": 2.7,
         "roic_pct": 3.6,
         "roe_pt_yoy": -1.2,
-        "roic_pt_yoy": -0.6,
+        "roic_pt_yoy": -0.4,
         "asset_turnover_diff": 0.025,
         "inventory_turnover_ltm": 6.65,
         "inventory_turnover_diff": -0.306
@@ -1670,7 +1670,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 4.2,
+          "previous": 4.0,
           "current": 3.6,
           "forecast": null
         },
@@ -1734,9 +1734,9 @@
           "operating_income": 17173.0,
           "net_income": 5201.0,
           "avg_equity": 131686.0,
-          "avg_debt": 135885.0,
+          "avg_debt": 145688.0,
           "roe_pct": 3.9,
-          "roic_pct": 4.2
+          "roic_pct": 4.0
         },
         "prev_previous": {
           "revenue": null,
@@ -1820,7 +1820,7 @@
           "unit": "百万円"
         },
         "InterestBearingDebt": {
-          "prev_previous": 11403.0,
+          "prev_previous": 14914.0,
           "current": 7559.0,
           "previous": 10192.0,
           "forecast": null,
@@ -1906,7 +1906,7 @@
         "roe_pct": 4.4,
         "roic_pct": 4.3,
         "roe_pt_yoy": -4.2,
-        "roic_pt_yoy": -2.4,
+        "roic_pt_yoy": -2.2,
         "asset_turnover_diff": -0.071,
         "inventory_turnover_ltm": 6.198,
         "inventory_turnover_diff": -0.54
@@ -1920,7 +1920,7 @@
         },
         "roic": {
           "prev_previous": null,
-          "previous": 6.7,
+          "previous": 6.5,
           "current": 4.3,
           "forecast": null
         },
@@ -1984,9 +1984,9 @@
           "operating_income": 7157.0,
           "net_income": 5087.0,
           "avg_equity": 59089.0,
-          "avg_debt": 10797.5,
+          "avg_debt": 12553.0,
           "roe_pct": 8.6,
-          "roic_pct": 6.7
+          "roic_pct": 6.5
         },
         "prev_previous": {
           "revenue": null,
