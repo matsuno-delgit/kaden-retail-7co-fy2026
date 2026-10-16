@@ -197,7 +197,7 @@
     <div class="mt-2 text-xs text-slate-500">
       <span class="text-slate-700 font-medium">現在表示中:</span>
       <span id="current-fy-label" class="text-indigo-700 font-bold ml-1">2026年3月期</span>
-      <span class="ml-3 text-slate-400">※2027年3月期は1Qのみ（開示済みのノジマ・ビックカメラ・コジマ。他社は未開示で空欄）／2025年3月期は準備中</span>
+      <span class="ml-3 text-slate-400">※2027年3月期: 1Qは全社開示済み。通期・4Q単独・下期（通常版）と2Q単独・上期（組替版）はビックカメラ・コジマのみ（2026年8月期の実績。3月決算社は未開示で空欄）</span>
     </div>
   </nav>
 
@@ -572,12 +572,13 @@ const FY_LABELS = {
 };
 const ALL_PERIODS = ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"];
 // データセット × 会計年度 で選択できる期間。ここに無い組み合わせはタブを無効化する。
-//   組替版: 2027(1Qのみ) / 2026 / 2025 の3年度（2024は前々期版の連続性が担保できず対象外）
-//   通常版: 2027(1Qのみ) / 2026 / 2025 / 2024 の4年度
-// 2027年3月期の1Qは、3月決算社ではノジマのみ開示済み。他社は枠だけ用意している。
+//   組替版: 2027(1Q・2Q単独・上期) / 2026 / 2025 の3年度（2024は前々期版の連続性が担保できず対象外）
+//   通常版: 2027(通期・1Q・4Q単独・下期) / 2026 / 2025 / 2024 の4年度
+// 2027年3月期の1Q以外は、8月決算2社（ビック・コジマ）の2026年8月期通期の開示で先に確定した期間。
+// 3月決算社は未開示のため空欄（開示されたらExcelに追記して再生成する）。
 const AVAILABILITY = {
-  kumikae: { fy2027: ["q1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
-  normal:  { fy2027: ["q1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: ALL_PERIODS },
+  kumikae: { fy2027: ["q1", "q2", "h1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
+  normal:  { fy2027: ["fy", "q1", "q4", "h2"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: ALL_PERIODS },
 };
 
 function periodsFor(dataset, fy) {
@@ -680,10 +681,12 @@ async function buildTrendSeries(period) {
     points.push({ fy, label: axisLabelFromCode(c3?.current_period), kind: "actual" });
     src.push({ data: d, field: "current" });
   });
-  // 次期計画を持つのは通常版の通期だけ。最新年度(2026年3月期)のJSONから取る。
-  if (DATASET_TYPE === "normal" && period === "fy" && src.length) {
+  // 次期計画を持つのは通常版の通期だけで、計画値は2026年3月期のJSONにしか無い。
+  // 2027年3月期の通期（8月決算2社だけ先に確定）が並んでも、計画は2026年3月期から取る。
+  const planData = datas[years.indexOf("fy2026")];
+  if (DATASET_TYPE === "normal" && period === "fy" && planData) {
     points.push({ fy: null, label: ["2027年3月期", "計画"], kind: "forecast" });
-    src.push({ data: src[src.length - 1].data, field: "forecast" });
+    src.push({ data: planData, field: "forecast" });
   }
   TREND_SERIES = {
     points, src,
@@ -694,10 +697,16 @@ async function buildTrendSeries(period) {
 
 function seriesOf(coKey, pick) {
   if (!TREND_SERIES) return [];
-  return TREND_SERIES.src.map(s => {
+  const vals = TREND_SERIES.src.map(s => {
     const c = s.data.companies.find(x => x.key === coKey);
     return (c ? pick(c)?.[s.field] : null) ?? null;
   });
+  // 計画点と同じ期の実績が既に出ている会社（8月決算2社は2026年8月期通期が先に確定する）は、
+  // 計画点を描かない。残すと実績→期初計画へ線が下がり、業績が落ちたように見えるため。
+  const fc = TREND_SERIES.forecastIndex;
+  const act = TREND_SERIES.points.findIndex(p => p.fy === "fy2027" && p.kind === "actual");
+  if (fc >= 0 && act >= 0 && vals[act] != null) vals[fc] = null;
+  return vals;
 }
 
 // 選択中の決算期を薄い縦帯で示す。全期間を並べると「今どこか」が分からなくなるため。
