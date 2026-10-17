@@ -362,6 +362,10 @@
       四半期の売上を期末残高で割る単純計算と違い、期間の長さと期末残高の季節性の影響を受けないため、
       同じ四半期時点どうしを年度をまたいで並べて比較できる。
     </p>
+    <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 mb-3 inline-block">
+      ※ ビックカメラ（単体）は、四半期末の単体BS（総資産・在庫）が非開示（決算短信・説明会資料は連結BSのみ）のため表示なし。
+      通常版の通期タブでは有価証券報告書の単体BSで算定した値を表示
+    </p>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <div class="bg-white rounded-lg shadow p-5">
         <h3 class="text-lg font-semibold mb-3 text-slate-900">直近四半期 総資産回転率 推移（回）</h3>
@@ -1060,6 +1064,10 @@ function renderKpiCards(cos) {
           ${row("ROE", fmtPctVal(roe), fmtPt(roeYoY), roeYoY, "dupont-row",
                 "直近12ヶ月（直近4四半期）の当期純利益 ÷ 平均自己資本（当期末・前年同期末の2期平均）")}
         </dl>
+        ${c.consolidation === "standalone" && invT == null ? `
+        <p class="dupont-row" style="font-size:11px;line-height:1.5;color:#b45309;margin-top:6px">
+          ※ 単体の四半期末BS（在庫・総資産・自己資本）は非開示のため、在庫回転率・総資産回転率・財務レバレッジ・ROEは
+          通常版の通期タブ（有価証券報告書の値）でのみ表示</p>` : ""}
       </div>
     `);
   });
