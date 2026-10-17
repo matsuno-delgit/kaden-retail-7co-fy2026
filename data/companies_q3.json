@@ -1246,7 +1246,7 @@
           "current": 251160.0,
           "previous": 223212.0,
           "forecast": null,
-          "forecast_annual": 1000000,
+          "forecast_annual": 1030000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1491,7 +1491,7 @@
           "current": 250400.0,
           "previous": 240154.0,
           "forecast": null,
-          "forecast_annual": 1013000,
+          "forecast_annual": 1022000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1499,7 +1499,7 @@
           "current": 67899.0,
           "previous": 64588.0,
           "forecast": null,
-          "forecast_annual": 271484,
+          "forecast_annual": 276962,
           "unit": "百万円"
         },
         "SGA": {
@@ -1515,7 +1515,7 @@
           "current": 9600.0,
           "previous": 9479.0,
           "forecast": null,
-          "forecast_annual": 30500,
+          "forecast_annual": 34400,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -1523,7 +1523,7 @@
           "current": 9735.0,
           "previous": 9795.0,
           "forecast": null,
-          "forecast_annual": 31500,
+          "forecast_annual": 35700,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -1531,7 +1531,7 @@
           "current": 6131.0,
           "previous": 4996.0,
           "forecast": null,
-          "forecast_annual": 17500,
+          "forecast_annual": 18400,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1736,7 +1736,7 @@
           "current": 120249.0,
           "previous": 116439.0,
           "forecast": null,
-          "forecast_annual": 481000,
+          "forecast_annual": 497000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1744,7 +1744,7 @@
           "current": 30163.0,
           "previous": 29089.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 124747,
           "unit": "百万円"
         },
         "SGA": {
@@ -1760,7 +1760,7 @@
           "current": 3388.0,
           "previous": 3118.0,
           "forecast": null,
-          "forecast_annual": 10000,
+          "forecast_annual": 11900,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -1768,7 +1768,7 @@
           "current": 3515.0,
           "previous": 3544.0,
           "forecast": null,
-          "forecast_annual": 14300,
+          "forecast_annual": 16600,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -1776,7 +1776,7 @@
           "current": 2737.0,
           "previous": 2093.0,
           "forecast": null,
-          "forecast_annual": 11100,
+          "forecast_annual": 11700,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1989,7 +1989,7 @@
           "current": 19883.0,
           "previous": 19163.0,
           "forecast": null,
-          "forecast_annual": 79968,
+          "forecast_annual": 80556,
           "unit": "百万円"
         },
         "SGA": {
@@ -2005,7 +2005,7 @@
           "current": 2077.0,
           "previous": 2314.0,
           "forecast": null,
-          "forecast_annual": 7600,
+          "forecast_annual": 8200,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -2013,7 +2013,7 @@
           "current": 2128.0,
           "previous": 2354.0,
           "forecast": null,
-          "forecast_annual": 7900,
+          "forecast_annual": 8500,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -2021,7 +2021,7 @@
           "current": 1483.0,
           "previous": 1619.0,
           "forecast": null,
-          "forecast_annual": 4900,
+          "forecast_annual": 5300,
           "unit": "百万円"
         },
         "InterestBearingDebt": {

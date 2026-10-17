@@ -15,6 +15,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期 3Q累計",
         "previous": "2025年03月期 3Q累計",
@@ -266,6 +267,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期 3Q累計",
         "previous": "2025年03月期 3Q累計",
@@ -517,6 +519,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期 3Q累計",
         "previous": "2025年03月期 3Q累計",
@@ -768,6 +771,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期 3Q累計",
         "previous": "2025年03月期 3Q累計",
@@ -1019,6 +1023,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期 3Q累計",
         "previous": "2025年03月期 3Q累計",
@@ -1270,6 +1275,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期 3Q累計",
         "previous": "2025年03月期 3Q累計",
@@ -1521,6 +1527,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2025年3月〜11月",
         "previous": "2024年3月〜11月",
@@ -1772,6 +1779,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2025年3月〜11月",
         "previous": "2024年3月〜11月",
@@ -2023,6 +2031,7 @@
       "previous_period": "FY2025-Q3CUM",
       "prev_previous_period": "FY2024-Q3CUM",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2025年3月〜11月",
         "previous": "2024年3月〜11月",

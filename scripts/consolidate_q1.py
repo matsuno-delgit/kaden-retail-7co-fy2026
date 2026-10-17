@@ -16,6 +16,7 @@ from pathlib import Path
 from openpyxl import load_workbook
 
 from xlsx_utils import find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin
+from forecast_plans import INITIAL, plan_for
 
 ROOT = Path(__file__).parent.parent.parent
 
@@ -119,18 +120,8 @@ ROW_TO_METRIC = {
     86: "Tax",
 }
 
-# 通期計画予想値 (consolidate.pyと同じ。1Qダッシュボード末尾の「次期通期業績予想」テーブル用)
-FORECAST = {
-    "yamada":       {"Revenue": 1780000, "OperatingIncome": 51500, "OrdinaryIncome": 52600, "NetIncome": 27800, "GrossProfit": 503100},
-    "ks":           {"Revenue": 785000,  "OperatingIncome": 30500, "OrdinaryIncome": 33500, "NetIncome": 20000, "GrossProfit": 219500},
-    "edion":        {"Revenue": 816000,  "OperatingIncome": 27000, "OrdinaryIncome": 27000, "NetIncome": 15700, "GrossProfit": 235800},
-    "joshin":       {"Revenue": 438000,  "OperatingIncome": 6000,  "OrdinaryIncome": 5500,  "NetIncome": 3500,  "GrossProfit": 114500},
-    "nojima":       {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000, "GrossProfit": None},
-    "bic":          {"Revenue": 1013000, "OperatingIncome": 30500, "OrdinaryIncome": 31500, "NetIncome": 17500, "GrossProfit": 271484},
-    "kojima":       {"Revenue": 294000,  "OperatingIncome": 7600,  "OrdinaryIncome": 7900,  "NetIncome": 4900,  "GrossProfit": 79968},
-    "bic_s":        {"Revenue": 481000,  "OperatingIncome": 10000, "OrdinaryIncome": 14300, "NetIncome": 11100, "GrossProfit": None},
-    "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None,  "GrossProfit": 411500},
-}
+# 通期計画予想値 (consolidate.pyと同じ。forecast_plans.py の最新計画)
+FORECAST = {k: plan_for(k) for k in INITIAL}
 
 
 def to_num(v):

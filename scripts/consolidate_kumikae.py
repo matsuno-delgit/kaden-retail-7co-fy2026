@@ -6,7 +6,7 @@
 
 期間ラベル統一: 全社「FY2026 (=2025/3〜2026/2 系)」「FY2025」「FY2024」を採用。
 forecast は組替通期（fy）にだけ持たせる（「次期通期業績予想」表用）。他の期間は null。
-  3月決算社 … 通常版と同じ 2027年3月期の会社計画（consolidate.py の FORECAST）
+  3月決算社 … 通常版と同じ 2027年3月期の会社計画（forecast_plans.py。修正があれば修正後）
   ビック連結・単体・コジマ … 暦月を合わせ、2026年8月期 下期計画（2026/3-8）＋ 2027年8月期 上期計画（2026/9-2027/2）
 """
 import json
@@ -14,6 +14,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
+from forecast_plans import plan_for, revision_for, revision_note
 from xlsx_utils import (find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin,
                         period_label, kumikae_labels_08)
 
@@ -95,7 +96,7 @@ ROW_TO_METRIC = {
 
 # ---- 組替通期の次期計画（組替FY2027 = 2026年3月〜2027年2月）----
 # 8月決算社は「2026年8月期 下期計画」＋「2027年8月期 上期計画」。
-#   下期計画: 2026年8月期 第2四半期決算 補足説明資料の「下期 修正予想」（2026/4/10公表。
+#   下期計画: 2026年8月期 第2四半期決算 補足説明資料の「下期 修正予想」（ビック2026/4/10・コジマ4/9公表。
 #             3月決算社が2027年3月期計画を出した2026年5月時点で最新の会社計画）
 #             ビック連結 p12 / ビック単体 p13 / コジマ p15
 #   上期計画: 2026年8月期決算 補足説明資料の「2027年8月期 上期予想」
@@ -110,25 +111,37 @@ HALF_PLANS = {
     "kojima": ({"Revenue": 150062, "OperatingIncome": 4125, "OrdinaryIncome": 4281, "NetIncome": 2480, "gm": 27.6},
                {"Revenue": 148000, "OperatingIncome": 4100, "OrdinaryIncome": 4300, "NetIncome": 2900, "gm": 27.4}),
 }
-# 3月決算社は通常版と同じ2027年3月期計画（consolidate.py の FORECAST と同値）
-FORECAST_03 = {
-    "yamada":       {"Revenue": 1780000, "OperatingIncome": 51500, "OrdinaryIncome": 52600, "NetIncome": 27800, "GrossProfit": 503100},
-    "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None,  "GrossProfit": 411500},
-    "ks":           {"Revenue": 785000,  "OperatingIncome": 30500, "OrdinaryIncome": 33500, "NetIncome": 20000, "GrossProfit": 219500},
-    "edion":        {"Revenue": 816000,  "OperatingIncome": 27000, "OrdinaryIncome": 27000, "NetIncome": 15700, "GrossProfit": 235800},
-    "joshin":       {"Revenue": 438000,  "OperatingIncome": 6000,  "OrdinaryIncome": 5500,  "NetIncome": 3500,  "GrossProfit": 114500},
-    "nojima":       {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000, "GrossProfit": None},
+# 下期の期初計画（2026年8月期 第2四半期決算 補足説明資料の「下期 期初予想」）。修正の印・説明用
+H2_INITIAL = {
+    "bic":    {"Revenue": 515500, "OperatingIncome": 16060, "OrdinaryIncome": 16600, "NetIncome": 7890, "gm": 27.0},
+    "bic_s":  {"Revenue": 242500, "OperatingIncome": 5800, "OrdinaryIncome": 6160, "NetIncome": 3150, "gm": 25.8},
+    "kojima": {"Revenue": 151000, "OperatingIncome": 4100, "OrdinaryIncome": 4200, "NetIncome": 2400, "gm": 27.2},
 }
+H2_REVISED_ON = {"bic": "2026-04-10", "bic_s": "2026-04-10", "kojima": "2026-04-09"}
+# 3月決算社は通常版と同じ2027年3月期計画（forecast_plans.py。修正があれば修正後）
+FORECAST_03 = {k: plan_for(k) for k in ("yamada", "yamada_denki", "ks", "edion", "joshin", "nojima")}
 FORECAST_LABEL_08 = "2026/3〜2027/2（26/8期下期＋27/8期上期計画）"
+
+
+def _sum_halves(h2, h1):
+    out = {k: h2[k] + h1[k] for k in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome")}
+    out["GrossProfit"] = round(h2["Revenue"] * h2["gm"] / 100 + h1["Revenue"] * h1["gm"] / 100)
+    return out
 
 
 def kumikae_forecast(key):
     if key in FORECAST_03:
         return FORECAST_03[key]
     h2, h1 = HALF_PLANS[key]
-    out = {k: h2[k] + h1[k] for k in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome")}
-    out["GrossProfit"] = round(h2["Revenue"] * h2["gm"] / 100 + h1["Revenue"] * h1["gm"] / 100)
-    return out
+    return _sum_halves(h2, h1)
+
+
+def kumikae_revision(key):
+    """組替計画の修正情報。8月決算社は下期が修正予想（上期は期初計画のまま）なので「下期」と明記する。"""
+    if key in FORECAST_03:
+        return revision_for(key)
+    h2, h1 = HALF_PLANS[key]
+    return revision_note(H2_REVISED_ON[key], _sum_halves(H2_INITIAL[key], h1), _sum_halves(h2, h1), prefix="下期")
 
 
 def to_num(v):
@@ -348,6 +361,7 @@ def build_one(pk, conf, is_annual):
             "fiscal_year_end": co["fy_end"], "consolidation": co["consol"],
             "current_period": current_period, "previous_period": previous_period,
             "prev_previous_period": prev_previous_period, "forecast_period": forecast_period,
+            "forecast_revision": kumikae_revision(co["key"]) if pk == "fy" else None,
             "period_labels": {"current": lab_c, "previous": lab_p, "prev_previous": lab_pp,
                               "forecast": (FORECAST_LABEL_08 if co["fy_end"] == "08"
                                            else period_label(forecast_period, "03"))},

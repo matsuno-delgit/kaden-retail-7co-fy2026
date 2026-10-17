@@ -15,6 +15,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
@@ -266,6 +267,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
@@ -517,6 +519,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
@@ -768,6 +771,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
@@ -1019,6 +1023,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
@@ -1270,6 +1275,11 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": {
+        "date": "2026-07-30",
+        "badge": "7月計画修正",
+        "text": "2026年7月30日に通期計画を修正（期初計画→修正後: 売上高 1,000,000→1,030,000）"
+      },
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
@@ -1283,7 +1293,7 @@
           "current": 982804.0,
           "previous": 853427.0,
           "forecast": null,
-          "forecast_annual": 1000000,
+          "forecast_annual": 1030000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1371,7 +1381,7 @@
         "Revenue": {
           "current_yoy_pct": 15.16,
           "previous_yoy_pct": 12.1,
-          "forecast_yoy_pct": 1.75
+          "forecast_yoy_pct": 4.8
         },
         "OperatingIncome": {
           "current_yoy_pct": 20.05,
@@ -1521,6 +1531,11 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": {
+        "date": "2026-04-10",
+        "badge": "下期4月計画修正",
+        "text": "2026年4月10日に下期計画を修正（合算値の期初計画→修正後: 売上高 1,052,000→1,050,070、営業利益 34,160→33,772、純利益 18,390→17,801）"
+      },
       "period_labels": {
         "current": "2025年3月〜2026年2月",
         "previous": "2024年3月〜2025年2月",
@@ -1772,6 +1787,11 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": {
+        "date": "2026-04-10",
+        "badge": "下期4月計画修正",
+        "text": "2026年4月10日に下期計画を修正（合算値の期初計画→修正後: 売上高 508,900→515,638、営業利益 11,900→11,803、純利益 12,450→12,573）"
+      },
       "period_labels": {
         "current": "2025年3月〜2026年2月",
         "previous": "2024年3月〜2025年2月",
@@ -2023,6 +2043,11 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": {
+        "date": "2026-04-09",
+        "badge": "下期4月計画修正",
+        "text": "2026年4月9日に下期計画を修正（合算値の期初計画→修正後: 売上高 299,000→298,062、営業利益 8,200→8,225、純利益 5,300→5,380）"
+      },
       "period_labels": {
         "current": "2025年3月〜2026年2月",
         "previous": "2024年3月〜2025年2月",

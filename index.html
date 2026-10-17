@@ -187,6 +187,13 @@
     box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); font-size: 0.75rem; line-height: 1.55; color: #475569;
   }
   .tb-info-body p + p { margin-top: 0.25rem; }
+  /* 次期通期業績予想: 期初計画から修正された会社の印（社名の下） */
+  .fc-rev {
+    display: inline-block; margin-top: 0.15rem; padding: 0 0.45rem; border-radius: 9999px;
+    font-size: 0.68rem; font-weight: 600; line-height: 1.5; white-space: nowrap; cursor: help;
+    color: #92400e; background: #fef3c7; border: 1px solid #fcd34d;
+  }
+  #forecast-rev-notes li { margin-top: 0.15rem; }
   /* ---- サマリーカード: 5列×2段に収める小型版 ---- */
   .kpi-grid { display: grid; gap: 0.6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 768px)  { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -507,6 +514,7 @@
           <tbody id="forecast-table-body" class="divide-y divide-slate-200"></tbody>
         </table>
       </div>
+      <ul id="forecast-rev-notes" class="text-xs text-slate-500 mt-2"></ul>
     </div>
   </section>
 
@@ -748,7 +756,7 @@ function seriesOf(coKey, pick) {
     return (c ? pick(c)?.[s.field] : null) ?? null;
   });
   // 計画点と同じ期の実績が既に出ている会社（8月決算2社は2026年8月期通期が先に確定する）は、
-  // 計画点を描かない。残すと実績→期初計画へ線が下がり、業績が落ちたように見えるため。
+  // 計画点を描かない。実績と計画が同じ期に二重に並び、線が実績→計画へ折れて紛らわしいため。
   // 判定は売上高の実績で行う（ROE・ROICのようにBS待ちで実績が空欄の指標でも、期初計画だけが残らないように）。
   const fc = TREND_SERIES.forecastIndex;
   const act = TREND_SERIES.points.findIndex(p => p.fy === "fy2027" && p.kind === "actual");
@@ -819,11 +827,12 @@ function trendPointStyle(fcIdx) {
 }
 
 // 期間に応じてセクション・グラフタイトルを表示制御
-// 収益性・効率性の推移は通期(fy)のみ。次期通期業績予想の表は年度で判定（hasForecast）。
-// 次期通期計画を採録しているのは2026年3月期（通常版・組替版とも）。
-// 「次期通期業績予想」表は期間タブに関係なく表示し、中身は常にその版の通期データから描く。
+// 収益性・効率性の推移は通期(fy)のみ。次期通期業績予想の表は hasForecast で判定。
+// 表の計画は2027年3月期（8月決算2社は通常版で2026年8月期、組替版で2026年3月〜2027年2月）。
+// 計画が出揃った時点の 2026年3月期 通期と、その計画の進捗を見る 2027年3月期 の全期間で表示する
+// （通常版・組替版とも）。中身は常にその版の2026年3月期 通期データ（計画と、YoYの基準になる通期実績）から描く。
 function hasForecast() {
-  return CURRENT_FY === "fy2026";
+  return (CURRENT_FY === "fy2026" && CURRENT_PERIOD === "fy") || CURRENT_FY === "fy2027";
 }
 
 async function renderForecastFromAnnual() {
@@ -833,10 +842,19 @@ async function renderForecastFromAnnual() {
   const note = document.getElementById("forecast-note");
   if (note) note.textContent = DATASET_TYPE === "kumikae"
     ? "※ 組替版。3月決算社は2027年3月期の会社計画。ビックカメラ（連結・単体）・コジマは暦月を合わせ、"
-      + "2026年8月期の下期計画（2026年4月10日の修正予想）＋2027年8月期の上期計画＝2026年3月〜2027年2月。"
-      + "YoYは組替通期実績（2025年3月〜2026年2月）比。売上総利益率は計画の売上比から算出。期間タブに関係なく通期ベースで表示。"
-    : "※ 通常版。各社の次期通期の会社計画（3月決算社は2027年3月期、ビックカメラ・コジマは2026年8月期の期初計画）。"
-      + "YoYは直近通期実績比。期間タブに関係なく通期ベースで表示。";
+      + "2026年8月期の下期計画（修正予想）＋2027年8月期の上期計画＝2026年3月〜2027年2月。"
+      + "YoYは組替通期実績（2025年3月〜2026年2月）比。期間タブに関係なく通期ベースで表示。"
+    : "※ 通常版。2027年3月期の会社計画（ビックカメラ・コジマは同じ四半期番号どうしで並べる2026年8月期）。"
+      + "YoYは2026年3月期（ビック・コジマは2025年8月期）の通期実績比。期間タブに関係なく通期ベースで表示。";
+  // 期初計画から修正された計画は修正後を載せ、社名の下の印と表の下の注で期初計画との差を示す
+  const ul = document.getElementById("forecast-rev-notes");
+  if (ul) {
+    const revs = annual.companies.filter(c => c.forecast_revision);
+    ul.innerHTML = revs.length
+      ? "<li>※「○月計画修正」は期初計画を修正した会社で、修正後の計画を表示（売上総利益率は計画資料の売上比から算出）。</li>"
+        + revs.map(c => `<li>・${c.label}: ${c.forecast_revision.text}</li>`).join("")
+      : "";
+  }
 }
 
 function applyPeriodVisibility(period) {
@@ -848,7 +866,7 @@ function applyPeriodVisibility(period) {
     const el = document.getElementById(id);
     if (el) el.style.display = isAnnual ? "" : "none";
   });
-  // 次期通期業績予想は「通期タブ かつ 計画値を持つ年度」のときだけ
+  // 次期通期業績予想は 2026年3月期 通期と 2027年3月期 の全期間（hasForecast）
   const fcEl = document.getElementById("section-forecast-table");
   if (fcEl) fcEl.style.display = hasForecast() ? "" : "none";
   // 直近四半期(LTM)回転率は四半期タブ専用。通期は上の「収益性・効率性 推移」と重複するため出さない
@@ -1404,6 +1422,7 @@ function renderForecastTable(cos) {
   tbody.innerHTML = "";
   cos.forEach(c => {
     const forecastLabel = periodOf(c, "forecast");
+    const rev = c.forecast_revision;   // 期初計画からの修正（無ければ null）
     // 四半期/上期/下期ダッシュボードでは forecast=null（推移グラフのスケール歪み回避用）。
     // 「次期通期業績予想」表は通期計画値 forecast_annual を優先参照、無ければ forecast。
     const revF = getMetric(c, "Revenue", "forecast_annual") ?? getMetric(c, "Revenue", "forecast");
@@ -1436,7 +1455,8 @@ function renderForecastTable(cos) {
     const gpMarginStr = gpMarginF == null ? "—" : `${gpMarginF.toFixed(2)}%`;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
-        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}</td>
+        <td class="px-3 py-2 font-medium"><span style="color:${COLORS[c.key]}">${c.label}</span>${rev
+          ? `<br><span class="fc-rev" title="${rev.text}">${rev.badge}</span>` : ""}</td>
         <td class="px-3 py-2 text-slate-600">${forecastLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(revF)}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>

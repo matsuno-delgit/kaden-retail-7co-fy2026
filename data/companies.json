@@ -14,6 +14,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -277,6 +278,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -540,6 +542,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -803,6 +806,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1066,6 +1070,7 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": null,
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
         "Revenue": {
@@ -1329,13 +1334,18 @@
       "previous_period": "FY2025",
       "prev_previous_period": "FY2024",
       "forecast_period": "FY2027",
+      "forecast_revision": {
+        "date": "2026-07-30",
+        "badge": "7月計画修正",
+        "text": "2026年7月30日に通期計画を修正（期初計画→修正後: 売上高 1,000,000→1,030,000）"
+      },
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
         "Revenue": {
           "prev_previous": 761301.0,
           "current": 982804.0,
           "previous": 853427.0,
-          "forecast": 1000000,
+          "forecast": 1030000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1441,7 +1451,7 @@
         "Revenue": {
           "current_yoy_pct": 15.16,
           "previous_yoy_pct": 12.1,
-          "forecast_yoy_pct": 1.75
+          "forecast_yoy_pct": 4.8
         },
         "OperatingIncome": {
           "current_yoy_pct": 20.05,
@@ -1505,13 +1515,13 @@
           "prev_previous": 1.391,
           "previous": 1.368,
           "current": 1.653,
-          "forecast": 1.569
+          "forecast": 1.616
         },
         "inventory_turnover": {
           "prev_previous": 11.284,
           "previous": 11.808,
           "current": 12.417,
-          "forecast": 12.634
+          "forecast": 13.013
         },
         "gross_margin": {
           "prev_previous": 28.84,
@@ -1523,7 +1533,7 @@
           "prev_previous": 2.62,
           "previous": 3.78,
           "current": 3.96,
-          "forecast": 4.8
+          "forecast": 4.66
         },
         "forecast_uses_current_bs": true,
         "ltm_asset_turnover": {
@@ -1592,20 +1602,25 @@
       "previous_period": "FY2024",
       "prev_previous_period": "FY2023",
       "forecast_period": "FY2026",
+      "forecast_revision": {
+        "date": "2026-04-10",
+        "badge": "4月計画修正",
+        "text": "2026年4月10日に通期計画を修正（期初計画→修正後: 売上高 1,013,000→1,022,000、営業利益 30,500→34,400、純利益 17,500→18,400）"
+      },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
         "Revenue": {
           "prev_previous": 815560.0,
           "current": 974483.0,
           "previous": 922572.0,
-          "forecast": 1013000,
+          "forecast": 1022000,
           "unit": "百万円"
         },
         "GrossProfit": {
           "prev_previous": 217873.0,
           "current": 260511.0,
           "previous": 243646.0,
-          "forecast": 271484,
+          "forecast": 276962,
           "unit": "百万円"
         },
         "SGA": {
@@ -1619,21 +1634,21 @@
           "prev_previous": 14215.0,
           "current": 30274.0,
           "previous": 24388.0,
-          "forecast": 30500,
+          "forecast": 34400,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
           "prev_previous": 16566.0,
           "current": 31929.0,
           "previous": 26674.0,
-          "forecast": 31500,
+          "forecast": 35700,
           "unit": "百万円"
         },
         "NetIncome": {
           "prev_previous": 2936.0,
           "current": 17476.0,
           "previous": 13908.0,
-          "forecast": 17500,
+          "forecast": 18400,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1704,22 +1719,22 @@
         "Revenue": {
           "current_yoy_pct": 5.63,
           "previous_yoy_pct": 13.12,
-          "forecast_yoy_pct": 3.95
+          "forecast_yoy_pct": 4.88
         },
         "OperatingIncome": {
           "current_yoy_pct": 24.13,
           "previous_yoy_pct": 71.57,
-          "forecast_yoy_pct": 0.75
+          "forecast_yoy_pct": 13.63
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 19.7,
           "previous_yoy_pct": 61.02,
-          "forecast_yoy_pct": -1.34
+          "forecast_yoy_pct": 11.81
         },
         "NetIncome": {
           "current_yoy_pct": 25.65,
           "previous_yoy_pct": 373.71,
-          "forecast_yoy_pct": 0.14
+          "forecast_yoy_pct": 5.29
         }
       },
       "ratios": {
@@ -1768,25 +1783,25 @@
           "prev_previous": 1.813,
           "previous": 1.929,
           "current": 1.979,
-          "forecast": 2.014
+          "forecast": 2.028
         },
         "inventory_turnover": {
           "prev_previous": 7.748,
           "previous": 8.427,
           "current": 8.461,
-          "forecast": 8.795
+          "forecast": 8.873
         },
         "gross_margin": {
           "prev_previous": 26.71,
           "previous": 26.41,
           "current": 26.73,
-          "forecast": 26.8
+          "forecast": 27.1
         },
         "net_margin": {
           "prev_previous": 0.36,
           "previous": 1.51,
           "current": 1.79,
-          "forecast": 1.73
+          "forecast": 1.8
         },
         "forecast_uses_current_bs": true,
         "ltm_asset_turnover": {
@@ -1855,20 +1870,25 @@
       "previous_period": "FY2024",
       "prev_previous_period": "FY2023",
       "forecast_period": "FY2026",
+      "forecast_revision": {
+        "date": "2026-04-10",
+        "badge": "4月計画修正",
+        "text": "2026年4月10日に通期計画を修正（期初計画→修正後: 売上高 481,000→497,000、営業利益 10,000→11,900、純利益 11,100→11,700）"
+      },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
         "Revenue": {
           "prev_previous": 425526.0,
           "current": 472422.0,
           "previous": 450356.0,
-          "forecast": 481000,
+          "forecast": 497000,
           "unit": "百万円"
         },
         "GrossProfit": {
           "prev_previous": 103032.0,
           "current": 115981.0,
           "previous": 109798.0,
-          "forecast": null,
+          "forecast": 124747,
           "unit": "百万円"
         },
         "SGA": {
@@ -1882,21 +1902,21 @@
           "prev_previous": 847.0,
           "current": 9476.0,
           "previous": 6383.0,
-          "forecast": 10000,
+          "forecast": 11900,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
           "prev_previous": 3860.0,
           "current": 14636.0,
           "previous": 11468.0,
-          "forecast": 14300,
+          "forecast": 16600,
           "unit": "百万円"
         },
         "NetIncome": {
           "prev_previous": -4304.0,
           "current": 10830.0,
           "previous": 6142.0,
-          "forecast": 11100,
+          "forecast": 11700,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1967,22 +1987,22 @@
         "Revenue": {
           "current_yoy_pct": 4.9,
           "previous_yoy_pct": 5.84,
-          "forecast_yoy_pct": 1.82
+          "forecast_yoy_pct": 5.2
         },
         "OperatingIncome": {
           "current_yoy_pct": 48.46,
           "previous_yoy_pct": 653.6,
-          "forecast_yoy_pct": 5.53
+          "forecast_yoy_pct": 25.58
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 27.62,
           "previous_yoy_pct": 197.1,
-          "forecast_yoy_pct": -2.3
+          "forecast_yoy_pct": 13.42
         },
         "NetIncome": {
           "current_yoy_pct": 76.33,
           "previous_yoy_pct": -242.7,
-          "forecast_yoy_pct": 2.49
+          "forecast_yoy_pct": 8.03
         }
       },
       "ratios": {
@@ -2031,25 +2051,25 @@
           "prev_previous": 1.412,
           "previous": 1.574,
           "current": 1.658,
-          "forecast": 1.664
+          "forecast": 1.716
         },
         "inventory_turnover": {
           "prev_previous": 7.529,
           "previous": 7.378,
           "current": 7.426,
-          "forecast": 7.561
+          "forecast": 7.813
         },
         "gross_margin": {
           "prev_previous": 24.21,
           "previous": 24.38,
           "current": 24.55,
-          "forecast": null
+          "forecast": 25.1
         },
         "net_margin": {
           "prev_previous": -1.01,
           "previous": 1.36,
           "current": 2.29,
-          "forecast": 2.31
+          "forecast": 2.35
         },
         "forecast_uses_current_bs": true,
         "ltm_asset_turnover": {
@@ -2118,6 +2138,11 @@
       "previous_period": "FY2024",
       "prev_previous_period": "FY2023",
       "forecast_period": "FY2026",
+      "forecast_revision": {
+        "date": "2026-04-09",
+        "badge": "4月計画修正",
+        "text": "2026年4月9日に通期計画を修正（期初計画→修正後: 営業利益 7,600→8,200、純利益 4,900→5,300）"
+      },
       "tanshin_url": "https://www.kojima.net/corporation/ir/",
       "metrics": {
         "Revenue": {
@@ -2131,7 +2156,7 @@
           "prev_previous": 71255.0,
           "current": 76830.0,
           "previous": 74198.0,
-          "forecast": 79968,
+          "forecast": 80556,
           "unit": "百万円"
         },
         "SGA": {
@@ -2145,21 +2170,21 @@
           "prev_previous": 4819.0,
           "current": 7325.0,
           "previous": 6359.0,
-          "forecast": 7600,
+          "forecast": 8200,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
           "prev_previous": 5146.0,
           "current": 7732.0,
           "previous": 6627.0,
-          "forecast": 7900,
+          "forecast": 8500,
           "unit": "百万円"
         },
         "NetIncome": {
           "prev_previous": 2869.0,
           "current": 4709.0,
           "previous": 4001.0,
-          "forecast": 4900,
+          "forecast": 5300,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -2235,17 +2260,17 @@
         "OperatingIncome": {
           "current_yoy_pct": 15.19,
           "previous_yoy_pct": 31.96,
-          "forecast_yoy_pct": 3.75
+          "forecast_yoy_pct": 11.95
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 16.67,
           "previous_yoy_pct": 28.78,
-          "forecast_yoy_pct": 2.17
+          "forecast_yoy_pct": 9.93
         },
         "NetIncome": {
           "current_yoy_pct": 17.7,
           "previous_yoy_pct": 39.46,
-          "forecast_yoy_pct": 4.06
+          "forecast_yoy_pct": 12.55
         }
       },
       "ratios": {
@@ -2294,7 +2319,7 @@
           "prev_previous": 2.452,
           "previous": 2.354,
           "current": 2.341,
-          "forecast": 2.371
+          "forecast": 2.364
         },
         "inventory_turnover": {
           "prev_previous": 6.964,
@@ -2306,13 +2331,13 @@
           "prev_previous": 26.6,
           "previous": 27.49,
           "current": 27.17,
-          "forecast": 27.2
+          "forecast": 27.4
         },
         "net_margin": {
           "prev_previous": 1.07,
           "previous": 1.48,
           "current": 1.67,
-          "forecast": 1.67
+          "forecast": 1.8
         },
         "forecast_uses_current_bs": true,
         "ltm_asset_turnover": {
