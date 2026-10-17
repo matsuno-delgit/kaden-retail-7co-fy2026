@@ -151,87 +151,123 @@
   .dupont-on .sep.dupont-row { display: block; }
   /* デュポン表示時は損益の内訳を畳んでカード丈を抑える */
   .dupont-on .dupont-hide { display: none; }
+  /* ---- ツールバー（データセット｜年度｜期間 を1行。上部に固定） ---- */
+  .toolbar {
+    position: sticky; top: 0; z-index: 30;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem 0.5rem;
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 0.6rem;
+    padding: 0.45rem 0.7rem; margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  }
+  .tb-cap { font-size: 0.72rem; color: #64748b; font-weight: 600; }
+  .tb-sep { width: 1px; align-self: stretch; background: #cbd5e1; margin: 0 0.3rem; }
+  .tb-seg { display: inline-flex; border: 1px solid #cbd5e1; border-radius: 0.45rem; overflow: hidden; }
+  .tb-seg button {
+    font-size: 0.8rem; padding: 0.28rem 0.48rem; background: #fff; color: #334155;
+    border: 0; border-left: 1px solid #e2e8f0; transition: background-color 0.12s ease;
+    white-space: nowrap; line-height: 1.25rem;
+  }
+  .tb-seg button:first-child { border-left: 0; }
+  .tb-seg button:not(:disabled):hover { background: #f1f5f9; }
+  .tb-seg button:disabled { opacity: 0.38; cursor: not-allowed; }
+  /* 選択色はグループごとに変える: データ=灰 / 年度=青 / 期間=緑 */
+  #dataset-tabs .dataset-tab.active { background: #475569; color: #fff; font-weight: 700; }
+  #fy-tabs .fy-tab.active          { background: #2563eb; color: #fff; font-weight: 700; }
+  #period-tabs .period-tab.active  { background: #059669; color: #fff; font-weight: 700; }
+  .tb-right { margin-left: auto; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; }
+  .tb-right .dupont-toggle { padding: 0.2rem 0.65rem; font-size: 0.78rem; }
+  .tb-info summary {
+    list-style: none; cursor: pointer; font-size: 0.78rem; color: #0369a1;
+    border: 1px solid #bae6fd; background: #f0f9ff; border-radius: 9999px; padding: 0.2rem 0.6rem;
+  }
+  .tb-info summary::-webkit-details-marker { display: none; }
+  .tb-info-body {
+    position: absolute; right: 0; top: calc(100% + 0.4rem); width: min(36rem, 90vw);
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.6rem 0.8rem;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12); font-size: 0.75rem; line-height: 1.55; color: #475569;
+  }
+  .tb-info-body p + p { margin-top: 0.25rem; }
+  /* ---- サマリーカード: 5列×2段に収める小型版 ---- */
+  .kpi-grid { display: grid; gap: 0.6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 768px)  { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .kpi-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+  .kpi-grid .kpi-card { padding: 0.55rem 0.65rem; }
+  .kpi-grid .kpi-title { font-size: 0.9rem; font-weight: 700; color: #0f172a; line-height: 1.2rem; }
+  .kpi-grid .kpi-sub { font-size: 0.66rem; color: #64748b; line-height: 1rem; }
+  .kpi-grid .kpi-dl { font-size: 0.76rem; line-height: 1.15rem; row-gap: 0.1rem; column-gap: 0.35rem; margin-top: 0.35rem; }
+  .kpi-grid .kpi-dl .chg { font-size: 0.68rem; }
+  .kpi-grid .kpi-dl .sep { margin: 0.15rem 0; }
+  .kpi-note { border: 1px dashed #cbd5e1; border-radius: 0.5rem; padding: 0.55rem 0.65rem;
+              font-size: 0.68rem; line-height: 1.45; color: #64748b; background: transparent; }
+  .kpi-note b { color: #334155; }
 </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 
-  <!-- Header -->
-  <header class="mb-6">
-    <h1 class="text-3xl font-bold text-slate-900">家電量販店 業績ダッシュボード</h1>
-    <p class="mt-2 text-sm text-slate-600">
-      公式IR決算短信から正規化抽出 ─
-      <span id="generated-at" class="font-mono"></span> 時点 ／
+  <!-- Header（1行に圧縮。注記はツールバーの「ⓘ 注記」へ） -->
+  <header class="mb-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+    <h1 class="text-2xl font-bold text-slate-900">家電量販店 業績ダッシュボード</h1>
+    <p class="text-xs text-slate-500">
+      公式IR決算短信から正規化抽出 ─ <span id="generated-at" class="font-mono"></span> 時点 ／
       <a href="data/companies.json" class="text-sky-700 underline">data/companies.json</a>
-    </p>
-    <p class="mt-1 text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 inline-block">
-      ※ ヤマダHD・ケーズHD・エディオン・上新電機・ノジマは 3月決算、ビックカメラ・コジマは 8月決算。
-      コジマは非連結開示。「ヤマダ（デンキセグメント）」はヤマダHD連結のうちデンキ部門のみ。
     </p>
   </header>
 
-  <!-- データセット切替 (通常版 / 組替版) -->
-  <nav class="mb-3 bg-white rounded-lg shadow p-3">
-    <div class="text-xs text-slate-500 mb-2 font-semibold">🔀 データセットを選択</div>
-    <div id="dataset-tabs" class="flex flex-wrap gap-2">
-      <button class="dataset-tab active px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="kumikae">組替版（ビック・コジマを3月決算社と期間揃え）</button>
-      <button class="dataset-tab px-4 py-2 rounded text-sm bg-slate-100 border" data-dataset="normal">通常版（各社の決算期そのまま）</button>
+  <!-- ツールバー: データセット ｜ 年度 ｜ 期間 を1行に。区切り線と、グループごとの選択色（灰・青・緑）で見分ける -->
+  <nav id="toolbar" class="toolbar">
+    <span class="tb-cap">データ</span>
+    <div id="dataset-tabs" class="tb-seg">
+      <button class="dataset-tab active" data-dataset="kumikae"
+              title="組替版: ビック・コジマを暦月で3月決算社に合わせる（例: 3月決算社の1Q=4-6月に対し、8月決算社は3Q単独=3-5月）">組替版</button>
+      <button class="dataset-tab" data-dataset="normal"
+              title="通常版: 各社の決算期そのまま（四半期番号どうしの比較。1Q vs 1Q）">通常版</button>
     </div>
-    <div class="mt-2 text-xs text-slate-500">
-      <span class="text-slate-700 font-medium">表示中:</span>
-      <span id="current-dataset-label" class="text-emerald-700 font-bold ml-1">組替版</span>
-      <span class="ml-3 text-slate-400">※既定は組替版。ビック・コジマを暦月で3月決算社に合わせる（例: 3月決算社の1Q=4-6月に対し、8月決算社は3Q単独=3-5月）。通常版は四半期番号どうしの比較（1Q vs 1Q）</span>
+    <span class="tb-sep" aria-hidden="true"></span>
+    <span class="tb-cap">年度</span>
+    <div id="fy-tabs" class="tb-seg">
+      <button class="fy-tab" data-fy="fy2027">2027年3月期</button>
+      <button class="fy-tab active" data-fy="fy2026">2026年3月期</button>
+      <button class="fy-tab" data-fy="fy2025">2025年3月期</button>
+      <button class="fy-tab" data-fy="fy2024">2024年3月期</button>
     </div>
-  </nav>
-
-  <!-- 会計年度切替タブ -->
-  <nav class="mb-3 bg-white rounded-lg shadow p-3">
-    <div class="text-xs text-slate-500 mb-2 font-semibold">🗓 会計年度を選択</div>
-    <div id="fy-tabs" class="flex flex-wrap gap-2">
-      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2027">2027年3月期</button>
-      <button class="fy-tab active px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2026">2026年3月期</button>
-      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2025">2025年3月期</button>
-      <button class="fy-tab px-4 py-2 rounded text-sm bg-slate-100" data-fy="fy2024">2024年3月期</button>
+    <span class="tb-sep" aria-hidden="true"></span>
+    <span class="tb-cap">期間</span>
+    <div id="period-tabs" class="tb-seg">
+      <button class="period-tab active" data-period="fy" title="通期実績（通常版の2026年3月期は次期計画を含む）">通期</button>
+      <button class="period-tab" data-period="q1">1Q</button>
+      <button class="period-tab" data-period="q2">2Q単独</button>
+      <button class="period-tab" data-period="h1">上期</button>
+      <button class="period-tab" data-period="q3">3Q単独</button>
+      <button class="period-tab" data-period="q3cum">3Q累計</button>
+      <button class="period-tab" data-period="q4">4Q単独</button>
+      <button class="period-tab" data-period="h2">下期</button>
     </div>
-    <div class="mt-2 text-xs text-slate-500">
-      <span class="text-slate-700 font-medium">現在表示中:</span>
-      <span id="current-fy-label" class="text-indigo-700 font-bold ml-1">2026年3月期</span>
-      <span class="ml-3 text-slate-400">※2027年3月期: 1Qは全社開示済み。通期・4Q単独・下期（通常版）と2Q単独・上期（組替版）はビックカメラ・コジマのみ（2026年8月期の実績。3月決算社は未開示で空欄）</span>
-    </div>
-  </nav>
-
-  <!-- 期間切替タブ -->
-  <nav class="mb-6 bg-white rounded-lg shadow p-3">
-    <div class="text-xs text-slate-500 mb-2 font-semibold">📅 表示する期間を選択</div>
-    <div id="period-tabs" class="flex flex-wrap gap-2">
-      <button class="period-tab active px-4 py-2 rounded text-sm bg-slate-100" data-period="fy">通期実績 (＋次期計画)</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q1">1Q実績</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q2">2Q単独</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="h1">上期</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q3">3Q単独</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q3cum">3Q累計</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="q4">4Q単独</button>
-      <button class="period-tab px-4 py-2 rounded text-sm bg-slate-100" data-period="h2">下期</button>
-    </div>
-    <div class="mt-2 text-xs text-slate-500">
-      <span class="text-slate-700 font-medium">現在表示中:</span>
-      <span id="current-period-label" class="text-sky-700 font-bold ml-1">通期実績 (＋次期計画)</span>
-      <span class="ml-3 text-slate-400">※「通期実績」には次期(2027/3 or 2026/8)の計画値も含まれます／グレーアウトの期間は今後追加予定</span>
-    </div>
-  </nav>
-
-  <!-- KPI Cards -->
-  <section class="mb-10">
-    <div class="flex flex-wrap items-center gap-3 mb-4">
-      <h2 class="text-xl font-semibold text-slate-900">📊 7社サマリー（直近通期 実績）</h2>
-      <span class="text-xs text-slate-500">金額は百万円（グラフの軸は億円）</span>
+    <div class="tb-right">
       <button id="dupont-toggle" type="button" class="dupont-toggle"
               aria-pressed="false" title="在庫回転率・純利益率・総資産回転率・財務レバレッジ・ROE の表示を切り替えます">
-        <span class="switch"></span>デュポンROEを表示
+        <span class="switch"></span>デュポン
       </button>
+      <details class="tb-info">
+        <summary title="データの前提・注記">ⓘ 注記</summary>
+        <div class="tb-info-body">
+          <p><b>表示中:</b> <span id="current-dataset-label">組替版</span> ／ <span id="current-fy-label">2026年3月期</span> ／ <span id="current-period-label">通期実績 (＋次期計画)</span></p>
+          <p>・ヤマダHD・ケーズHD・エディオン・上新電機・ノジマは3月決算、ビックカメラ・コジマは8月決算。コジマは非連結開示。</p>
+          <p>・「ヤマダ（デンキセグメント）」はヤマダHD連結のうちデンキ部門のみ。「ビックカメラ（単体）」はビックカメラ単体の決算。</p>
+          <p>・組替版はビック・コジマを暦月で3月決算社に合わせる（例: 3月決算社の1Q=4-6月 ↔ 8月決算社の3Q単独=3-5月）。通常版は四半期番号どうしの比較。</p>
+          <p>・2027年3月期: 1Qは全社開示済み。通期・4Q単独・下期（通常版）と2Q単独・上期（組替版）はビックカメラ・コジマのみ（2026年8月期の実績。3月決算社は未開示で空欄）。</p>
+          <p>・「通期」は通常版の2026年3月期のみ次期（2027/3 or 2026/8）の計画値を含む。グレーアウトの期間は未整備。</p>
+          <p>・金額は百万円（グラフの軸は億円）。カードの（ ）内は前年同期比、利益率は前年同期差（pt）。</p>
+        </div>
+      </details>
     </div>
-    <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+  </nav>
+
+  <!-- KPI Cards: 5列×2段（10枠目は凡例） -->
+  <section class="mb-10">
+    <h2 class="text-base font-semibold text-slate-900 mb-2">📊 7社サマリー</h2>
+    <div id="kpi-grid" class="kpi-grid"></div>
   </section>
 
   <!-- Section: 売上高ランキング & 営業利益率ランキング -->
@@ -1038,15 +1074,15 @@ function renderKpiCards(cos) {
       `<dd class="val ${cls}">${val}</dd>` +
       `<dd class="chg ${cls} ${yoyColor(chgVal)}">（${chg}）</dd>`;
     grid.insertAdjacentHTML("beforeend", `
-      <div class="kpi-card bg-white rounded-lg shadow p-4 border-l-4" style="border-left-color:${COLORS[c.key]}">
+      <div class="kpi-card bg-white rounded-lg shadow border-l-4" style="border-left-color:${COLORS[c.key]}">
         <div class="flex justify-between items-baseline">
           <div>
-            <div class="text-base font-bold text-slate-900">${c.label}</div>
-            <div class="text-xs text-slate-500">${c.ticker} ／ ${periodLabel}</div>
+            <div class="kpi-title">${c.label}</div>
+            <div class="kpi-sub">${c.ticker} ／ ${periodLabel}</div>
           </div>
-          <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="text-xs text-sky-700 hover:underline">IR↗</a>
+          <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="kpi-sub text-sky-700 hover:underline">IR↗</a>
         </div>
-        <dl class="kpi-dl mt-3">
+        <dl class="kpi-dl">
           ${row("売上高", fmtMillions(rev), fmtPctTriangle(yoyRev), yoyRev)}
           ${row("在庫回転率", fmtTurn(invT), fmtTurnDiff(invDiff), invDiff, "dupont-row",
                 "直近12ヶ月売上高 ÷ 平均棚卸資産（当期末・前年同期末の2期平均）")}
@@ -1071,6 +1107,16 @@ function renderKpiCards(cos) {
       </div>
     `);
   });
+  // 5列×2段の10枠目は凡例・注記にする（9社ぶんのカードの後ろ）
+  grid.insertAdjacentHTML("beforeend", `
+    <div class="kpi-note">
+      <b>凡例</b><br>
+      金額は百万円。（ ）内は前年同期比、利益率は前年同期差（pt）。<br>
+      ビックカメラ・コジマは8月決算。各カードの小見出しが対象期間
+      （組替版は暦月を3月決算社に合わせた期間）。<br>
+      デンキはヤマダHDのセグメント、ビック（単体）は単体決算。<br>
+      「デュポン」で在庫回転率・総資産回転率・財務レバレッジ・ROEを表示。
+    </div>`);
 }
 
 // cos は呼び出し側で並び替え済み（売上高の降順）。ここでは並べ替えない。
