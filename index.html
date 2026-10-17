@@ -227,10 +227,10 @@
     <span class="tb-sep" aria-hidden="true"></span>
     <span class="tb-cap">年度</span>
     <div id="fy-tabs" class="tb-seg">
-      <button class="fy-tab" data-fy="fy2027">2027年3月期</button>
-      <button class="fy-tab active" data-fy="fy2026">2026年3月期</button>
-      <button class="fy-tab" data-fy="fy2025">2025年3月期</button>
-      <button class="fy-tab" data-fy="fy2024">2024年3月期</button>
+      <button class="fy-tab" data-fy="fy2027" title="2027年3月期">2027/3期</button>
+      <button class="fy-tab active" data-fy="fy2026" title="2026年3月期">2026/3期</button>
+      <button class="fy-tab" data-fy="fy2025" title="2025年3月期">2025/3期</button>
+      <button class="fy-tab" data-fy="fy2024" title="2024年3月期">2024/3期</button>
     </div>
     <span class="tb-sep" aria-hidden="true"></span>
     <span class="tb-cap">期間</span>
@@ -256,7 +256,7 @@
           <p>・ヤマダHD・ケーズHD・エディオン・上新電機・ノジマは3月決算、ビックカメラ・コジマは8月決算。コジマは非連結開示。</p>
           <p>・「ヤマダ（デンキセグメント）」はヤマダHD連結のうちデンキ部門のみ。「ビックカメラ（単体）」はビックカメラ単体の決算。</p>
           <p>・組替版はビック・コジマを暦月で3月決算社に合わせる（例: 3月決算社の1Q=4-6月 ↔ 8月決算社の3Q単独=3-5月）。通常版は四半期番号どうしの比較。</p>
-          <p>・2027年3月期: 1Qは全社開示済み。通期・4Q単独・下期（通常版）と2Q単独・上期（組替版）はビックカメラ・コジマのみ（2026年8月期の実績。3月決算社は未開示で空欄）。</p>
+          <p>・年度は3月決算社の決算期（例: 2027/3期＝2027年3月期）。2027/3期: 1Qは全社開示済み。通常版の2Q単独〜通期と組替版の2Q単独・上期はビックカメラ・コジマのみ（2026年8月期の実績。3月決算社は未開示で空欄）。</p>
           <p>・「通期」は通常版の2026年3月期のみ次期（2027/3 or 2026/8）の計画値を含む。グレーアウトの期間は未整備。</p>
           <p>・金額は百万円（グラフの軸は億円）。カードの（ ）内は前年同期比、利益率は前年同期差（pt）。</p>
         </div>
@@ -623,7 +623,7 @@ const ALL_PERIODS = ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"];
 // 3月決算社は未開示のため空欄（開示されたらExcelに追記して再生成する）。
 const AVAILABILITY = {
   kumikae: { fy2027: ["q1", "q2", "h1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
-  normal:  { fy2027: ["fy", "q1", "q4", "h2"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: ALL_PERIODS },
+  normal:  { fy2027: ALL_PERIODS, fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: ALL_PERIODS },
 };
 
 function periodsFor(dataset, fy) {
