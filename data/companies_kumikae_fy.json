@@ -18,7 +18,8 @@
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
-        "prev_previous": "2024年03月期"
+        "prev_previous": "2024年03月期",
+        "forecast": "2027年03月期"
       },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
@@ -27,7 +28,7 @@
           "current": 1691808.0,
           "previous": 1629069.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 1780000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -35,7 +36,7 @@
           "current": 441647.0,
           "previous": 457360.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 503100,
           "unit": "百万円"
         },
         "SGA": {
@@ -51,7 +52,7 @@
           "current": 16166.0,
           "previous": 42821.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 51500,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -59,7 +60,7 @@
           "current": 20002.0,
           "previous": 48045.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 52600,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -67,7 +68,7 @@
           "current": 14778.0,
           "previous": 26912.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 27800,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -115,22 +116,22 @@
         "Revenue": {
           "current_yoy_pct": 3.85,
           "previous_yoy_pct": 2.33,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 5.21
         },
         "OperatingIncome": {
           "current_yoy_pct": -62.25,
           "previous_yoy_pct": 3.21,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 218.57
         },
         "OrdinaryIncome": {
           "current_yoy_pct": -58.37,
           "previous_yoy_pct": 2.14,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 162.97
         },
         "NetIncome": {
           "current_yoy_pct": -45.09,
           "previous_yoy_pct": 11.88,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 88.12
         }
       },
       "ratios": {
@@ -268,7 +269,8 @@
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
-        "prev_previous": "2024年03月期"
+        "prev_previous": "2024年03月期",
+        "forecast": "2027年03月期"
       },
       "tanshin_url": "https://www.yamada-holdings.jp/ir/",
       "metrics": {
@@ -277,7 +279,7 @@
           "current": 1329426.0,
           "previous": 1312017.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 1407400,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -285,7 +287,7 @@
           "current": 361942.0,
           "previous": 384225.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 411500,
           "unit": "百万円"
         },
         "SGA": {
@@ -301,7 +303,7 @@
           "current": 2492.0,
           "previous": 30204.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 34500,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -309,7 +311,7 @@
           "current": 6664.0,
           "previous": 35206.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 37100,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -365,17 +367,17 @@
         "Revenue": {
           "current_yoy_pct": 1.33,
           "previous_yoy_pct": 1.61,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 5.87
         },
         "OperatingIncome": {
           "current_yoy_pct": -91.75,
           "previous_yoy_pct": -7.4,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1284.43
         },
         "OrdinaryIncome": {
           "current_yoy_pct": -81.07,
           "previous_yoy_pct": -6.55,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 456.72
         },
         "NetIncome": {
           "current_yoy_pct": null,
@@ -518,7 +520,8 @@
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
-        "prev_previous": "2024年03月期"
+        "prev_previous": "2024年03月期",
+        "forecast": "2027年03月期"
       },
       "tanshin_url": "https://www.ksdenki.co.jp/ir/",
       "metrics": {
@@ -527,7 +530,7 @@
           "current": 759710.0,
           "previous": 738019.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 785000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -535,7 +538,7 @@
           "current": 210213.0,
           "previous": 204323.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 219500,
           "unit": "百万円"
         },
         "SGA": {
@@ -551,7 +554,7 @@
           "current": 26799.0,
           "previous": 21781.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 30500,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -559,7 +562,7 @@
           "current": 30579.0,
           "previous": 25910.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 33500,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -567,7 +570,7 @@
           "current": 14317.0,
           "previous": 9525.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 20000,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -615,22 +618,22 @@
         "Revenue": {
           "current_yoy_pct": 2.94,
           "previous_yoy_pct": 2.74,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 3.33
         },
         "OperatingIncome": {
           "current_yoy_pct": 23.04,
           "previous_yoy_pct": 16.33,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 13.81
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 18.02,
           "previous_yoy_pct": 12.93,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 9.55
         },
         "NetIncome": {
           "current_yoy_pct": 50.31,
           "previous_yoy_pct": 29.07,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 39.69
         }
       },
       "ratios": {
@@ -768,7 +771,8 @@
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
-        "prev_previous": "2024年03月期"
+        "prev_previous": "2024年03月期",
+        "forecast": "2027年03月期"
       },
       "tanshin_url": "https://www.edion.co.jp/ir/",
       "metrics": {
@@ -777,7 +781,7 @@
           "current": 793746.0,
           "previous": 768129.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 816000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -785,7 +789,7 @@
           "current": 227619.0,
           "previous": 222866.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 235800,
           "unit": "百万円"
         },
         "SGA": {
@@ -801,7 +805,7 @@
           "current": 25782.0,
           "previous": 23394.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 27000,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -809,7 +813,7 @@
           "current": 26640.0,
           "previous": 24350.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 27000,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -817,7 +821,7 @@
           "current": 15453.0,
           "previous": 14118.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 15700,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -865,22 +869,22 @@
         "Revenue": {
           "current_yoy_pct": 3.33,
           "previous_yoy_pct": 6.52,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 2.8
         },
         "OperatingIncome": {
           "current_yoy_pct": 10.21,
           "previous_yoy_pct": 38.19,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 4.72
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 9.4,
           "previous_yoy_pct": 40.43,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1.35
         },
         "NetIncome": {
           "current_yoy_pct": 9.46,
           "previous_yoy_pct": 56.5,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1.6
         }
       },
       "ratios": {
@@ -1018,7 +1022,8 @@
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
-        "prev_previous": "2024年03月期"
+        "prev_previous": "2024年03月期",
+        "forecast": "2027年03月期"
       },
       "tanshin_url": "https://www.joshin.co.jp/ir/",
       "metrics": {
@@ -1027,7 +1032,7 @@
           "current": 436650.0,
           "previous": 403259.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 438000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1035,7 +1040,7 @@
           "current": 107787.0,
           "previous": 102212.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 114500,
           "unit": "百万円"
         },
         "SGA": {
@@ -1051,7 +1056,7 @@
           "current": 5422.0,
           "previous": 3688.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 6000,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -1059,7 +1064,7 @@
           "current": 5113.0,
           "previous": 3491.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 5500,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -1067,7 +1072,7 @@
           "current": 3280.0,
           "previous": 3407.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 3500,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1115,22 +1120,22 @@
         "Revenue": {
           "current_yoy_pct": 8.28,
           "previous_yoy_pct": -0.11,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 0.31
         },
         "OperatingIncome": {
           "current_yoy_pct": 47.02,
           "previous_yoy_pct": -55.91,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 10.66
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 46.46,
           "previous_yoy_pct": -57.69,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 7.57
         },
         "NetIncome": {
           "current_yoy_pct": -3.73,
           "previous_yoy_pct": -30.34,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 6.71
         }
       },
       "ratios": {
@@ -1268,7 +1273,8 @@
       "period_labels": {
         "current": "2026年03月期",
         "previous": "2025年03月期",
-        "prev_previous": "2024年03月期"
+        "prev_previous": "2024年03月期",
+        "forecast": "2027年03月期"
       },
       "tanshin_url": "https://www.nojima.co.jp/ir/",
       "metrics": {
@@ -1277,7 +1283,7 @@
           "current": 982804.0,
           "previous": 853427.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 1000000,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1301,7 +1307,7 @@
           "current": 58071.0,
           "previous": 48371.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 59000,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -1309,7 +1315,7 @@
           "current": 62295.0,
           "previous": 51197.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 76000,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -1317,7 +1323,7 @@
           "current": 38931.0,
           "previous": 32292.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 48000,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1365,22 +1371,22 @@
         "Revenue": {
           "current_yoy_pct": 15.16,
           "previous_yoy_pct": 12.1,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1.75
         },
         "OperatingIncome": {
           "current_yoy_pct": 20.05,
           "previous_yoy_pct": 58.28,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 1.6
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 21.68,
           "previous_yoy_pct": 55.44,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 22.0
         },
         "NetIncome": {
           "current_yoy_pct": 20.56,
           "previous_yoy_pct": 61.63,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 23.3
         }
       },
       "ratios": {
@@ -1518,7 +1524,8 @@
       "period_labels": {
         "current": "2025年3月〜2026年2月",
         "previous": "2024年3月〜2025年2月",
-        "prev_previous": "2023年3月〜2024年2月"
+        "prev_previous": "2023年3月〜2024年2月",
+        "forecast": "2026/3〜2027/2（26/8期下期＋27/8期上期計画）"
       },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
@@ -1527,7 +1534,7 @@
           "current": 1003410.0,
           "previous": 954550.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 1050070,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1535,7 +1542,7 @@
           "current": 268840.0,
           "previous": 255023.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 286600,
           "unit": "百万円"
         },
         "SGA": {
@@ -1551,7 +1558,7 @@
           "current": 34086.0,
           "previous": 29588.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 33772,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -1559,7 +1566,7 @@
           "current": 35516.0,
           "previous": 31584.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 34778,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -1567,7 +1574,7 @@
           "current": 19568.0,
           "previous": 17356.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 17801,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1615,22 +1622,22 @@
         "Revenue": {
           "current_yoy_pct": 5.12,
           "previous_yoy_pct": 11.59,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 4.65
         },
         "OperatingIncome": {
           "current_yoy_pct": 15.2,
           "previous_yoy_pct": 78.8,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": -0.92
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 12.45,
           "previous_yoy_pct": 65.64,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": -2.08
         },
         "NetIncome": {
           "current_yoy_pct": 12.74,
           "previous_yoy_pct": 304.66,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": -9.03
         }
       },
       "ratios": {
@@ -1768,7 +1775,8 @@
       "period_labels": {
         "current": "2025年3月〜2026年2月",
         "previous": "2024年3月〜2025年2月",
-        "prev_previous": "2023年3月〜2024年2月"
+        "prev_previous": "2023年3月〜2024年2月",
+        "forecast": "2026/3〜2027/2（26/8期下期＋27/8期上期計画）"
       },
       "tanshin_url": "https://www.biccamera.co.jp/ir/",
       "metrics": {
@@ -1777,7 +1785,7 @@
           "current": 487482.0,
           "previous": 463779.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 515638,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -1785,7 +1793,7 @@
           "current": 120123.0,
           "previous": 113761.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 130104,
           "unit": "百万円"
         },
         "SGA": {
@@ -1801,7 +1809,7 @@
           "current": 11791.0,
           "previous": 8167.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 11803,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -1809,7 +1817,7 @@
           "current": 16801.0,
           "previous": 13862.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 17459,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -1817,7 +1825,7 @@
           "current": 12225.0,
           "previous": 9313.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 12573,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -1865,22 +1873,22 @@
         "Revenue": {
           "current_yoy_pct": 5.11,
           "previous_yoy_pct": 7.15,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 5.78
         },
         "OperatingIncome": {
           "current_yoy_pct": 44.37,
           "previous_yoy_pct": 168.47,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 0.1
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 21.2,
           "previous_yoy_pct": 68.29,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 3.92
         },
         "NetIncome": {
           "current_yoy_pct": 31.27,
           "previous_yoy_pct": -864.61,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 2.85
         }
       },
       "ratios": {
@@ -2018,7 +2026,8 @@
       "period_labels": {
         "current": "2025年3月〜2026年2月",
         "previous": "2024年3月〜2025年2月",
-        "prev_previous": "2023年3月〜2024年2月"
+        "prev_previous": "2023年3月〜2024年2月",
+        "forecast": "2026/3〜2027/2（26/8期下期＋27/8期上期計画）"
       },
       "tanshin_url": "https://www.kojima.net/corporation/ir/",
       "metrics": {
@@ -2027,7 +2036,7 @@
           "current": 290060.0,
           "previous": 277150.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 298062,
           "unit": "百万円"
         },
         "GrossProfit": {
@@ -2035,7 +2044,7 @@
           "current": 78647.0,
           "previous": 76419.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 81969,
           "unit": "百万円"
         },
         "SGA": {
@@ -2051,7 +2060,7 @@
           "current": 7959.0,
           "previous": 7611.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 8225,
           "unit": "百万円"
         },
         "OrdinaryIncome": {
@@ -2059,7 +2068,7 @@
           "current": 8262.0,
           "previous": 7980.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 8581,
           "unit": "百万円"
         },
         "NetIncome": {
@@ -2067,7 +2076,7 @@
           "current": 5037.0,
           "previous": 4859.0,
           "forecast": null,
-          "forecast_annual": null,
+          "forecast_annual": 5380,
           "unit": "百万円"
         },
         "InterestBearingDebt": {
@@ -2115,22 +2124,22 @@
         "Revenue": {
           "current_yoy_pct": 4.66,
           "previous_yoy_pct": 6.46,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 2.76
         },
         "OperatingIncome": {
           "current_yoy_pct": 4.57,
           "previous_yoy_pct": 68.87,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 3.34
         },
         "OrdinaryIncome": {
           "current_yoy_pct": 3.53,
           "previous_yoy_pct": 65.84,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 3.86
         },
         "NetIncome": {
           "current_yoy_pct": 3.66,
           "previous_yoy_pct": 67.49,
-          "forecast_yoy_pct": null
+          "forecast_yoy_pct": 6.81
         }
       },
       "ratios": {

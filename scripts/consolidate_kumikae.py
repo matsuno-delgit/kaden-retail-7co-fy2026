@@ -5,7 +5,9 @@
   前々期版  9_組替通期_2025.02 etc.   (9_-16_)
 
 期間ラベル統一: 全社「FY2026 (=2025/3〜2026/2 系)」「FY2025」「FY2024」を採用。
-forecast/forecast_annual は組替版では使わない (null)。
+forecast は組替通期（fy）にだけ持たせる（「次期通期業績予想」表用）。他の期間は null。
+  3月決算社 … 通常版と同じ 2027年3月期の会社計画（consolidate.py の FORECAST）
+  ビック連結・単体・コジマ … 暦月を合わせ、2026年8月期 下期計画（2026/3-8）＋ 2027年8月期 上期計画（2026/9-2027/2）
 """
 import json
 from datetime import date
@@ -91,6 +93,44 @@ ROW_TO_METRIC = {
 }
 
 
+# ---- 組替通期の次期計画（組替FY2027 = 2026年3月〜2027年2月）----
+# 8月決算社は「2026年8月期 下期計画」＋「2027年8月期 上期計画」。
+#   下期計画: 2026年8月期 第2四半期決算 補足説明資料の「下期 修正予想」（2026/4/10公表。
+#             3月決算社が2027年3月期計画を出した2026年5月時点で最新の会社計画）
+#             ビック連結 p12 / ビック単体 p13 / コジマ p15
+#   上期計画: 2026年8月期決算 補足説明資料の「2027年8月期 上期予想」
+#             ビック連結 p14 / ビック単体 p15 / コジマ p15（コジマは決算短信表紙とも一致）
+#   売上総利益は各資料の「売上総利益 売上比」（小数1桁）× 売上高で算出（計画額は非開示）。
+HALF_PLANS = {
+    #          (2026年8月期 下期 修正予想,                    2027年8月期 上期予想)
+    "bic":    ({"Revenue": 513570, "OperatingIncome": 15672, "OrdinaryIncome": 16278, "NetIncome": 7301, "gm": 27.6},
+               {"Revenue": 536500, "OperatingIncome": 18100, "OrdinaryIncome": 18500, "NetIncome": 10500, "gm": 27.0}),
+    "bic_s":  ({"Revenue": 249238, "OperatingIncome": 5703, "OrdinaryIncome": 5909, "NetIncome": 3273, "gm": 25.8},
+               {"Revenue": 266400, "OperatingIncome": 6100, "OrdinaryIncome": 11550, "NetIncome": 9300, "gm": 24.7}),
+    "kojima": ({"Revenue": 150062, "OperatingIncome": 4125, "OrdinaryIncome": 4281, "NetIncome": 2480, "gm": 27.6},
+               {"Revenue": 148000, "OperatingIncome": 4100, "OrdinaryIncome": 4300, "NetIncome": 2900, "gm": 27.4}),
+}
+# 3月決算社は通常版と同じ2027年3月期計画（consolidate.py の FORECAST と同値）
+FORECAST_03 = {
+    "yamada":       {"Revenue": 1780000, "OperatingIncome": 51500, "OrdinaryIncome": 52600, "NetIncome": 27800, "GrossProfit": 503100},
+    "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None,  "GrossProfit": 411500},
+    "ks":           {"Revenue": 785000,  "OperatingIncome": 30500, "OrdinaryIncome": 33500, "NetIncome": 20000, "GrossProfit": 219500},
+    "edion":        {"Revenue": 816000,  "OperatingIncome": 27000, "OrdinaryIncome": 27000, "NetIncome": 15700, "GrossProfit": 235800},
+    "joshin":       {"Revenue": 438000,  "OperatingIncome": 6000,  "OrdinaryIncome": 5500,  "NetIncome": 3500,  "GrossProfit": 114500},
+    "nojima":       {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000, "GrossProfit": None},
+}
+FORECAST_LABEL_08 = "2026/3〜2027/2（26/8期下期＋27/8期上期計画）"
+
+
+def kumikae_forecast(key):
+    if key in FORECAST_03:
+        return FORECAST_03[key]
+    h2, h1 = HALF_PLANS[key]
+    out = {k: h2[k] + h1[k] for k in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome")}
+    out["GrossProfit"] = round(h2["Revenue"] * h2["gm"] / 100 + h1["Revenue"] * h1["gm"] / 100)
+    return out
+
+
 def to_num(v):
     if v is None or (isinstance(v, str) and v.startswith("=")):
         return None
@@ -143,14 +183,20 @@ def build_one(pk, conf, is_annual):
                 "unit": "百万円",
             }
 
+        # 組替通期だけ次期計画（組替FY2027）を持たせる。推移グラフ用の forecast は従来どおり null のまま
+        fc_plan = kumikae_forecast(co["key"]) if pk == "fy" else {}
+        for key, v in fc_plan.items():
+            metrics[key]["forecast_annual"] = v
+
         yoy = {}
         for key in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome"):
             m = metrics.get(key, {})
             cur = m.get("current"); prev = m.get("previous"); pp = m.get("prev_previous")
+            fc = m.get("forecast_annual")
             yoy[key] = {
                 "current_yoy_pct": round((cur / prev - 1) * 100, 2) if cur and prev else None,
                 "previous_yoy_pct": round((prev / pp - 1) * 100, 2) if prev and pp else None,
-                "forecast_yoy_pct": None,
+                "forecast_yoy_pct": round((fc / cur - 1) * 100, 2) if fc and cur else None,
             }
 
         rev = metrics["Revenue"]["current"]
@@ -302,7 +348,9 @@ def build_one(pk, conf, is_annual):
             "fiscal_year_end": co["fy_end"], "consolidation": co["consol"],
             "current_period": current_period, "previous_period": previous_period,
             "prev_previous_period": prev_previous_period, "forecast_period": forecast_period,
-            "period_labels": {"current": lab_c, "previous": lab_p, "prev_previous": lab_pp},
+            "period_labels": {"current": lab_c, "previous": lab_p, "prev_previous": lab_pp,
+                              "forecast": (FORECAST_LABEL_08 if co["fy_end"] == "08"
+                                           else period_label(forecast_period, "03"))},
             "tanshin_url": co["url"], "metrics": metrics, "yoy": yoy, "ratios": ratios,
             "trend_ratios": trend_ratios,
             "ltm": ltm_data,

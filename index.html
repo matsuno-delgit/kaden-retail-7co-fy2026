@@ -484,7 +484,8 @@
   <!-- Section: Forecast Table -->
   <section id="section-forecast-table" class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-3 text-slate-900">🔮 次期通期業績予想（会社発表値）</h3>
+      <h3 class="text-lg font-semibold mb-1 text-slate-900">🔮 次期通期業績予想（会社発表値）</h3>
+      <p id="forecast-note" class="text-xs text-slate-500 mb-3"></p>
       <div class="overflow-x-auto">
         <table class="min-w-full text-sm table-zebra">
           <thead class="bg-slate-100 text-slate-700">
@@ -818,10 +819,24 @@ function trendPointStyle(fcIdx) {
 }
 
 // 期間に応じてセクション・グラフタイトルを表示制御
-// 「次期予想」関連は通期(fy)のみで表示。他期間は非表示。
-// 次期計画を採録しているのは通常版の2026年3月期だけ
+// 収益性・効率性の推移は通期(fy)のみ。次期通期業績予想の表は年度で判定（hasForecast）。
+// 次期通期計画を採録しているのは2026年3月期（通常版・組替版とも）。
+// 「次期通期業績予想」表は期間タブに関係なく表示し、中身は常にその版の通期データから描く。
 function hasForecast() {
-  return CURRENT_FY === "fy2026" && DATASET_TYPE === "normal";
+  return CURRENT_FY === "fy2026";
+}
+
+async function renderForecastFromAnnual() {
+  const annual = await fetchYear("fy2026", "fy", DATASET_TYPE);
+  if (!annual) return;
+  renderForecastTable(annual.companies);
+  const note = document.getElementById("forecast-note");
+  if (note) note.textContent = DATASET_TYPE === "kumikae"
+    ? "※ 組替版。3月決算社は2027年3月期の会社計画。ビックカメラ（連結・単体）・コジマは暦月を合わせ、"
+      + "2026年8月期の下期計画（2026年4月10日の修正予想）＋2027年8月期の上期計画＝2026年3月〜2027年2月。"
+      + "YoYは組替通期実績（2025年3月〜2026年2月）比。売上総利益率は計画の売上比から算出。期間タブに関係なく通期ベースで表示。"
+    : "※ 通常版。各社の次期通期の会社計画（3月決算社は2027年3月期、ビックカメラ・コジマは2026年8月期の期初計画）。"
+      + "YoYは直近通期実績比。期間タブに関係なく通期ベースで表示。";
 }
 
 function applyPeriodVisibility(period) {
@@ -835,7 +850,7 @@ function applyPeriodVisibility(period) {
   });
   // 次期通期業績予想は「通期タブ かつ 計画値を持つ年度」のときだけ
   const fcEl = document.getElementById("section-forecast-table");
-  if (fcEl) fcEl.style.display = (isAnnual && hasForecast()) ? "" : "none";
+  if (fcEl) fcEl.style.display = hasForecast() ? "" : "none";
   // 直近四半期(LTM)回転率は四半期タブ専用。通期は上の「収益性・効率性 推移」と重複するため出さない
   const ltmSec = document.getElementById("section-ltm-turnover");
   if (ltmSec) ltmSec.style.display = isAnnual ? "none" : "";
@@ -920,8 +935,8 @@ function renderAll(cos) {
     // 回転率は全社・全期間で「直近12ヶ月売上 ÷ 2期平均残高」に統一する。
     renderRatioTrendLine(fullCos, "ltm_asset_turnover", "chart-trend-asset-turnover", "総資産回転率 (回)", "turn");
     renderRatioTrendLine(allCos,  "ltm_inventory_turnover", "chart-trend-inventory-turnover", "在庫回転率 (回)", "turn");
-    if (hasForecast()) renderForecastTable(allCos);   // 次期通期業績予想
   }
+  if (hasForecast()) renderForecastFromAnnual();   // 次期通期業績予想（期間タブによらず通期ベース）
   renderDetailTablePrev(allCos);      // 前期実績テーブル
   renderDetailTable(allCos);          // 当期実績テーブル
   // テーブルタイトル動的化（3月決算社の current_period から年を取得）
@@ -1059,8 +1074,7 @@ function renderKpiCards(cos) {
     const roeYoY = c.ratios?.roe_pt_yoy;
     const periodLabel = `${periodOf(c, "current")}${
       c.consolidation === "non_consolidated" ? "(非連結)" :
-      c.consolidation === "standalone" ? "(単体)" :
-      c.consolidation === "segment" ? "(セグメント)" : ""
+      c.consolidation === "standalone" ? "(単体)" : ""
     }`;
     const yoyColor = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
     const fmtPt = (v) => v == null ? "—" : `${v >= 0 ? "+" : "△"}${Math.abs(v).toFixed(2)}pt`;
