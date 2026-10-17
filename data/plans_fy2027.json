@@ -1,0 +1,713 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-17",
+  "note": "2027年3月期の会社計画（通常版の8月決算2社は2026年8月期、組替版は2026年3月〜2027年2月）。原則として最新（修正後）の計画。単位: 百万円。生成: scripts/forecast_plans.py",
+  "datasets": {
+    "normal": {
+      "yamada": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 862000,
+          "GrossProfit": 247700,
+          "OperatingIncome": 27500,
+          "OrdinaryIncome": 28400,
+          "NetIncome": 15500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 918000,
+          "GrossProfit": 255400,
+          "OperatingIncome": 24000,
+          "OrdinaryIncome": 24200,
+          "NetIncome": 12300,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 1780000,
+          "GrossProfit": 503100,
+          "OperatingIncome": 51500,
+          "OrdinaryIncome": 52600,
+          "NetIncome": 27800,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "yamada_denki": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": null,
+          "GrossProfit": null,
+          "OperatingIncome": null,
+          "OrdinaryIncome": null,
+          "NetIncome": null,
+          "revision": null,
+          "derived": null,
+          "undisclosed": true
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": null,
+          "GrossProfit": null,
+          "OperatingIncome": null,
+          "OrdinaryIncome": null,
+          "NetIncome": null,
+          "revision": null,
+          "derived": null,
+          "undisclosed": true
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 1407400,
+          "GrossProfit": 411500,
+          "OperatingIncome": 34500,
+          "OrdinaryIncome": 37100,
+          "NetIncome": null,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "ks": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 398000,
+          "GrossProfit": 111500,
+          "OperatingIncome": 17500,
+          "OrdinaryIncome": 18800,
+          "NetIncome": 13100,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 387000,
+          "GrossProfit": 108000,
+          "OperatingIncome": 13000,
+          "OrdinaryIncome": 14700,
+          "NetIncome": 6900,
+          "revision": null,
+          "derived": "通期計画−上期計画で算出（下期計画の開示なし）",
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 785000,
+          "GrossProfit": 219500,
+          "OperatingIncome": 30500,
+          "OrdinaryIncome": 33500,
+          "NetIncome": 20000,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "edion": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 400000,
+          "GrossProfit": 119800,
+          "OperatingIncome": 14700,
+          "OrdinaryIncome": 14700,
+          "NetIncome": 9500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 416000,
+          "GrossProfit": 116000,
+          "OperatingIncome": 12300,
+          "OrdinaryIncome": 12300,
+          "NetIncome": 6200,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 816000,
+          "GrossProfit": 235800,
+          "OperatingIncome": 27000,
+          "OrdinaryIncome": 27000,
+          "NetIncome": 15700,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "joshin": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 218000,
+          "GrossProfit": 56400,
+          "OperatingIncome": 4500,
+          "OrdinaryIncome": 4300,
+          "NetIncome": 2800,
+          "revision": {
+            "date": "2026-08-04",
+            "badge": "8月計画修正",
+            "text": "2026年8月4日に上期計画を修正（期初計画→修正後: 売上高 211,000→218,000、営業利益 2,500→4,500、純利益 1,900→2,800）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 220000,
+          "GrossProfit": 58100,
+          "OperatingIncome": 1500,
+          "OrdinaryIncome": 1200,
+          "NetIncome": 700,
+          "revision": null,
+          "derived": "通期計画−上期計画で算出（2026年8月4日の上期計画修正を反映）",
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 438000,
+          "GrossProfit": 114500,
+          "OperatingIncome": 6000,
+          "OrdinaryIncome": 5500,
+          "NetIncome": 3500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "nojima": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 490000,
+          "GrossProfit": null,
+          "OperatingIncome": 28000,
+          "OrdinaryIncome": 44000,
+          "NetIncome": 27000,
+          "revision": {
+            "date": "2026-07-30",
+            "badge": "7月計画修正",
+            "text": "2026年7月30日に上期計画を修正（期初計画→修正後: 売上高 470,000→490,000）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 540000,
+          "GrossProfit": null,
+          "OperatingIncome": 31000,
+          "OrdinaryIncome": 32000,
+          "NetIncome": 21000,
+          "revision": null,
+          "derived": "通期計画−上期計画で算出（下期計画の開示なし、2026年7月30日の上期計画修正を反映、2026年7月30日の通期計画修正を反映）",
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 1030000,
+          "GrossProfit": null,
+          "OperatingIncome": 59000,
+          "OrdinaryIncome": 76000,
+          "NetIncome": 48000,
+          "revision": {
+            "date": "2026-07-30",
+            "badge": "7月計画修正",
+            "text": "2026年7月30日に通期計画を修正（期初計画→修正後: 売上高 1,000,000→1,030,000）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "bic": {
+        "h1": {
+          "label": "2026/8期",
+          "Revenue": 497500,
+          "GrossProfit": 132832,
+          "OperatingIncome": 14440,
+          "OrdinaryIncome": 14900,
+          "NetIncome": 9610,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2026/8期",
+          "Revenue": 513570,
+          "GrossProfit": 141745,
+          "OperatingIncome": 15672,
+          "OrdinaryIncome": 16278,
+          "NetIncome": 7301,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に下期計画を修正（期初計画→修正後: 売上高 515,500→513,570、営業利益 16,060→15,672、純利益 7,890→7,301）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2026/8期",
+          "Revenue": 1022000,
+          "GrossProfit": 276962,
+          "OperatingIncome": 34400,
+          "OrdinaryIncome": 35700,
+          "NetIncome": 18400,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に通期計画を修正（期初計画→修正後: 売上高 1,013,000→1,022,000、営業利益 30,500→34,400、純利益 17,500→18,400）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "bic_s": {
+        "h1": {
+          "label": "2026/8期",
+          "Revenue": 238500,
+          "GrossProfit": 58910,
+          "OperatingIncome": 4200,
+          "OrdinaryIncome": 8140,
+          "NetIncome": 7950,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2026/8期",
+          "Revenue": 249238,
+          "GrossProfit": 64303,
+          "OperatingIncome": 5703,
+          "OrdinaryIncome": 5909,
+          "NetIncome": 3273,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に下期計画を修正（期初計画→修正後: 売上高 242,500→249,238、営業利益 5,800→5,703、純利益 3,150→3,273）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2026/8期",
+          "Revenue": 497000,
+          "GrossProfit": 124747,
+          "OperatingIncome": 11900,
+          "OrdinaryIncome": 16600,
+          "NetIncome": 11700,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に通期計画を修正（期初計画→修正後: 売上高 481,000→497,000、営業利益 10,000→11,900、純利益 11,100→11,700）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "kojima": {
+        "h1": {
+          "label": "2026/8期",
+          "Revenue": 143000,
+          "GrossProfit": 38896,
+          "OperatingIncome": 3500,
+          "OrdinaryIncome": 3700,
+          "NetIncome": 2500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2026/8期",
+          "Revenue": 150062,
+          "GrossProfit": 41417,
+          "OperatingIncome": 4125,
+          "OrdinaryIncome": 4281,
+          "NetIncome": 2480,
+          "revision": {
+            "date": "2026-04-09",
+            "badge": "4月計画修正",
+            "text": "2026年4月9日に下期計画を修正（期初計画→修正後: 売上高 151,000→150,062、営業利益 4,100→4,125、純利益 2,400→2,480）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2026/8期",
+          "Revenue": 294000,
+          "GrossProfit": 80556,
+          "OperatingIncome": 8200,
+          "OrdinaryIncome": 8500,
+          "NetIncome": 5300,
+          "revision": {
+            "date": "2026-04-09",
+            "badge": "4月計画修正",
+            "text": "2026年4月9日に通期計画を修正（期初計画→修正後: 営業利益 7,600→8,200、純利益 4,900→5,300）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      }
+    },
+    "kumikae": {
+      "yamada": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 862000,
+          "GrossProfit": 247700,
+          "OperatingIncome": 27500,
+          "OrdinaryIncome": 28400,
+          "NetIncome": 15500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 918000,
+          "GrossProfit": 255400,
+          "OperatingIncome": 24000,
+          "OrdinaryIncome": 24200,
+          "NetIncome": 12300,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 1780000,
+          "GrossProfit": 503100,
+          "OperatingIncome": 51500,
+          "OrdinaryIncome": 52600,
+          "NetIncome": 27800,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "yamada_denki": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": null,
+          "GrossProfit": null,
+          "OperatingIncome": null,
+          "OrdinaryIncome": null,
+          "NetIncome": null,
+          "revision": null,
+          "derived": null,
+          "undisclosed": true
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": null,
+          "GrossProfit": null,
+          "OperatingIncome": null,
+          "OrdinaryIncome": null,
+          "NetIncome": null,
+          "revision": null,
+          "derived": null,
+          "undisclosed": true
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 1407400,
+          "GrossProfit": 411500,
+          "OperatingIncome": 34500,
+          "OrdinaryIncome": 37100,
+          "NetIncome": null,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "ks": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 398000,
+          "GrossProfit": 111500,
+          "OperatingIncome": 17500,
+          "OrdinaryIncome": 18800,
+          "NetIncome": 13100,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 387000,
+          "GrossProfit": 108000,
+          "OperatingIncome": 13000,
+          "OrdinaryIncome": 14700,
+          "NetIncome": 6900,
+          "revision": null,
+          "derived": "通期計画−上期計画で算出（下期計画の開示なし）",
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 785000,
+          "GrossProfit": 219500,
+          "OperatingIncome": 30500,
+          "OrdinaryIncome": 33500,
+          "NetIncome": 20000,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "edion": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 400000,
+          "GrossProfit": 119800,
+          "OperatingIncome": 14700,
+          "OrdinaryIncome": 14700,
+          "NetIncome": 9500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 416000,
+          "GrossProfit": 116000,
+          "OperatingIncome": 12300,
+          "OrdinaryIncome": 12300,
+          "NetIncome": 6200,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 816000,
+          "GrossProfit": 235800,
+          "OperatingIncome": 27000,
+          "OrdinaryIncome": 27000,
+          "NetIncome": 15700,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "joshin": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 218000,
+          "GrossProfit": 56400,
+          "OperatingIncome": 4500,
+          "OrdinaryIncome": 4300,
+          "NetIncome": 2800,
+          "revision": {
+            "date": "2026-08-04",
+            "badge": "8月計画修正",
+            "text": "2026年8月4日に上期計画を修正（期初計画→修正後: 売上高 211,000→218,000、営業利益 2,500→4,500、純利益 1,900→2,800）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 220000,
+          "GrossProfit": 58100,
+          "OperatingIncome": 1500,
+          "OrdinaryIncome": 1200,
+          "NetIncome": 700,
+          "revision": null,
+          "derived": "通期計画−上期計画で算出（2026年8月4日の上期計画修正を反映）",
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 438000,
+          "GrossProfit": 114500,
+          "OperatingIncome": 6000,
+          "OrdinaryIncome": 5500,
+          "NetIncome": 3500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "nojima": {
+        "h1": {
+          "label": "2027/3期",
+          "Revenue": 490000,
+          "GrossProfit": null,
+          "OperatingIncome": 28000,
+          "OrdinaryIncome": 44000,
+          "NetIncome": 27000,
+          "revision": {
+            "date": "2026-07-30",
+            "badge": "7月計画修正",
+            "text": "2026年7月30日に上期計画を修正（期初計画→修正後: 売上高 470,000→490,000）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "2027/3期",
+          "Revenue": 540000,
+          "GrossProfit": null,
+          "OperatingIncome": 31000,
+          "OrdinaryIncome": 32000,
+          "NetIncome": 21000,
+          "revision": null,
+          "derived": "通期計画−上期計画で算出（下期計画の開示なし、2026年7月30日の上期計画修正を反映、2026年7月30日の通期計画修正を反映）",
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2027/3期",
+          "Revenue": 1030000,
+          "GrossProfit": null,
+          "OperatingIncome": 59000,
+          "OrdinaryIncome": 76000,
+          "NetIncome": 48000,
+          "revision": {
+            "date": "2026-07-30",
+            "badge": "7月計画修正",
+            "text": "2026年7月30日に通期計画を修正（期初計画→修正後: 売上高 1,000,000→1,030,000）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "bic": {
+        "h1": {
+          "label": "26/8期 下期計画",
+          "Revenue": 513570,
+          "GrossProfit": 141745,
+          "OperatingIncome": 15672,
+          "OrdinaryIncome": 16278,
+          "NetIncome": 7301,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に26/8期下期計画を修正（期初計画→修正後: 売上高 515,500→513,570、営業利益 16,060→15,672、純利益 7,890→7,301）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "27/8期 上期計画",
+          "Revenue": 536500,
+          "GrossProfit": 144855,
+          "OperatingIncome": 18100,
+          "OrdinaryIncome": 18500,
+          "NetIncome": 10500,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2026/3〜2027/2",
+          "Revenue": 1050070,
+          "GrossProfit": 286600,
+          "OperatingIncome": 33772,
+          "OrdinaryIncome": 34778,
+          "NetIncome": 17801,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に26/8期下期計画を修正（合算値の期初計画→修正後: 売上高 1,052,000→1,050,070、営業利益 34,160→33,772、純利益 18,390→17,801）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "bic_s": {
+        "h1": {
+          "label": "26/8期 下期計画",
+          "Revenue": 249238,
+          "GrossProfit": 64303,
+          "OperatingIncome": 5703,
+          "OrdinaryIncome": 5909,
+          "NetIncome": 3273,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に26/8期下期計画を修正（期初計画→修正後: 売上高 242,500→249,238、営業利益 5,800→5,703、純利益 3,150→3,273）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "27/8期 上期計画",
+          "Revenue": 266400,
+          "GrossProfit": 65801,
+          "OperatingIncome": 6100,
+          "OrdinaryIncome": 11550,
+          "NetIncome": 9300,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2026/3〜2027/2",
+          "Revenue": 515638,
+          "GrossProfit": 130104,
+          "OperatingIncome": 11803,
+          "OrdinaryIncome": 17459,
+          "NetIncome": 12573,
+          "revision": {
+            "date": "2026-04-10",
+            "badge": "4月計画修正",
+            "text": "2026年4月10日に26/8期下期計画を修正（合算値の期初計画→修正後: 売上高 508,900→515,638、営業利益 11,900→11,803、純利益 12,450→12,573）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      },
+      "kojima": {
+        "h1": {
+          "label": "26/8期 下期計画",
+          "Revenue": 150062,
+          "GrossProfit": 41417,
+          "OperatingIncome": 4125,
+          "OrdinaryIncome": 4281,
+          "NetIncome": 2480,
+          "revision": {
+            "date": "2026-04-09",
+            "badge": "4月計画修正",
+            "text": "2026年4月9日に26/8期下期計画を修正（期初計画→修正後: 売上高 151,000→150,062、営業利益 4,100→4,125、純利益 2,400→2,480）"
+          },
+          "derived": null,
+          "undisclosed": false
+        },
+        "h2": {
+          "label": "27/8期 上期計画",
+          "Revenue": 148000,
+          "GrossProfit": 40552,
+          "OperatingIncome": 4100,
+          "OrdinaryIncome": 4300,
+          "NetIncome": 2900,
+          "revision": null,
+          "derived": null,
+          "undisclosed": false
+        },
+        "fy": {
+          "label": "2026/3〜2027/2",
+          "Revenue": 298062,
+          "GrossProfit": 81969,
+          "OperatingIncome": 8225,
+          "OrdinaryIncome": 8581,
+          "NetIncome": 5380,
+          "revision": {
+            "date": "2026-04-09",
+            "badge": "4月計画修正",
+            "text": "2026年4月9日に26/8期下期計画を修正（合算値の期初計画→修正後: 売上高 299,000→298,062、営業利益 8,200→8,225、純利益 5,300→5,380）"
+          },
+          "derived": null,
+          "undisclosed": false
+        }
+      }
+    }
+  }
+}

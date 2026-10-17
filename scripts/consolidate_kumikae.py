@@ -14,7 +14,7 @@ from datetime import date
 from pathlib import Path
 from openpyxl import load_workbook
 
-from forecast_plans import plan_for, revision_for, revision_note
+from forecast_plans import FORECAST_LABEL_08, kumikae_forecast, kumikae_revision
 from xlsx_utils import (find_latest_xlsx, data_sheet, build_ltm, ltm_trend, margin,
                         period_label, kumikae_labels_08)
 
@@ -95,53 +95,7 @@ ROW_TO_METRIC = {
 
 
 # ---- 組替通期の次期計画（組替FY2027 = 2026年3月〜2027年2月）----
-# 8月決算社は「2026年8月期 下期計画」＋「2027年8月期 上期計画」。
-#   下期計画: 2026年8月期 第2四半期決算 補足説明資料の「下期 修正予想」（ビック2026/4/10・コジマ4/9公表。
-#             3月決算社が2027年3月期計画を出した2026年5月時点で最新の会社計画）
-#             ビック連結 p12 / ビック単体 p13 / コジマ p15
-#   上期計画: 2026年8月期決算 補足説明資料の「2027年8月期 上期予想」
-#             ビック連結 p14 / ビック単体 p15 / コジマ p15（コジマは決算短信表紙とも一致）
-#   売上総利益は各資料の「売上総利益 売上比」（小数1桁）× 売上高で算出（計画額は非開示）。
-HALF_PLANS = {
-    #          (2026年8月期 下期 修正予想,                    2027年8月期 上期予想)
-    "bic":    ({"Revenue": 513570, "OperatingIncome": 15672, "OrdinaryIncome": 16278, "NetIncome": 7301, "gm": 27.6},
-               {"Revenue": 536500, "OperatingIncome": 18100, "OrdinaryIncome": 18500, "NetIncome": 10500, "gm": 27.0}),
-    "bic_s":  ({"Revenue": 249238, "OperatingIncome": 5703, "OrdinaryIncome": 5909, "NetIncome": 3273, "gm": 25.8},
-               {"Revenue": 266400, "OperatingIncome": 6100, "OrdinaryIncome": 11550, "NetIncome": 9300, "gm": 24.7}),
-    "kojima": ({"Revenue": 150062, "OperatingIncome": 4125, "OrdinaryIncome": 4281, "NetIncome": 2480, "gm": 27.6},
-               {"Revenue": 148000, "OperatingIncome": 4100, "OrdinaryIncome": 4300, "NetIncome": 2900, "gm": 27.4}),
-}
-# 下期の期初計画（2026年8月期 第2四半期決算 補足説明資料の「下期 期初予想」）。修正の印・説明用
-H2_INITIAL = {
-    "bic":    {"Revenue": 515500, "OperatingIncome": 16060, "OrdinaryIncome": 16600, "NetIncome": 7890, "gm": 27.0},
-    "bic_s":  {"Revenue": 242500, "OperatingIncome": 5800, "OrdinaryIncome": 6160, "NetIncome": 3150, "gm": 25.8},
-    "kojima": {"Revenue": 151000, "OperatingIncome": 4100, "OrdinaryIncome": 4200, "NetIncome": 2400, "gm": 27.2},
-}
-H2_REVISED_ON = {"bic": "2026-04-10", "bic_s": "2026-04-10", "kojima": "2026-04-09"}
-# 3月決算社は通常版と同じ2027年3月期計画（forecast_plans.py。修正があれば修正後）
-FORECAST_03 = {k: plan_for(k) for k in ("yamada", "yamada_denki", "ks", "edion", "joshin", "nojima")}
-FORECAST_LABEL_08 = "2026/3〜2027/2（26/8期下期＋27/8期上期計画）"
-
-
-def _sum_halves(h2, h1):
-    out = {k: h2[k] + h1[k] for k in ("Revenue", "OperatingIncome", "OrdinaryIncome", "NetIncome")}
-    out["GrossProfit"] = round(h2["Revenue"] * h2["gm"] / 100 + h1["Revenue"] * h1["gm"] / 100)
-    return out
-
-
-def kumikae_forecast(key):
-    if key in FORECAST_03:
-        return FORECAST_03[key]
-    h2, h1 = HALF_PLANS[key]
-    return _sum_halves(h2, h1)
-
-
-def kumikae_revision(key):
-    """組替計画の修正情報。8月決算社は下期が修正予想（上期は期初計画のまま）なので「下期」と明記する。"""
-    if key in FORECAST_03:
-        return revision_for(key)
-    h2, h1 = HALF_PLANS[key]
-    return revision_note(H2_REVISED_ON[key], _sum_halves(H2_INITIAL[key], h1), _sum_halves(h2, h1), prefix="下期")
+# 計画値・修正・ラベルは forecast_plans.py で一元管理（8月決算社＝2026年8月期 下期計画＋2027年8月期 上期計画）。
 
 
 def to_num(v):

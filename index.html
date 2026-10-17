@@ -193,7 +193,22 @@
     font-size: 0.68rem; font-weight: 600; line-height: 1.5; white-space: nowrap; cursor: help;
     color: #92400e; background: #fef3c7; border: 1px solid #fcd34d;
   }
+  .fc-calc, .fc-na {
+    display: inline-block; margin-top: 0.15rem; padding: 0 0.45rem; border-radius: 9999px;
+    font-size: 0.68rem; font-weight: 600; line-height: 1.5; white-space: nowrap;
+    color: #475569; background: #f1f5f9; border: 1px solid #cbd5e1;
+  }
+  .fc-calc { cursor: help; }
   #forecast-rev-notes li { margin-top: 0.15rem; }
+  /* 会社ごとに行をまとめて塗り分ける（社名セルは rowspan のため nth-child の縞は使わない） */
+  #forecast-table tbody tr.fc-grp-odd { background: #f9fafb; }
+  #forecast-table tbody td[rowspan] { vertical-align: top; min-width: 8.5rem; }
+  #forecast-table th { white-space: nowrap; }
+  #forecast-table th, #forecast-table td { padding-left: 0.5rem; padding-right: 0.5rem; }
+  #forecast-table tbody tr.fc-row-fy td { font-weight: 600; }
+  #forecast-table tbody tr.fc-row-half td.fc-kind { padding-left: 1.4rem; color: #64748b; }
+  #forecast-table th.fc-prog, #forecast-table td.fc-prog { background: #f0fdf4; }
+  #forecast-table.no-prog .fc-prog { display: none; }
   /* ---- サマリーカード: 5列×2段に収める小型版 ---- */
   .kpi-grid { display: grid; gap: 0.6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 768px)  { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -491,24 +506,27 @@
   <!-- Section: Forecast Table -->
   <section id="section-forecast-table" class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
-      <h3 class="text-lg font-semibold mb-1 text-slate-900">🔮 次期通期業績予想（会社発表値）</h3>
+      <h3 class="text-lg font-semibold mb-1 text-slate-900">🔮 会社業績計画（上期・下期・通期／会社発表値）</h3>
       <p id="forecast-note" class="text-xs text-slate-500 mb-3"></p>
       <div class="overflow-x-auto">
-        <table class="min-w-full text-sm table-zebra">
+        <table id="forecast-table" class="min-w-full text-sm">
           <thead class="bg-slate-100 text-slate-700">
             <tr>
               <th class="px-3 py-2 text-left">会社</th>
-              <th class="px-3 py-2 text-left">予想期</th>
-              <th class="px-3 py-2 text-right">売上高予想</th>
+              <th class="px-3 py-2 text-left">区分</th>
+              <th class="px-3 py-2 text-left">計画期</th>
+              <th class="px-3 py-2 text-right">売上高</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">売上総利益率予想</th>
+              <th class="px-3 py-2 text-right">売上総<br>利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">営業利益予想</th>
+              <th class="px-3 py-2 text-right">営業利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">営業利益率予想</th>
+              <th class="px-3 py-2 text-right">営業<br>利益率</th>
               <th class="px-3 py-2 text-right">YoY</th>
-              <th class="px-3 py-2 text-right">純利益予想</th>
+              <th class="px-3 py-2 text-right">純利益</th>
               <th class="px-3 py-2 text-right">YoY</th>
+              <th class="px-3 py-2 text-right fc-prog" title="進捗率＝実績÷計画（売上高）">進捗率<br>売上高</th>
+              <th class="px-3 py-2 text-right fc-prog" title="進捗率＝実績÷計画（営業利益）">進捗率<br>営業利益</th>
             </tr>
           </thead>
           <tbody id="forecast-table-body" class="divide-y divide-slate-200"></tbody>
@@ -704,11 +722,7 @@ let TREND_SERIES = null;
 function fetchYear(fy, period, dataset) {
   const file = dataFileFor(fy, period, dataset);
   if (!file) return Promise.resolve(null);
-  if (!JSON_CACHE.has(file)) {
-    JSON_CACHE.set(file, fetch(`${file}?v=${Date.now()}`, { cache: "no-store" })
-      .then(r => (r.ok ? r.json() : null)).catch(() => null));
-  }
-  return JSON_CACHE.get(file);
+  return fetchJSON(file);
 }
 
 // 「FY2026-Q1」→ ["2026年3月期", "1Q"]。軸ラベルは3月決算社の期間コードで統一する
@@ -827,34 +841,83 @@ function trendPointStyle(fcIdx) {
 }
 
 // 期間に応じてセクション・グラフタイトルを表示制御
-// 収益性・効率性の推移は通期(fy)のみ。次期通期業績予想の表は hasForecast で判定。
+// 収益性・効率性の推移は通期(fy)のみ。会社業績計画の表は hasForecast で判定。
 // 表の計画は2027年3月期（8月決算2社は通常版で2026年8月期、組替版で2026年3月〜2027年2月）。
-// 計画が出揃った時点の 2026年3月期 通期と、その計画の進捗を見る 2027年3月期 の全期間で表示する
-// （通常版・組替版とも）。中身は常にその版の2026年3月期 通期データ（計画と、YoYの基準になる通期実績）から描く。
+// 計画が出揃った時点の 2026年3月期 通期と、その計画の進捗を見る 2027年3月期 の全期間で表示する（通常版・組替版とも）。
 function hasForecast() {
   return (CURRENT_FY === "fy2026" && CURRENT_PERIOD === "fy") || CURRENT_FY === "fy2027";
 }
 
-async function renderForecastFromAnnual() {
-  const annual = await fetchYear("fy2026", "fy", DATASET_TYPE);
-  if (!annual) return;
-  renderForecastTable(annual.companies);
-  const note = document.getElementById("forecast-note");
-  if (note) note.textContent = DATASET_TYPE === "kumikae"
-    ? "※ 組替版。3月決算社は2027年3月期の会社計画。ビックカメラ（連結・単体）・コジマは暦月を合わせ、"
-      + "2026年8月期の下期計画（修正予想）＋2027年8月期の上期計画＝2026年3月〜2027年2月。"
-      + "YoYは組替通期実績（2025年3月〜2026年2月）比。期間タブに関係なく通期ベースで表示。"
-    : "※ 通常版。2027年3月期の会社計画（ビックカメラ・コジマは同じ四半期番号どうしで並べる2026年8月期）。"
-      + "YoYは2026年3月期（ビック・コジマは2025年8月期）の通期実績比。期間タブに関係なく通期ベースで表示。";
-  // 期初計画から修正された計画は修正後を載せ、社名の下の印と表の下の注で期初計画との差を示す
-  const ul = document.getElementById("forecast-rev-notes");
-  if (ul) {
-    const revs = annual.companies.filter(c => c.forecast_revision);
-    ul.innerHTML = revs.length
-      ? "<li>※「○月計画修正」は期初計画を修正した会社で、修正後の計画を表示（売上総利益率は計画資料の売上比から算出）。</li>"
-        + revs.map(c => `<li>・${c.label}: ${c.forecast_revision.text}</li>`).join("")
-      : "";
+// 2027年3月期の期間タブごとに載せる計画と、進捗率の分子にする実績（その計画期間の中の累計）。
+//   half: 通期と並べる半期計画（その期間が属する半期。通期タブは通期のみ）
+//   halfAct / fyAct: 半期計画・通期計画の進捗率に使う実績の期間
+const PLAN_VIEW = {
+  q1:    { half: "h1", halfAct: "q1", fyAct: "q1" },
+  q2:    { half: "h1", halfAct: "h1", fyAct: "h1" },
+  h1:    { half: "h1", halfAct: "h1", fyAct: "h1" },
+  q3:    { half: "h2", halfAct: "q3", fyAct: "q3cum" },
+  q3cum: { half: "h2", halfAct: "q3", fyAct: "q3cum" },
+  q4:    { half: "h2", halfAct: "h2", fyAct: "fy" },
+  h2:    { half: "h2", halfAct: "h2", fyAct: "fy" },
+  fy:    { half: null, halfAct: null, fyAct: "fy" },
+};
+const PLAN_KIND_LABEL = { h1: "上期", h2: "下期", fy: "通期" };
+const ACT_LABEL = { q1: "1Q実績", q3: "3Q単独実績", h1: "上期実績", h2: "下期実績", q3cum: "3Q累計実績", fy: "通期実績" };
+
+function fetchJSON(file) {
+  if (!JSON_CACHE.has(file)) {
+    JSON_CACHE.set(file, fetch(`${file}?v=${Date.now()}`, { cache: "no-store" })
+      .then(r => (r.ok ? r.json() : null)).catch(() => null));
   }
+  return JSON_CACHE.get(file);
+}
+
+async function renderForecastFromAnnual() {
+  const plans = (await fetchJSON("data/plans_fy2027.json"))?.datasets?.[DATASET_TYPE];
+  const annual = await fetchYear("fy2026", "fy", DATASET_TYPE);
+  if (!plans || !annual) return;
+  // 2026年3月期 通期タブ＝計画の全体像（上期・下期・通期、進捗率なし）
+  // 2027年3月期の各タブ＝その期間が属する半期＋通期と、進捗率
+  const isProgress = CURRENT_FY === "fy2027";
+  const view = isProgress ? PLAN_VIEW[CURRENT_PERIOD] : null;
+  const kinds = isProgress ? [view.half, "fy"].filter(Boolean) : ["h1", "h2", "fy"];
+  // YoYの基準＝同じ版の2026年3月期の同じ区分の実績
+  const base = {};
+  for (const k of kinds) base[k] = await fetchYear("fy2026", k, DATASET_TYPE);
+  // 進捗率の分子＝2027年3月期の実績（その計画期間の中の累計）
+  const act = {};
+  if (isProgress) {
+    if (view.half) act[view.half] = { period: view.halfAct, data: await fetchYear("fy2027", view.halfAct, DATASET_TYPE) };
+    act.fy = { period: view.fyAct, data: await fetchYear("fy2027", view.fyAct, DATASET_TYPE) };
+  }
+  renderForecastTable(annual.companies, plans, kinds, base, act);
+  document.getElementById("forecast-table").classList.toggle("no-prog", !isProgress);
+
+  const note = document.getElementById("forecast-note");
+  if (note) note.textContent = (DATASET_TYPE === "kumikae"
+    ? "※ 組替版。3月決算社は2027年3月期の会社計画。ビックカメラ（連結・単体）・コジマは暦月を合わせ、"
+      + "組替上期（2026年3〜8月）＝2026年8月期の下期計画、組替下期（2026年9月〜2027年2月）＝2027年8月期の上期計画、通期＝その合計。"
+      + "YoYは組替版の2026年3月期（2025年3月〜2026年2月）の同じ区分の実績比。"
+    : "※ 通常版。2027年3月期の会社計画（ビックカメラ・コジマは同じ四半期番号どうしで並べる2026年8月期）。"
+      + "YoYは2026年3月期（ビック・コジマは2025年8月期）の同じ区分の実績比。")
+    + (isProgress ? "" : "　2027年3月期の各期間タブでは、その期間が属する半期と通期の計画に進捗率を添えて表示。");
+
+  // 表の下の注: 印の意味・進捗率の実績・修正と算出の内訳
+  const ul = document.getElementById("forecast-rev-notes");
+  if (!ul) return;
+  const items = ["※「○月計画修正」は期初計画を修正したもので、修正後の計画を表示。"
+    + "「算出」は会社が下期計画を開示していない（または上期・通期の修正で開示値が古くなった）ため、通期計画−上期計画で算出。"
+    + "売上総利益率は計画資料の売上総利益（無い場合は売上比）から算出。"];
+  if (isProgress) {
+    const parts = kinds.map(k => `${PLAN_KIND_LABEL[k]}計画の行＝${ACT_LABEL[act[k].period]}÷${PLAN_KIND_LABEL[k]}計画`);
+    items.push(`※ 進捗率: ${parts.join("、")}（未開示の会社は「—」）。`);
+  }
+  annual.companies.forEach(c => kinds.forEach(k => {
+    const r = plans[c.key]?.[k];
+    if (r?.revision) items.push(`・${c.label}（${PLAN_KIND_LABEL[k]}）: ${r.revision.text}`);
+    if (r?.derived) items.push(`・${c.label}（${PLAN_KIND_LABEL[k]}）: ${r.derived}`);
+  }));
+  ul.innerHTML = items.map(s => `<li>${s}</li>`).join("");
 }
 
 function applyPeriodVisibility(period) {
@@ -866,7 +929,7 @@ function applyPeriodVisibility(period) {
     const el = document.getElementById(id);
     if (el) el.style.display = isAnnual ? "" : "none";
   });
-  // 次期通期業績予想は 2026年3月期 通期と 2027年3月期 の全期間（hasForecast）
+  // 会社業績計画は 2026年3月期 通期と 2027年3月期 の全期間（hasForecast）
   const fcEl = document.getElementById("section-forecast-table");
   if (fcEl) fcEl.style.display = hasForecast() ? "" : "none";
   // 直近四半期(LTM)回転率は四半期タブ専用。通期は上の「収益性・効率性 推移」と重複するため出さない
@@ -1417,59 +1480,56 @@ function renderDetailTablePrev(cos) {
   });
 }
 
-function renderForecastTable(cos) {
+function renderForecastTable(cos, plans, kinds, base, act) {
   const tbody = document.getElementById("forecast-table-body");
   tbody.innerHTML = "";
-  cos.forEach(c => {
-    const forecastLabel = periodOf(c, "forecast");
-    const rev = c.forecast_revision;   // 期初計画からの修正（無ければ null）
-    // 四半期/上期/下期ダッシュボードでは forecast=null（推移グラフのスケール歪み回避用）。
-    // 「次期通期業績予想」表は通期計画値 forecast_annual を優先参照、無ければ forecast。
-    const revF = getMetric(c, "Revenue", "forecast_annual") ?? getMetric(c, "Revenue", "forecast");
-    const ordF = getMetric(c, "OperatingIncome", "forecast_annual") ?? getMetric(c, "OperatingIncome", "forecast");
-    const niF = getMetric(c, "NetIncome", "forecast_annual") ?? getMetric(c, "NetIncome", "forecast");
-    const yoyRev = getYoY(c, "Revenue", "forecast_yoy_pct");
-    const yoyOrd = getYoY(c, "OperatingIncome", "forecast_yoy_pct");
-    const yoyNi = getYoY(c, "NetIncome", "forecast_yoy_pct");
-    const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
-    // 営業利益率予想 = ordF / revF × 100
-    const ordMarginF = (ordF != null && revF != null && revF !== 0) ? (ordF / revF * 100) : null;
-    const ordMarginStr = ordMarginF == null ? "—" : `${ordMarginF.toFixed(2)}%`;
-    // 当期営業利益率 (実績)
-    const ordMarginC = c.ratios?.operating_margin_pct;
-    // YoY (pp) = forecast営業利益率 - 当期営業利益率
-    const ordMarginYoY = (ordMarginF != null && ordMarginC != null) ? (ordMarginF - ordMarginC) : null;
-    const ordMarginYoYClass = ordMarginYoY == null ? "text-slate-400" :
-      (ordMarginYoY >= 0 ? "text-emerald-600" : "text-rose-600");
-    const ordMarginYoYStr = ordMarginYoY == null ? "—" :
-      (ordMarginYoY > 0 ? `+${ordMarginYoY.toFixed(2)}%` :
-       ordMarginYoY < 0 ? `△${Math.abs(ordMarginYoY).toFixed(2)}%` :
-       `±${ordMarginYoY.toFixed(2)}%`);
-    // 売上総利益率予想は通常 forecast には開示されない (純額のみ)
-    // → 当期実績の売上総利益率を仮置きし、YoY(pp) は当期からの変化ゼロ表示にする…のではなく
-    //   forecast の GrossProfit が提供されていればそれを使う。無ければ "—" 表示。
-    const gpF = getMetric(c, "GrossProfit", "forecast_annual") ?? getMetric(c, "GrossProfit", "forecast");
-    const gpMarginF = (gpF != null && revF != null && revF !== 0) ? (gpF / revF * 100) : null;
-    const gpMarginC = c.ratios?.gross_margin_pct;
-    const gpMarginYoY = (gpMarginF != null && gpMarginC != null) ? (gpMarginF - gpMarginC) : null;
-    const gpMarginStr = gpMarginF == null ? "—" : `${gpMarginF.toFixed(2)}%`;
-    tbody.insertAdjacentHTML("beforeend", `
-      <tr>
-        <td class="px-3 py-2 font-medium"><span style="color:${COLORS[c.key]}">${c.label}</span>${rev
-          ? `<br><span class="fc-rev" title="${rev.text}">${rev.badge}</span>` : ""}</td>
-        <td class="px-3 py-2 text-slate-600">${forecastLabel}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(revF)}</td>
-        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
-        <td class="px-3 py-2 text-right font-mono text-slate-700">${gpMarginStr}</td>
-        <td class="px-3 py-2 text-right font-mono ${yoyClass(gpMarginYoY)}">${fmtPpDelta(gpMarginYoY)}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(ordF)}</td>
-        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyOrd)}">${fmtPctTriangle(yoyOrd)}</td>
-        <td class="px-3 py-2 text-right font-mono text-slate-700">${ordMarginStr}</td>
-        <td class="px-3 py-2 text-right font-mono ${ordMarginYoYClass}">${ordMarginYoYStr}</td>
-        <td class="px-3 py-2 text-right font-mono">${fmtMillions(niF)}</td>
-        <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyNi)}">${fmtPctTriangle(yoyNi)}</td>
-      </tr>
-    `);
+  const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
+  const pct = (a, b) => (a != null && b != null && b !== 0) ? a / b * 100 : null;
+  const yoyPct = (f, cur) => (f != null && cur != null && cur > 0) ? (f / cur - 1) * 100 : null;
+  const marginOf = (num, rev) => pct(num, rev);
+  const fmtPct2 = (v) => v == null ? "—" : `${v.toFixed(2)}%`;
+  const fmtProg = (v) => v == null ? "—" : `${v.toFixed(1)}%`;
+  cos.forEach((c, gi) => {
+    const rows = kinds.map(k => ({ k, r: plans[c.key]?.[k] })).filter(x => x.r);
+    rows.forEach(({ k, r }, i) => {
+      const b = base[k]?.companies.find(x => x.key === c.key);
+      const bRev = getMetric(b ?? {}, "Revenue"), bGp = getMetric(b ?? {}, "GrossProfit");
+      const bOp = getMetric(b ?? {}, "OperatingIncome"), bNi = getMetric(b ?? {}, "NetIncome");
+      const gmF = marginOf(r.GrossProfit, r.Revenue), opmF = marginOf(r.OperatingIncome, r.Revenue);
+      const gmD = (gmF != null && marginOf(bGp, bRev) != null) ? gmF - marginOf(bGp, bRev) : null;
+      const opmD = (opmF != null && marginOf(bOp, bRev) != null) ? opmF - marginOf(bOp, bRev) : null;
+      const yRev = yoyPct(r.Revenue, bRev), yOp = yoyPct(r.OperatingIncome, bOp), yNi = yoyPct(r.NetIncome, bNi);
+      // 進捗率（実績÷計画）。計画が0以下のときは出さない
+      const a = act[k]?.data?.companies.find(x => x.key === c.key);
+      const prog = (item) => {
+        const pl = r[item], av = getMetric(a ?? {}, item);
+        return (pl != null && pl > 0 && av != null) ? av / pl * 100 : null;
+      };
+      const badges = (r.revision ? `<br><span class="fc-rev" title="${r.revision.text}">${r.revision.badge}</span>` : "")
+        + (r.derived ? `<br><span class="fc-calc" title="${r.derived}">算出</span>` : "")
+        + (r.undisclosed ? `<br><span class="fc-na">計画非開示</span>` : "");
+      const nameCell = i === 0
+        ? `<td class="px-3 py-2 font-medium align-top" rowspan="${rows.length}" style="color:${COLORS[c.key]}">${c.label}</td>` : "";
+      tbody.insertAdjacentHTML("beforeend", `
+        <tr class="${gi % 2 ? "" : "fc-grp-odd"} ${k === "fy" ? "fc-row-fy" : "fc-row-half"}">
+          ${nameCell}
+          <td class="px-3 py-2 fc-kind whitespace-nowrap">${PLAN_KIND_LABEL[k]}${badges}</td>
+          <td class="px-3 py-2 text-slate-600">${r.label}</td>
+          <td class="px-3 py-2 text-right font-mono">${fmtMillions(r.Revenue)}</td>
+          <td class="px-3 py-2 text-right font-mono ${yoyClass(yRev)}">${fmtPctTriangle(yRev)}</td>
+          <td class="px-3 py-2 text-right font-mono text-slate-700">${fmtPct2(gmF)}</td>
+          <td class="px-3 py-2 text-right font-mono ${yoyClass(gmD)}">${fmtPpDelta(gmD)}</td>
+          <td class="px-3 py-2 text-right font-mono">${fmtMillions(r.OperatingIncome)}</td>
+          <td class="px-3 py-2 text-right font-mono ${yoyClass(yOp)}">${fmtPctTriangle(yOp)}</td>
+          <td class="px-3 py-2 text-right font-mono text-slate-700">${fmtPct2(opmF)}</td>
+          <td class="px-3 py-2 text-right font-mono ${yoyClass(opmD)}">${fmtPpDelta(opmD)}</td>
+          <td class="px-3 py-2 text-right font-mono">${fmtMillions(r.NetIncome)}</td>
+          <td class="px-3 py-2 text-right font-mono ${yoyClass(yNi)}">${fmtPctTriangle(yNi)}</td>
+          <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("Revenue"))}</td>
+          <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("OperatingIncome"))}</td>
+        </tr>
+      `);
+    });
   });
 }
 
