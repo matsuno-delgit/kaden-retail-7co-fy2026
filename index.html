@@ -209,6 +209,11 @@
   #forecast-table tbody tr.fc-row-half td.fc-kind { padding-left: 1.4rem; color: #64748b; }
   #forecast-table th.fc-prog, #forecast-table td.fc-prog { background: #f0fdf4; }
   #forecast-table.no-prog .fc-prog { display: none; }
+  .fc-basis { display: block; font-size: 0.65rem; font-weight: 400; color: #64748b; white-space: nowrap; }
+  /* 計画のみ表示（組替版 2027年3月期 通期: 実績の開示前）。実績系のブロックを隠す */
+  body.plan-only .actual-block { display: none !important; }
+  #section-plan-only-notice { display: none; }
+  body.plan-only #section-plan-only-notice { display: block; }
   /* ---- サマリーカード: 5列×2段に収める小型版 ---- */
   .kpi-grid { display: grid; gap: 0.6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 768px)  { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -285,6 +290,15 @@
       </details>
     </div>
   </nav>
+
+  <!-- 計画のみ表示の案内（組替版 2027年3月期 通期: 実績の開示前） -->
+  <section id="section-plan-only-notice" class="mb-6">
+    <p class="text-sm" style="color:#78350f;background:#fffbeb;border:1px solid #fde68a;border-radius:0.375rem;padding:0.75rem 1rem;">
+      📌 2027年3月期 通期（組替版）の実績はまだ開示されていません。3月決算社は2027年5月、ビックカメラ・コジマの組替通期
+      （2026年3月〜2027年2月）は2027年4月の2027年8月期 第2四半期決算で出揃います。
+      それまでは下の会社業績計画（上期・下期・通期）と、開示済みの最新実績による進捗率を表示します。
+    </p>
+  </section>
 
   <!-- KPI Cards: 5列×2段（10枠目は凡例） -->
   <section class="mb-10">
@@ -644,17 +658,24 @@ const FY_LABELS = {
 };
 const ALL_PERIODS = ["fy", "q1", "q2", "h1", "q3", "q3cum", "q4", "h2"];
 // データセット × 会計年度 で選択できる期間。ここに無い組み合わせはタブを無効化する。
-//   組替版: 2027(1Q・2Q単独・上期) / 2026 / 2025 の3年度（2024は前々期版の連続性が担保できず対象外）
+//   組替版: 2027(1Q・2Q単独・上期・通期) / 2026 / 2025 の3年度（2024は前々期版の連続性が担保できず対象外）
+//           2027の通期は実績の開示前のため、会社業績計画だけを表示する（PLAN_ONLY）
 //   通常版: 2027(通期・1Q・4Q単独・下期) / 2026 / 2025 / 2024 の4年度
 // 2027年3月期の1Q以外は、8月決算2社（ビック・コジマ）の2026年8月期通期の開示で先に確定した期間。
 // 3月決算社は未開示のため空欄（開示されたらExcelに追記して再生成する）。
 const AVAILABILITY = {
-  kumikae: { fy2027: ["q1", "q2", "h1"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
+  kumikae: { fy2027: ["q1", "q2", "h1", "fy"], fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: [] },
   normal:  { fy2027: ALL_PERIODS, fy2026: ALL_PERIODS, fy2025: ALL_PERIODS, fy2024: ALL_PERIODS },
 };
 
 function periodsFor(dataset, fy) {
   return (AVAILABILITY[dataset] || {})[fy] || [];
+}
+
+// 実績データがまだ無く、会社業績計画だけを表示する組み合わせ
+const PLAN_ONLY = { kumikae: { fy2027: ["fy"] } };
+function isPlanOnly(dataset = DATASET_TYPE, fy = CURRENT_FY, period = CURRENT_PERIOD) {
+  return (PLAN_ONLY[dataset]?.[fy] || []).includes(period);
 }
 
 function dataFileFor(fy, period, dataset) {
@@ -734,7 +755,7 @@ function axisLabelFromCode(code) {
 }
 
 async function buildTrendSeries(period) {
-  const years = FY_ASC.filter(fy => periodsFor(DATASET_TYPE, fy).includes(period));
+  const years = FY_ASC.filter(fy => periodsFor(DATASET_TYPE, fy).includes(period) && !isPlanOnly(DATASET_TYPE, fy, period));
   const datas = await Promise.all(years.map(fy => fetchYear(fy, period, DATASET_TYPE)));
   const points = [];   // 軸の各点 {fy, label, kind}
   const src = [];      // 各点の値の取り出し方 {data, field}
@@ -844,6 +865,7 @@ function trendPointStyle(fcIdx) {
 // 収益性・効率性の推移は通期(fy)のみ。会社業績計画の表は hasForecast で判定。
 // 表の計画は2027年3月期（8月決算2社は通常版で2026年8月期、組替版で2026年3月〜2027年2月）。
 // 計画が出揃った時点の 2026年3月期 通期と、その計画の進捗を見る 2027年3月期 の全期間で表示する（通常版・組替版とも）。
+// 2027年3月期の通期タブは上期・下期・通期の全計画（組替版は実績の開示前のため計画だけのページ）。
 function hasForecast() {
   return (CURRENT_FY === "fy2026" && CURRENT_PERIOD === "fy") || CURRENT_FY === "fy2027";
 }
@@ -863,6 +885,9 @@ const PLAN_VIEW = {
 };
 const PLAN_KIND_LABEL = { h1: "上期", h2: "下期", fy: "通期" };
 const ACT_LABEL = { q1: "1Q実績", q3: "3Q単独実績", h1: "上期実績", h2: "下期実績", q3cum: "3Q累計実績", fy: "通期実績" };
+// 2027年3月期 通期タブの進捗率: 計画期間の中の累計実績を新しい順に探す（下期は3Q単独＝下期の途中まで）
+const PROGRESS_FALLBACK = { h1: ["h1", "q1"], h2: ["h2", "q3"], fy: ["fy", "q3cum", "h1", "q1"] };
+const PROGRESS_POINT = { q1: "1Q", h1: "上期", q3: "3Q", q3cum: "3Q累計" };
 
 function fetchJSON(file) {
   if (!JSON_CACHE.has(file)) {
@@ -878,19 +903,28 @@ async function renderForecastFromAnnual() {
   if (!plans || !annual) return;
   // 2026年3月期 通期タブ＝計画の全体像（上期・下期・通期、進捗率なし）
   // 2027年3月期の各タブ＝その期間が属する半期＋通期と、進捗率
+  // 2027年3月期 通期タブ＝上期・下期・通期の全計画と、各計画期間の中で開示済みの最新累計による進捗率
+  // 2027年3月期のほかのタブ＝その期間が属する半期＋通期と、その期間の実績による進捗率
   const isProgress = CURRENT_FY === "fy2027";
-  const view = isProgress ? PLAN_VIEW[CURRENT_PERIOD] : null;
-  const kinds = isProgress ? [view.half, "fy"].filter(Boolean) : ["h1", "h2", "fy"];
+  const isAllPlans = isProgress && CURRENT_PERIOD === "fy";
+  const view = isProgress && !isAllPlans ? PLAN_VIEW[CURRENT_PERIOD] : null;
+  const kinds = view ? [view.half, "fy"].filter(Boolean) : ["h1", "h2", "fy"];
   // YoYの基準＝同じ版の2026年3月期の同じ区分の実績
   const base = {};
   for (const k of kinds) base[k] = await fetchYear("fy2026", k, DATASET_TYPE);
-  // 進捗率の分子＝2027年3月期の実績（その計画期間の中の累計）
+  // 進捗率の分子＝2027年3月期の実績の候補（先頭から順に、その会社の実績があるものを使う）
   const act = {};
-  if (isProgress) {
-    if (view.half) act[view.half] = { period: view.halfAct, data: await fetchYear("fy2027", view.halfAct, DATASET_TYPE) };
-    act.fy = { period: view.fyAct, data: await fetchYear("fy2027", view.fyAct, DATASET_TYPE) };
+  // 実績データのある期間だけ読む（計画のみの期間・未整備の期間は除く）
+  const hasActual = (q) => periodsFor(DATASET_TYPE, "fy2027").includes(q) && !isPlanOnly(DATASET_TYPE, "fy2027", q);
+  const load = async (periods) => Promise.all(periods.filter(hasActual)
+    .map(async q => ({ period: q, data: await fetchYear("fy2027", q, DATASET_TYPE) })));
+  if (isAllPlans) {
+    for (const k of kinds) act[k] = await load(PROGRESS_FALLBACK[k]);
+  } else if (view) {
+    if (view.half) act[view.half] = await load([view.halfAct]);
+    act.fy = await load([view.fyAct]);
   }
-  renderForecastTable(annual.companies, plans, kinds, base, act);
+  renderForecastTable(annual.companies, plans, kinds, base, act, isAllPlans);
   document.getElementById("forecast-table").classList.toggle("no-prog", !isProgress);
 
   const note = document.getElementById("forecast-note");
@@ -908,9 +942,12 @@ async function renderForecastFromAnnual() {
   const items = ["※「○月計画修正」は期初計画を修正したもので、修正後の計画を表示。"
     + "「算出」は会社が下期計画を開示していない（または上期・通期の修正で開示値が古くなった）ため、通期計画−上期計画で算出。"
     + "売上総利益率は計画資料の売上総利益（無い場合は売上比）から算出。"];
-  if (isProgress) {
-    const parts = kinds.map(k => `${PLAN_KIND_LABEL[k]}計画の行＝${ACT_LABEL[act[k].period]}÷${PLAN_KIND_LABEL[k]}計画`);
-    items.push(`※ 進捗率: ${parts.join("、")}（未開示の会社は「—」）。`);
+  if (isAllPlans) {
+    items.push("※ 進捗率: 各計画期間の中で開示済みの最新の累計実績÷計画。数値の下に基準を表示"
+      + "（「1Q時点」等＝途中経過、「確定」＝その計画期間の実績が出揃ったもの。下期は3Q実績が出るまで「—」）。");
+  } else if (isProgress) {
+    const parts = kinds.map(k => `${PLAN_KIND_LABEL[k]}計画の行＝${ACT_LABEL[k === "fy" ? view.fyAct : view.halfAct]}÷${PLAN_KIND_LABEL[k]}計画`);
+    items.push(`※ 進捗率: ${parts.join("、")}（未開示の会社は「—」）。上期・下期・通期の全計画は「通期」タブで確認できます。`);
   }
   annual.companies.forEach(c => kinds.forEach(k => {
     const r = plans[c.key]?.[k];
@@ -919,6 +956,18 @@ async function renderForecastFromAnnual() {
   }));
   ul.innerHTML = items.map(s => `<li>${s}</li>`).join("");
 }
+
+// 計画のみ表示で隠す「実績系」のブロック（ツールバー以降の section・p。計画表と案内は除く）
+function markActualBlocks() {
+  const toolbar = document.getElementById("toolbar");
+  for (let el = toolbar?.nextElementSibling; el; el = el.nextElementSibling) {
+    if (!["SECTION", "P"].includes(el.tagName)) continue;
+    if (["section-forecast-table", "section-plan-only-notice"].includes(el.id)) continue;
+    el.classList.add("actual-block");
+  }
+}
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", markActualBlocks);
+else markActualBlocks();
 
 function applyPeriodVisibility(period) {
   const isAnnual = (period === "fy");
@@ -958,6 +1007,17 @@ function updateTrendTitles() {
 async function loadAndRender(period) {
   CURRENT_PERIOD = period;
   applyPeriodVisibility(period);
+  // 実績の開示前（組替版 2027年3月期 通期）は会社業績計画だけを描く
+  const planOnly = isPlanOnly();
+  document.body.classList.toggle("plan-only", planOnly);
+  if (planOnly) {
+    destroyAllCharts();
+    document.getElementById("current-period-label").textContent = PERIOD_LABELS[period] || period;
+    const plans = await fetchJSON("data/plans_fy2027.json");
+    if (plans) document.getElementById("generated-at").textContent = plans.generated_at;
+    await renderForecastFromAnnual();
+    return;
+  }
   const file = dataFileFor(CURRENT_FY, period, DATASET_TYPE);
   try {
     // cache-busting: 毎回最新のJSONを取得
@@ -1480,7 +1540,7 @@ function renderDetailTablePrev(cos) {
   });
 }
 
-function renderForecastTable(cos, plans, kinds, base, act) {
+function renderForecastTable(cos, plans, kinds, base, act, showBasis = false) {
   const tbody = document.getElementById("forecast-table-body");
   tbody.innerHTML = "";
   const yoyClass = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
@@ -1500,11 +1560,18 @@ function renderForecastTable(cos, plans, kinds, base, act) {
       const opmD = (opmF != null && marginOf(bOp, bRev) != null) ? opmF - marginOf(bOp, bRev) : null;
       const yRev = yoyPct(r.Revenue, bRev), yOp = yoyPct(r.OperatingIncome, bOp), yNi = yoyPct(r.NetIncome, bNi);
       // 進捗率（実績÷計画）。計画が0以下のときは出さない
-      const a = act[k]?.data?.companies.find(x => x.key === c.key);
+      // 候補の先頭から、この会社の売上高実績があるものを使う
+      let a = null, basis = null;
+      for (const cand of act[k] ?? []) {
+        const x = cand.data?.companies.find(y => y.key === c.key);
+        if (x && getMetric(x, "Revenue") != null) { a = x; basis = cand.period; break; }
+      }
       const prog = (item) => {
         const pl = r[item], av = getMetric(a ?? {}, item);
         return (pl != null && pl > 0 && av != null) ? av / pl * 100 : null;
       };
+      const basisTag = (showBasis && basis && prog("Revenue") != null)
+        ? `<span class="fc-basis">${basis === k ? "確定" : `${PROGRESS_POINT[basis]}時点`}</span>` : "";
       const badges = (r.revision ? `<br><span class="fc-rev" title="${r.revision.text}">${r.revision.badge}</span>` : "")
         + (r.derived ? `<br><span class="fc-calc" title="${r.derived}">算出</span>` : "")
         + (r.undisclosed ? `<br><span class="fc-na">計画非開示</span>` : "");
@@ -1525,8 +1592,8 @@ function renderForecastTable(cos, plans, kinds, base, act) {
           <td class="px-3 py-2 text-right font-mono ${yoyClass(opmD)}">${fmtPpDelta(opmD)}</td>
           <td class="px-3 py-2 text-right font-mono">${fmtMillions(r.NetIncome)}</td>
           <td class="px-3 py-2 text-right font-mono ${yoyClass(yNi)}">${fmtPctTriangle(yNi)}</td>
-          <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("Revenue"))}</td>
-          <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("OperatingIncome"))}</td>
+          <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("Revenue"))}${basisTag}</td>
+          <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("OperatingIncome"))}${basisTag}</td>
         </tr>
       `);
     });
