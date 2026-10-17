@@ -85,6 +85,16 @@ COMPANIES_MAIN = [
         "col_curr": 22, "col_prev": 23,
         "tanshin_url": "https://www.biccamera.co.jp/ir/",
     },
+    # ビックカメラ単体（Excel T/U列）。P/Lは決算説明会資料の単体決算概要、通期BSは有価証券報告書の単体財務諸表。
+    # 子会社からの受取配当が営業外収益に入るため、営業利益ベースのROICは低く出る（index.html で補注）。
+    {
+        "key": "bic_s", "label": "ビックカメラ（単体）", "ticker": "3048",
+        "fiscal_year_end": "08", "consolidation": "standalone",
+        "current_period": "FY2025-Q1", "previous_period": "FY2024-Q1",
+        "prev_previous_period": "FY2023-Q1", "forecast_period": "FY2026",
+        "col_curr": 20, "col_prev": 21,
+        "tanshin_url": "https://www.biccamera.co.jp/ir/",
+    },
     {
         "key": "kojima", "label": "コジマ", "ticker": "7513",
         "fiscal_year_end": "08", "consolidation": "non_consolidated",
@@ -118,6 +128,7 @@ FORECAST = {
     "nojima":       {"Revenue": 1000000, "OperatingIncome": 59000, "OrdinaryIncome": 76000, "NetIncome": 48000, "GrossProfit": None},
     "bic":          {"Revenue": 1013000, "OperatingIncome": 30500, "OrdinaryIncome": 31500, "NetIncome": 17500, "GrossProfit": 271484},
     "kojima":       {"Revenue": 294000,  "OperatingIncome": 7600,  "OrdinaryIncome": 7900,  "NetIncome": 4900,  "GrossProfit": 79968},
+    "bic_s":        {"Revenue": 481000,  "OperatingIncome": 10000, "OrdinaryIncome": 14300, "NetIncome": 11100, "GrossProfit": None},
     "yamada_denki": {"Revenue": 1407400, "OperatingIncome": 34500, "OrdinaryIncome": 37100, "NetIncome": None,  "GrossProfit": 411500},
 }
 

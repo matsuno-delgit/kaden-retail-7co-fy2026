@@ -231,7 +231,7 @@
         <span class="switch"></span>デュポンROEを表示
       </button>
     </div>
-    <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    <div id="kpi-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
   </section>
 
   <!-- Section: 売上高ランキング & 営業利益率ランキング -->
@@ -323,6 +323,10 @@
         <h3 class="text-lg font-semibold mb-3 text-slate-900">ROIC 推移（%）<span class="text-sm text-slate-500">／直近12ヶ月ベース</span></h3>
         <p class="text-xs text-slate-500 mb-2">
           直近12ヶ月（直近4四半期）の営業利益 ×(1−実効税率35%) ÷（平均有利子負債 ＋ 平均自己資本）
+        </p>
+        <p class="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-2 py-1 mb-2">
+          ※ ビックカメラ（単体）は、子会社からの受取配当金が営業外収益に計上されるため、営業利益をもとにするROICが低く出る
+          （例：2025年8月期 ROIC 3.7%／ROE 11.5%）。他社や連結との単純比較には適さない。
         </p>
         <div class="chart-box-tall"><canvas id="chart-trend-roic"></canvas></div>
       </div>
@@ -475,7 +479,7 @@
 
 <script>
 // ------- 色テーマ -------
-// ヤマダHD と ヤマダ（デンキセグメント）は同企業として赤系統で識別:
+// ヤマダHD と ヤマダ（デンキセグメント）、ビックカメラ連結と単体は同企業として同系統色で識別:
 //   ヤマダHD       = #ef4444 (rose-500, 明るい赤)
 //   ヤマダ（デンキ）= #991b1b (red-800, 深い赤、ヤマダHDの明度違い)
 const COLORS = {
@@ -486,6 +490,7 @@ const COLORS = {
   joshin:  "#22c55e",  // green
   nojima:  "#0ea5e9",  // sky
   bic:     "#8b5cf6",  // violet
+  bic_s:   "#5b21b6",  // violet-800 (ビックカメラ単体) — 連結と同系統の濃い紫
   kojima:  "#ec4899",  // pink
 };
 
@@ -703,9 +708,13 @@ function seriesOf(coKey, pick) {
   });
   // 計画点と同じ期の実績が既に出ている会社（8月決算2社は2026年8月期通期が先に確定する）は、
   // 計画点を描かない。残すと実績→期初計画へ線が下がり、業績が落ちたように見えるため。
+  // 判定は売上高の実績で行う（ROE・ROICのようにBS待ちで実績が空欄の指標でも、期初計画だけが残らないように）。
   const fc = TREND_SERIES.forecastIndex;
   const act = TREND_SERIES.points.findIndex(p => p.fy === "fy2027" && p.kind === "actual");
-  if (fc >= 0 && act >= 0 && vals[act] != null) vals[fc] = null;
+  if (fc >= 0 && act >= 0) {
+    const c = TREND_SERIES.src[act].data.companies.find(x => x.key === coKey);
+    if (c?.metrics?.Revenue?.[TREND_SERIES.src[act].field] != null) vals[fc] = null;
+  }
   return vals;
 }
 
@@ -1010,6 +1019,7 @@ function renderKpiCards(cos) {
     const roeYoY = c.ratios?.roe_pt_yoy;
     const periodLabel = `${periodOf(c, "current")}${
       c.consolidation === "non_consolidated" ? "(非連結)" :
+      c.consolidation === "standalone" ? "(単体)" :
       c.consolidation === "segment" ? "(セグメント)" : ""
     }`;
     const yoyColor = (v) => v == null ? "text-slate-400" : (v >= 0 ? "text-emerald-600" : "text-rose-600");
@@ -1261,7 +1271,8 @@ function renderDetailTable(cos) {
     const omYoY = (omCurr != null && omPrev != null) ? (omCurr - omPrev) : null;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
-        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>" : ""}</td>
+        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>"
+        : c.consolidation === "standalone" ? " <span class='text-xs text-slate-400'>(単体)</span>" : ""}</td>
         <td class="px-3 py-2 text-slate-600">${periodLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "Revenue"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>
@@ -1301,7 +1312,8 @@ function renderDetailTablePrev(cos) {
     const omYoY = (omPrev != null && omPp != null) ? (omPrev - omPp) : null;
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
-        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>" : ""}</td>
+        <td class="px-3 py-2 font-medium" style="color:${COLORS[c.key]}">${c.label}${c.consolidation === "non_consolidated" ? " <span class='text-xs text-slate-400'>(非連結)</span>"
+        : c.consolidation === "standalone" ? " <span class='text-xs text-slate-400'>(単体)</span>" : ""}</td>
         <td class="px-3 py-2 text-slate-600">${periodLabel}</td>
         <td class="px-3 py-2 text-right font-mono">${fmtMillions(getMetric(c, "Revenue", "previous"))}</td>
         <td class="px-3 py-2 text-right font-mono ${yoyClass(yoyRev)}">${fmtPctTriangle(yoyRev)}</td>

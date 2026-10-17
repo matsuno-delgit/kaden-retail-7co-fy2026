@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-08-07",
+  "generated_at": "2026-10-17",
   "source": "各社決算短信・決算説明会資料 (TDnet公開資料、2026/5月発表分)",
   "note": "ヤマダ・ケーズ・エディオン・上新・ノジマ=2026年3月期通期。ビックカメラ・コジマ=2025年8月期通期。コジマは非連結開示。",
   "companies": [
@@ -73,28 +73,28 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 17.0,
+          "prev_previous": 13.0,
           "current": 17.0,
           "previous": 13.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 11295.0,
+          "prev_previous": 8999.0,
           "current": 11295.0,
           "previous": 9009.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 77.4,
+          "prev_previous": 37.4,
           "current": 77.4,
           "previous": 33.4,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 40.32,
+          "prev_previous": 40.82,
           "current": 40.32,
           "previous": null,
           "forecast": null,
@@ -599,28 +599,28 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 46.0,
+          "prev_previous": 44.0,
           "current": 46.0,
           "previous": 44.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 7154.0,
+          "prev_previous": 7723.0,
           "current": 7154.0,
           "previous": 7237.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 50.4,
+          "prev_previous": 105.7,
           "current": 50.4,
           "previous": 77.1,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 63.5,
+          "prev_previous": 68.69,
           "current": 63.5,
           "previous": null,
           "forecast": null,
@@ -862,28 +862,28 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 48.0,
+          "prev_previous": 45.0,
           "current": 48.0,
           "previous": 47.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 5075.0,
+          "prev_previous": 4583.0,
           "current": 5075.0,
           "previous": 4960.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 32.8,
+          "prev_previous": 50.0,
           "current": 32.8,
           "previous": 35.0,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 146.36,
+          "prev_previous": 104.69,
           "current": 146.36,
           "previous": 134.33,
           "forecast": null,
@@ -1125,28 +1125,28 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 100.0,
+          "prev_previous": 90.0,
           "current": 100.0,
           "previous": 100.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 2654.0,
+          "prev_previous": 2371.0,
           "current": 2654.0,
           "previous": 2654.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 78.9,
+          "prev_previous": 48.4,
           "current": 78.9,
           "previous": 76.3,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 108.25,
+          "prev_previous": 229.93,
           "current": 108.25,
           "previous": null,
           "forecast": null,
@@ -1388,29 +1388,29 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 26.0,
-          "current": 26.0,
-          "previous": 33.0,
+          "prev_previous": 33.0,
+          "current": 53.0,
+          "previous": 45.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 5005.0,
-          "current": 5005.0,
-          "previous": 3719.0,
+          "prev_previous": 3236.0,
+          "current": 5171.0,
+          "previous": 4368.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 19.3,
-          "current": 19.3,
-          "previous": 11.5,
+          "prev_previous": 16.2,
+          "current": 13.1,
+          "previous": 13.4,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 138.37,
-          "current": 138.37,
+          "prev_previous": 214.54,
+          "current": 165.86,
           "previous": null,
           "forecast": null,
           "unit": "円"
@@ -1651,28 +1651,28 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 41.0,
+          "prev_previous": 15.0,
           "current": 41.0,
           "previous": 33.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 7019.0,
+          "prev_previous": 2567.0,
           "current": 7019.0,
           "previous": 5649.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 40.2,
+          "prev_previous": 87.4,
           "current": 40.2,
           "previous": 40.6,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 102.21,
+          "prev_previous": 44.11,
           "current": 102.21,
           "previous": null,
           "forecast": null,
@@ -1846,6 +1846,269 @@
       "is_segment": false
     },
     {
+      "key": "bic_s",
+      "label": "ビックカメラ（単体）",
+      "ticker": "3048",
+      "fiscal_year_end": "08",
+      "consolidation": "standalone",
+      "current_period": "FY2025",
+      "previous_period": "FY2024",
+      "prev_previous_period": "FY2023",
+      "forecast_period": "FY2026",
+      "tanshin_url": "https://www.biccamera.co.jp/ir/",
+      "metrics": {
+        "Revenue": {
+          "prev_previous": 425526.0,
+          "current": 472422.0,
+          "previous": 450356.0,
+          "forecast": 481000,
+          "unit": "百万円"
+        },
+        "GrossProfit": {
+          "prev_previous": 103032.0,
+          "current": 115981.0,
+          "previous": 109798.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "SGA": {
+          "prev_previous": 102185.0,
+          "current": 106505.0,
+          "previous": 103415.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "OperatingIncome": {
+          "prev_previous": 847.0,
+          "current": 9476.0,
+          "previous": 6383.0,
+          "forecast": 10000,
+          "unit": "百万円"
+        },
+        "OrdinaryIncome": {
+          "prev_previous": 3860.0,
+          "current": 14636.0,
+          "previous": 11468.0,
+          "forecast": 14300,
+          "unit": "百万円"
+        },
+        "NetIncome": {
+          "prev_previous": -4304.0,
+          "current": 10830.0,
+          "previous": 6142.0,
+          "forecast": 11100,
+          "unit": "百万円"
+        },
+        "InterestBearingDebt": {
+          "prev_previous": 112276.0,
+          "current": 67570.0,
+          "previous": 79078.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "TotalEquity": {
+          "prev_previous": 83110.0,
+          "current": 97852.0,
+          "previous": 90247.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "DividendPerShare": {
+          "prev_previous": 15.0,
+          "current": 41.0,
+          "previous": 33.0,
+          "forecast": null,
+          "unit": "円"
+        },
+        "DividendTotal": {
+          "prev_previous": 2566.0,
+          "current": 7019.0,
+          "previous": 5648.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "PayoutRatio": {
+          "prev_previous": null,
+          "current": 64.8,
+          "previous": 92.0,
+          "forecast": null,
+          "unit": "%"
+        },
+        "EPS": {
+          "prev_previous": null,
+          "current": null,
+          "previous": null,
+          "forecast": null,
+          "unit": "円"
+        },
+        "TotalAssets": {
+          "prev_previous": 301307.0,
+          "current": 284993.0,
+          "previous": 286165.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "Inventory": {
+          "prev_previous": 56522.0,
+          "current": 63615.0,
+          "previous": 61044.0,
+          "forecast": null,
+          "unit": "百万円"
+        },
+        "Tax": {
+          "prev_previous": 729.0,
+          "current": 3085.0,
+          "previous": 2329.0,
+          "forecast": null,
+          "unit": "百万円"
+        }
+      },
+      "yoy": {
+        "Revenue": {
+          "current_yoy_pct": 4.9,
+          "previous_yoy_pct": 5.84,
+          "forecast_yoy_pct": 1.82
+        },
+        "OperatingIncome": {
+          "current_yoy_pct": 48.46,
+          "previous_yoy_pct": 653.6,
+          "forecast_yoy_pct": 5.53
+        },
+        "OrdinaryIncome": {
+          "current_yoy_pct": 27.62,
+          "previous_yoy_pct": 197.1,
+          "forecast_yoy_pct": -2.3
+        },
+        "NetIncome": {
+          "current_yoy_pct": 76.33,
+          "previous_yoy_pct": -242.7,
+          "forecast_yoy_pct": 2.49
+        }
+      },
+      "ratios": {
+        "operating_margin_pct": 2.01,
+        "ordinary_margin_pct": 3.1,
+        "ordinary_margin_pct_previous": 2.55,
+        "ordinary_margin_pct_prev_previous": 0.91,
+        "equity_ratio_pct": 34.33,
+        "gross_margin_pct": 24.55,
+        "gross_margin_pct_previous": 24.38,
+        "gross_margin_pct_prev_previous": 24.21,
+        "gross_margin_pt_yoy": 0.17,
+        "net_margin_pct": 2.29,
+        "net_margin_pct_previous": 1.36,
+        "net_margin_pct_prev_previous": -1.01,
+        "ordinary_margin_pt_yoy": 0.55,
+        "operating_margin_pct_previous": 1.42,
+        "operating_margin_pct_prev_previous": 0.2,
+        "operating_margin_pt_yoy": 0.59,
+        "financial_leverage": 2.912,
+        "net_margin_pt_yoy": 0.93,
+        "financial_leverage_previous": 3.171,
+        "financial_leverage_diff": -0.259,
+        "roe_pct": 11.5,
+        "roic_pct": 3.7,
+        "roe_pt_yoy": 4.4,
+        "roic_pt_yoy": 1.4,
+        "asset_turnover_diff": 0.121,
+        "inventory_turnover_ltm": 7.579,
+        "inventory_turnover_diff": -0.082
+      },
+      "trend_ratios": {
+        "roe": {
+          "prev_previous": -5.1,
+          "previous": 7.1,
+          "current": 11.5,
+          "forecast": 11.1
+        },
+        "roic": {
+          "prev_previous": 0.3,
+          "previous": 2.3,
+          "current": 3.7,
+          "forecast": 3.9
+        },
+        "asset_turnover": {
+          "prev_previous": 1.412,
+          "previous": 1.574,
+          "current": 1.658,
+          "forecast": 1.664
+        },
+        "inventory_turnover": {
+          "prev_previous": 7.529,
+          "previous": 7.378,
+          "current": 7.426,
+          "forecast": 7.561
+        },
+        "gross_margin": {
+          "prev_previous": 24.21,
+          "previous": 24.38,
+          "current": 24.55,
+          "forecast": null
+        },
+        "net_margin": {
+          "prev_previous": -1.01,
+          "previous": 1.36,
+          "current": 2.29,
+          "forecast": 2.31
+        },
+        "forecast_uses_current_bs": true,
+        "ltm_asset_turnover": {
+          "prev_previous": 1.386,
+          "previous": 1.533,
+          "current": 1.654,
+          "forecast": 1.676
+        },
+        "ltm_inventory_turnover": {
+          "prev_previous": 7.721,
+          "previous": 7.661,
+          "current": 7.579,
+          "forecast": 7.561
+        }
+      },
+      "ltm": {
+        "current": {
+          "revenue": 472422.0,
+          "avg_total_assets": 285579.0,
+          "avg_inventory": 62329.5,
+          "asset_turnover": 1.654,
+          "inventory_turnover": 7.579,
+          "operating_income": 9476.0,
+          "net_income": 10830.0,
+          "avg_equity": 94049.5,
+          "avg_debt": 73324.0,
+          "roe_pct": 11.5,
+          "roic_pct": 3.7
+        },
+        "previous": {
+          "revenue": 450356.0,
+          "avg_total_assets": 293736.0,
+          "avg_inventory": 58783.0,
+          "asset_turnover": 1.533,
+          "inventory_turnover": 7.661,
+          "operating_income": 6383.0,
+          "net_income": 6142.0,
+          "avg_equity": 86678.5,
+          "avg_debt": 95677.0,
+          "roe_pct": 7.1,
+          "roic_pct": 2.3
+        },
+        "prev_previous": {
+          "revenue": 425526.0,
+          "avg_total_assets": 306950.5,
+          "avg_inventory": 55110.0,
+          "asset_turnover": 1.386,
+          "inventory_turnover": 7.721,
+          "operating_income": 847.0,
+          "net_income": -4304.0,
+          "avg_equity": 84822.5,
+          "avg_debt": 115023.5,
+          "roe_pct": -5.1,
+          "roic_pct": 0.3
+        }
+      },
+      "is_segment": false
+    },
+    {
       "key": "kojima",
       "label": "コジマ",
       "ticker": "7513",
@@ -1914,28 +2177,28 @@
           "unit": "百万円"
         },
         "DividendPerShare": {
-          "prev_previous": 22.0,
+          "prev_previous": 14.0,
           "current": 22.0,
           "previous": 16.0,
           "forecast": null,
           "unit": "円"
         },
         "DividendTotal": {
-          "prev_previous": 1700.0,
+          "prev_previous": 1080.0,
           "current": 1700.0,
           "previous": 1231.0,
           "forecast": null,
           "unit": "百万円"
         },
         "PayoutRatio": {
-          "prev_previous": 36.0,
+          "prev_previous": 37.7,
           "current": 36.0,
           "previous": 30.8,
           "forecast": null,
           "unit": "%"
         },
         "EPS": {
-          "prev_previous": 63.38,
+          "prev_previous": 38.86,
           "current": 63.38,
           "previous": null,
           "forecast": null,
