@@ -624,8 +624,8 @@ const CO_NAMES = {
 };
 const CO_PRESETS = [
   { id: "all",   label: "全社",                 keys: CO_ORDER },
-  { id: "mar5",  label: "3月決算5社",           keys: ["yamada", "ks", "edion", "joshin", "nojima"] },
-  { id: "top3",  label: "ヤマダ・ケーズ・エディオン", keys: ["yamada", "ks", "edion"] },
+  { id: "mar5",  label: "3月決算5社",           keys: ["yamada", "yamada_denki", "ks", "edion", "joshin", "nojima"] },
+  { id: "top3",  label: "ヤマダ・ケーズ・エディオン", keys: ["yamada", "yamada_denki", "ks", "edion"] },
   { id: "bicko", label: "ビックカメラ・コジマ", keys: ["bic", "bic_s", "kojima"] },
 ];
 const CO_STORE_KEY = "kaden7.selectedCompanies";
@@ -971,7 +971,8 @@ function trendCommon(yLabel, yTicks, tooltipLabel) {
     maintainAspectRatio: false,
     plugins: {
       currentBand: { index: TREND_SERIES?.currentIndex ?? -1 },
-      legend: { position: "bottom", labels: { boxWidth: 14 } },
+      // 凡例クリックで線を隠す Chart.js 既定の動作は止める（会社の絞り込みはツールバーの「対象」に一本化）
+      legend: { position: "bottom", labels: { boxWidth: 14 }, onClick: () => {} },
       tooltip: {
         callbacks: {
           title: (items) => {
