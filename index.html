@@ -163,7 +163,7 @@
   .tb-sep { width: 1px; align-self: stretch; background: #cbd5e1; margin: 0 0.3rem; }
   .tb-seg { display: inline-flex; border: 1px solid #cbd5e1; border-radius: 0.45rem; overflow: hidden; }
   .tb-seg button {
-    font-size: 0.8rem; padding: 0.28rem 0.48rem; background: #fff; color: #334155;
+    font-size: 0.8rem; padding: 0.28rem 0.42rem; background: #fff; color: #334155;
     border: 0; border-left: 1px solid #e2e8f0; transition: background-color 0.12s ease;
     white-space: nowrap; line-height: 1.25rem;
   }
@@ -174,7 +174,7 @@
   #dataset-tabs .dataset-tab.active { background: #475569; color: #fff; font-weight: 700; }
   #fy-tabs .fy-tab.active          { background: #2563eb; color: #fff; font-weight: 700; }
   #period-tabs .period-tab.active  { background: #059669; color: #fff; font-weight: 700; }
-  .tb-right { margin-left: auto; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; }
+  .tb-right { margin-left: auto; display: inline-flex; align-items: center; gap: 0.35rem; position: relative; }
   .tb-right .dupont-toggle { padding: 0.2rem 0.65rem; font-size: 0.78rem; }
   .tb-info summary {
     list-style: none; cursor: pointer; font-size: 0.78rem; color: #0369a1;
@@ -214,6 +214,44 @@
   body.plan-only .actual-block { display: none !important; }
   #section-plan-only-notice { display: none; }
   body.plan-only #section-plan-only-notice { display: block; }
+  /* ---- 比較対象の会社の選択（ツールバー右端のボタン＋カードのボタン） ---- */
+  .tb-cos .tb-info-body { width: min(22rem, 90vw); }
+  /* 絞り込み中は目立たせる */
+  .tb-cos.narrowed summary { background: #0f766e; border-color: #0f766e; color: #fff; font-weight: 700; }
+  .cos-presets { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 0.5rem; }
+  .cos-presets button {
+    font-size: 0.72rem; padding: 0.15rem 0.5rem; border: 1px solid #cbd5e1; border-radius: 9999px;
+    background: #fff; color: #334155;
+  }
+  .cos-presets button:hover { background: #f1f5f9; }
+  .cos-presets button.active { background: #475569; color: #fff; border-color: #475569; }
+  .cos-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 0.6rem; }
+  .cos-list label { display: flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; color: #334155; cursor: pointer; }
+  .cos-list .dot { width: 0.6rem; height: 0.6rem; border-radius: 9999px; flex: none; }
+  /* カード右上の丸いチェック（✓＝表示中）。社名の幅を圧迫しないよう小さくする */
+  .co-toggle {
+    width: 1.05rem; height: 1.05rem; flex: none; border-radius: 9999px; padding: 0;
+    border: 1.5px solid #94a3b8; background: #fff; color: #fff; cursor: pointer;
+    font-size: 0.68rem; line-height: 1; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
+  }
+  .co-toggle[aria-pressed="true"] { background: #0f766e; border-color: #0f766e; }
+  .kpi-card.co-off { opacity: 0.38; }
+  .kpi-card.co-off:hover { opacity: 0.7; }
+  .cos-empty { font-size: 0.8rem; color: #64748b; padding: 0.75rem 0; }
+  /* ---- 表の見出しを画面上部（ツールバーの下）に固定 ---- */
+  .sticky-wrap { overflow: visible !important; }
+  .sticky-wrap thead th { position: sticky; top: var(--tb-h, 56px); z-index: 5; background: #f1f5f9; }
+  /* 画面が狭く表がはみ出すときは、表の中だけを縦横にスクロールし、その中で見出しを固定 */
+  .sticky-wrap.scroll-mode { overflow: auto !important; max-height: 75vh; }
+  .sticky-wrap.scroll-mode thead th { top: 0; }
+  /* 会社業績計画: 並び順の切替と、区分ごと表示の区切り行 */
+  .fc-order { display: inline-flex; border: 1px solid #cbd5e1; border-radius: 0.45rem; overflow: hidden; margin-bottom: 0.5rem; }
+  .fc-order button { font-size: 0.76rem; padding: 0.2rem 0.6rem; background: #fff; color: #334155; border: 0; border-left: 1px solid #e2e8f0; }
+  .fc-order button:first-child { border-left: 0; }
+  .fc-order button.active { background: #475569; color: #fff; font-weight: 700; }
+  #forecast-table tbody tr.fc-sec td {
+    background: #e2e8f0; color: #0f172a; font-weight: 700; font-size: 0.8rem; padding-top: 0.3rem; padding-bottom: 0.3rem;
+  }
   /* ---- サマリーカード: 5列×2段に収める小型版 ---- */
   .kpi-grid { display: grid; gap: 0.6rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   @media (min-width: 768px)  { .kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -276,6 +314,14 @@
               aria-pressed="false" title="在庫回転率・純利益率・総資産回転率・財務レバレッジ・ROE の表示を切り替えます">
         <span class="switch"></span>デュポン
       </button>
+      <details class="tb-info tb-cos" id="cos-picker">
+        <summary title="比較対象: グラフ・表に表示する会社を選びます">対象 <span id="cos-count">全9社</span> ▾</summary>
+        <div class="tb-info-body">
+          <div class="cos-presets" id="cos-presets"></div>
+          <div class="cos-list" id="cos-list"></div>
+          <p style="margin-top:0.5rem;font-size:0.7rem;color:#64748b">外した会社はグラフ・表から除き、サマリーのカードは薄く表示します（カードのボタンでも切替可）。選択はこのブラウザに保存されます。</p>
+        </div>
+      </details>
       <details class="tb-info">
         <summary title="データの前提・注記">ⓘ 注記</summary>
         <div class="tb-info-body">
@@ -461,7 +507,7 @@
   <section class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 id="detail-table-prev-title" class="text-lg font-semibold mb-3 text-slate-900">📋 7社 詳細業績テーブル（2025年3月期）</h3>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto sticky-wrap">
         <table class="min-w-full text-sm table-zebra">
           <thead class="bg-slate-100 text-slate-700">
             <tr>
@@ -491,7 +537,7 @@
   <section class="mb-10">
     <div class="bg-white rounded-lg shadow p-5">
       <h3 id="detail-table-title" class="text-lg font-semibold mb-3 text-slate-900">📋 7社 詳細業績テーブル（2026年3月期）</h3>
-      <div class="overflow-x-auto">
+      <div class="overflow-x-auto sticky-wrap">
         <table class="min-w-full text-sm table-zebra">
           <thead class="bg-slate-100 text-slate-700">
             <tr>
@@ -522,7 +568,11 @@
     <div class="bg-white rounded-lg shadow p-5">
       <h3 class="text-lg font-semibold mb-1 text-slate-900">🔮 会社業績計画（上期・下期・通期／会社発表値）</h3>
       <p id="forecast-note" class="text-xs text-slate-500 mb-3"></p>
-      <div class="overflow-x-auto">
+      <div class="fc-order" id="fc-order" role="group" aria-label="並び順">
+        <button type="button" data-order="company" title="会社ごとに上期・下期・通期を並べる">会社ごと</button>
+        <button type="button" data-order="kind" title="上期の各社 → 下期の各社 → 通期の各社の順に並べる">区分ごと</button>
+      </div>
+      <div class="overflow-x-auto sticky-wrap">
         <table id="forecast-table" class="min-w-full text-sm">
           <thead class="bg-slate-100 text-slate-700">
             <tr>
@@ -574,6 +624,105 @@ const COLORS = {
   bic_s:   "#5b21b6",  // violet-800 (ビックカメラ単体) — 連結と同系統の濃い紫
   kojima:  "#ec4899",  // pink
 };
+
+// ------- 比較対象の会社（グラフ・表に出す会社の選択）-------
+const CO_ORDER = ["yamada", "yamada_denki", "ks", "edion", "joshin", "nojima", "bic", "bic_s", "kojima"];
+const CO_NAMES = {
+  yamada: "ヤマダHD", yamada_denki: "ヤマダ（デンキセグメント）", ks: "ケーズHD", edion: "エディオン",
+  joshin: "上新電機", nojima: "ノジマ", bic: "ビックカメラ（連結）", bic_s: "ビックカメラ（単体）", kojima: "コジマ",
+};
+const CO_PRESETS = [
+  { id: "all",   label: "全社",                 keys: CO_ORDER },
+  { id: "mar5",  label: "3月決算5社",           keys: ["yamada", "ks", "edion", "joshin", "nojima"] },
+  { id: "top3",  label: "上位3社（ヤマダ・ケーズ・エディオン）", keys: ["yamada", "ks", "edion"] },
+  { id: "bicko", label: "ビックカメラ・コジマ", keys: ["bic", "bic_s", "kojima"] },
+];
+const CO_STORE_KEY = "kaden7.selectedCompanies";
+let SELECTED_COS = new Set(CO_ORDER);
+try {
+  const saved = JSON.parse(localStorage.getItem(CO_STORE_KEY) || "null");
+  if (Array.isArray(saved)) {
+    const keep = saved.filter(k => CO_ORDER.includes(k));
+    if (keep.length) SELECTED_COS = new Set(keep);
+  }
+} catch (e) { /* 保存領域が使えない環境では全社表示 */ }
+
+const isSelected = (key) => SELECTED_COS.has(key);
+const selectedOnly = (cos) => cos.filter(c => isSelected(c.key));
+
+function saveSelection() {
+  try { localStorage.setItem(CO_STORE_KEY, JSON.stringify([...SELECTED_COS])); } catch (e) { /* 保存できなくても表示は切り替える */ }
+}
+
+// 選択を変えたら、ツールバーの表示とページ全体を描き直す（最後の1社は外せない）
+function setSelection(keys) {
+  const next = new Set(keys.filter(k => CO_ORDER.includes(k)));
+  if (!next.size) return;
+  SELECTED_COS = next;
+  saveSelection();
+  syncCompanyPicker();
+  rerenderForSelection();
+}
+function toggleCompany(key) {
+  const next = new Set(SELECTED_COS);
+  if (next.has(key)) { if (next.size === 1) return; next.delete(key); } else next.add(key);
+  setSelection(CO_ORDER.filter(k => next.has(k)));
+}
+
+function buildCompanyPicker() {
+  const presets = document.getElementById("cos-presets");
+  const list = document.getElementById("cos-list");
+  if (!presets || !list) return;
+  presets.innerHTML = CO_PRESETS.map(p => `<button type="button" data-preset="${p.id}">${p.label}</button>`).join("");
+  list.innerHTML = CO_ORDER.map(k => `
+    <label><input type="checkbox" data-key="${k}"><span class="dot" style="background:${COLORS[k]}"></span>${CO_NAMES[k]}</label>`).join("");
+  presets.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-preset]");
+    if (b) setSelection(CO_PRESETS.find(p => p.id === b.dataset.preset).keys);
+  });
+  list.addEventListener("change", (e) => {
+    const cb = e.target.closest("input[data-key]");
+    if (cb) toggleCompany(cb.dataset.key);
+  });
+  syncCompanyPicker();
+}
+function syncCompanyPicker() {
+  document.querySelectorAll("#cos-list input[data-key]").forEach(cb => {
+    cb.checked = isSelected(cb.dataset.key);
+    cb.disabled = cb.checked && SELECTED_COS.size === 1;   // 最後の1社は外せない
+  });
+  const same = (keys) => keys.length === SELECTED_COS.size && keys.every(isSelected);
+  document.querySelectorAll("#cos-presets button").forEach(b =>
+    b.classList.toggle("active", same(CO_PRESETS.find(p => p.id === b.dataset.preset).keys)));
+  const cnt = document.getElementById("cos-count");
+  if (cnt) cnt.textContent = SELECTED_COS.size === CO_ORDER.length ? "全9社" : `${SELECTED_COS.size}社`;
+  document.getElementById("cos-picker")?.classList.toggle("narrowed", SELECTED_COS.size !== CO_ORDER.length);
+}
+function rerenderForSelection() {
+  if (document.body.classList.contains("plan-only")) { renderForecastFromAnnual(); return; }
+  if (DASHBOARD_DATA) renderAll(DASHBOARD_DATA.companies);
+}
+
+// ------- 表の見出し固定: ツールバーの高さと、表がはみ出すかどうか -------
+function updateStickyOffsets() {
+  const tb = document.getElementById("toolbar");
+  if (tb) document.documentElement.style.setProperty("--tb-h", `${Math.ceil(tb.getBoundingClientRect().height)}px`);
+  document.querySelectorAll(".sticky-wrap").forEach(w => {
+    w.classList.remove("scroll-mode");
+    const tbl = w.querySelector("table");
+    if (tbl && tbl.scrollWidth > w.clientWidth + 1) w.classList.add("scroll-mode");
+  });
+}
+// ツールバーの折り返し（画面幅の変化）や表の再描画で高さ・幅が変わったら測り直す
+window.addEventListener("resize", () => requestAnimationFrame(updateStickyOffsets));
+if (window.ResizeObserver) {
+  const ro = new ResizeObserver(() => requestAnimationFrame(updateStickyOffsets));
+  document.addEventListener("DOMContentLoaded", () => {
+    const tb = document.getElementById("toolbar");
+    if (tb) ro.observe(tb);
+    document.querySelectorAll(".sticky-wrap").forEach(w => ro.observe(w));
+  });
+}
 
 // ------- ユーティリティ -------
 const fmtMillions = (v) => v == null ? "—" : v.toLocaleString("ja-JP", { maximumFractionDigits: 0 });
@@ -884,6 +1033,13 @@ const PLAN_VIEW = {
   fy:    { half: null, halfAct: null, fyAct: "fy" },
 };
 const PLAN_KIND_LABEL = { h1: "上期", h2: "下期", fy: "通期" };
+// 会社業績計画の並び順（"company"=会社ごと / "kind"=区分ごと）。このブラウザに保存
+const FC_ORDER_KEY = "kaden7.forecastOrder";
+let FC_ORDER = "company";
+try { if (localStorage.getItem(FC_ORDER_KEY) === "kind") FC_ORDER = "kind"; } catch (e) { /* 既定のまま */ }
+function syncFcOrder() {
+  document.querySelectorAll("#fc-order button").forEach(b => b.classList.toggle("active", b.dataset.order === FC_ORDER));
+}
 const ACT_LABEL = { q1: "1Q実績", q3: "3Q単独実績", h1: "上期実績", h2: "下期実績", q3cum: "3Q累計実績", fy: "通期実績" };
 // 2027年3月期 通期タブの進捗率: 計画期間の中の累計実績を新しい順に探す（下期は3Q単独＝下期の途中まで）
 const PROGRESS_FALLBACK = { h1: ["h1", "q1"], h2: ["h2", "q3"], fy: ["fy", "q3cum", "h1", "q1"] };
@@ -924,7 +1080,8 @@ async function renderForecastFromAnnual() {
     if (view.half) act[view.half] = await load([view.halfAct]);
     act.fy = await load([view.fyAct]);
   }
-  renderForecastTable(annual.companies, plans, kinds, base, act, isAllPlans);
+  renderForecastTable(selectedOnly(annual.companies), plans, kinds, base, act, isAllPlans);
+  requestAnimationFrame(updateStickyOffsets);
   document.getElementById("forecast-table").classList.toggle("no-prog", !isProgress);
 
   const note = document.getElementById("forecast-note");
@@ -949,7 +1106,7 @@ async function renderForecastFromAnnual() {
     const parts = kinds.map(k => `${PLAN_KIND_LABEL[k]}計画の行＝${ACT_LABEL[k === "fy" ? view.fyAct : view.halfAct]}÷${PLAN_KIND_LABEL[k]}計画`);
     items.push(`※ 進捗率: ${parts.join("、")}（未開示の会社は「—」）。上期・下期・通期の全計画は「通期」タブで確認できます。`);
   }
-  annual.companies.forEach(c => kinds.forEach(k => {
+  selectedOnly(annual.companies).forEach(c => kinds.forEach(k => {
     const r = plans[c.key]?.[k];
     if (r?.revision) items.push(`・${c.label}（${PLAN_KIND_LABEL[k]}）: ${r.revision.text}`);
     if (r?.derived) items.push(`・${c.label}（${PLAN_KIND_LABEL[k]}）: ${r.derived}`);
@@ -1039,11 +1196,12 @@ function renderAll(cos) {
   // 既存のチャートインスタンスを破棄（再描画のため）
   destroyAllCharts();
 
+  // サマリーのカードは全社を出し、外した会社は薄く表示する。グラフ・表は選択した会社だけ
+  renderKpiCards(cos);
   // ヤマダ（デンキセグ）はBS情報を持たないので、BS依存の表示からは除外
-  const allCos = cos;                       // 売上・営利系（全件）
-  const fullCos = nonSegmentCos(cos);       // BS依存（連結のみ）
+  const allCos = selectedOnly(cos);         // 売上・営利系
+  const fullCos = nonSegmentCos(allCos);    // BS依存（連結のみ）
 
-  renderKpiCards(allCos);
   applyDupontVisibility();          // カード再描画のたびに表示状態を復元
   updateTrendTitles();
 
@@ -1081,7 +1239,8 @@ function renderAll(cos) {
   renderDetailTablePrev(allCos);      // 前期実績テーブル
   renderDetailTable(allCos);          // 当期実績テーブル
   // テーブルタイトル動的化（3月決算社の current_period から年を取得）
-  updateDetailTableTitles(allCos);
+  updateDetailTableTitles(cos);
+  requestAnimationFrame(updateStickyOffsets);
 }
 
 function updateDetailTableTitles(cos) {
@@ -1145,6 +1304,27 @@ async function main() {
       applyDupontVisibility();
     });
   }
+  // 比較対象の会社: ツールバーの選択パネルと、カードのボタン（カードは描き直すので委譲で拾う）
+  buildCompanyPicker();
+  document.getElementById("kpi-grid")?.addEventListener("click", (e) => {
+    const b = e.target.closest(".co-toggle");
+    if (b) toggleCompany(b.dataset.co);
+  });
+  // 開いている選択パネル・注記は、外側をクリックしたら閉じる
+  document.addEventListener("click", (e) => {
+    document.querySelectorAll("#toolbar details[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; });
+  });
+  // 会社業績計画の並び順
+  syncFcOrder();
+  document.getElementById("fc-order")?.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-order]");
+    if (!b || b.dataset.order === FC_ORDER) return;
+    FC_ORDER = b.dataset.order;
+    try { localStorage.setItem(FC_ORDER_KEY, FC_ORDER); } catch (err) { /* 保存できなくても切り替える */ }
+    syncFcOrder();
+    renderForecastFromAnnual();
+  });
+  updateStickyOffsets();
   // 初期表示: 通常版 + 通期実績
   applyFyAvailability();
   await loadAndRender("fy");
@@ -1229,13 +1409,18 @@ function renderKpiCards(cos) {
       `<dd class="val ${cls}">${val}</dd>` +
       `<dd class="chg ${cls} ${yoyColor(chgVal)}">（${chg}）</dd>`;
     grid.insertAdjacentHTML("beforeend", `
-      <div class="kpi-card bg-white rounded-lg shadow border-l-4" style="border-left-color:${COLORS[c.key]}">
+      <div class="kpi-card bg-white rounded-lg shadow border-l-4${isSelected(c.key) ? "" : " co-off"}" style="border-left-color:${COLORS[c.key]}">
         <div class="flex justify-between items-baseline">
           <div>
             <div class="kpi-title">${c.label}</div>
             <div class="kpi-sub">${c.ticker} ／ ${periodLabel}</div>
           </div>
-          <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="kpi-sub text-sky-700 hover:underline">IR↗</a>
+          <div class="flex items-baseline" style="gap:0.4rem">
+            <button type="button" class="co-toggle" data-co="${c.key}" aria-pressed="${isSelected(c.key)}"
+                    title="${isSelected(c.key) ? "グラフ・表に表示中（クリックで外す）" : "グラフ・表から除外中（クリックで表示）"}"
+                    aria-label="${c.label}をグラフ・表に表示">${isSelected(c.key) ? "✓" : ""}</button>
+            <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="kpi-sub text-sky-700 hover:underline">IR↗</a>
+          </div>
         </div>
         <dl class="kpi-dl">
           ${row("売上高", fmtMillions(rev), fmtPctTriangle(yoyRev), yoyRev)}
@@ -1549,9 +1734,8 @@ function renderForecastTable(cos, plans, kinds, base, act, showBasis = false) {
   const marginOf = (num, rev) => pct(num, rev);
   const fmtPct2 = (v) => v == null ? "—" : `${v.toFixed(2)}%`;
   const fmtProg = (v) => v == null ? "—" : `${v.toFixed(1)}%`;
-  cos.forEach((c, gi) => {
-    const rows = kinds.map(k => ({ k, r: plans[c.key]?.[k] })).filter(x => x.r);
-    rows.forEach(({ k, r }, i) => {
+  // 1行ぶんのHTML。nameCell は社名セル（会社ごと表示では先頭行だけ rowspan、区分ごと表示では毎行）
+  const rowHtml = (c, k, r, nameCell, odd) => {
       const b = base[k]?.companies.find(x => x.key === c.key);
       const bRev = getMetric(b ?? {}, "Revenue"), bGp = getMetric(b ?? {}, "GrossProfit");
       const bOp = getMetric(b ?? {}, "OperatingIncome"), bNi = getMetric(b ?? {}, "NetIncome");
@@ -1575,10 +1759,8 @@ function renderForecastTable(cos, plans, kinds, base, act, showBasis = false) {
       const badges = (r.revision ? `<br><span class="fc-rev" title="${r.revision.text}">${r.revision.badge}</span>` : "")
         + (r.derived ? `<br><span class="fc-calc" title="${r.derived}">算出</span>` : "")
         + (r.undisclosed ? `<br><span class="fc-na">計画非開示</span>` : "");
-      const nameCell = i === 0
-        ? `<td class="px-3 py-2 font-medium align-top" rowspan="${rows.length}" style="color:${COLORS[c.key]}">${c.label}</td>` : "";
-      tbody.insertAdjacentHTML("beforeend", `
-        <tr class="${gi % 2 ? "" : "fc-grp-odd"} ${k === "fy" ? "fc-row-fy" : "fc-row-half"}">
+      return `
+        <tr class="${odd ? "fc-grp-odd" : ""} ${k === "fy" ? "fc-row-fy" : "fc-row-half"}">
           ${nameCell}
           <td class="px-3 py-2 fc-kind whitespace-nowrap">${PLAN_KIND_LABEL[k]}${badges}</td>
           <td class="px-3 py-2 text-slate-600">${r.label}</td>
@@ -1594,10 +1776,30 @@ function renderForecastTable(cos, plans, kinds, base, act, showBasis = false) {
           <td class="px-3 py-2 text-right font-mono ${yoyClass(yNi)}">${fmtPctTriangle(yNi)}</td>
           <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("Revenue"))}${basisTag}</td>
           <td class="px-3 py-2 text-right font-mono fc-prog">${fmtProg(prog("OperatingIncome"))}${basisTag}</td>
-        </tr>
-      `);
+        </tr>`;
+  };
+  const nameTd = (c, rowspan = 1) =>
+    `<td class="px-3 py-2 font-medium align-top"${rowspan > 1 ? ` rowspan="${rowspan}"` : ""} style="color:${COLORS[c.key]}">${c.label}</td>`;
+  let html = "";
+  if (!cos.length) {
+    html = `<tr><td colspan="15" class="cos-empty">比較対象の会社が選ばれていません。</td></tr>`;
+  } else if (FC_ORDER === "kind") {
+    // 区分ごと: 上期の各社 → 下期の各社 → 通期の各社
+    kinds.forEach(k => {
+      html += `<tr class="fc-sec"><td colspan="15">${PLAN_KIND_LABEL[k]}計画</td></tr>`;
+      cos.forEach((c, gi) => {
+        const r = plans[c.key]?.[k];
+        if (r) html += rowHtml(c, k, r, nameTd(c), gi % 2 === 0);
+      });
     });
-  });
+  } else {
+    // 会社ごと: 1社に上期・下期・通期をまとめる
+    cos.forEach((c, gi) => {
+      const rows = kinds.map(k => ({ k, r: plans[c.key]?.[k] })).filter(x => x.r);
+      rows.forEach(({ k, r }, i) => { html += rowHtml(c, k, r, i === 0 ? nameTd(c, rows.length) : "", gi % 2 === 0); });
+    });
+  }
+  tbody.innerHTML = html;
 }
 
 // ------- 実行 -------
