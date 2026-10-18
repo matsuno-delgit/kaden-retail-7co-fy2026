@@ -228,15 +228,6 @@
   .cos-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.2rem 0.6rem; }
   .cos-list label { display: flex; align-items: center; gap: 0.35rem; font-size: 0.78rem; color: #334155; cursor: pointer; }
   .cos-list .dot { width: 0.6rem; height: 0.6rem; border-radius: 9999px; flex: none; }
-  /* カード右上の丸いチェック（✓＝表示中）。社名の幅を圧迫しないよう小さくする */
-  .co-toggle {
-    width: 1.05rem; height: 1.05rem; flex: none; border-radius: 9999px; padding: 0;
-    border: 1.5px solid #94a3b8; background: #fff; color: #fff; cursor: pointer;
-    font-size: 0.68rem; line-height: 1; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
-  }
-  .co-toggle[aria-pressed="true"] { background: #0f766e; border-color: #0f766e; }
-  .kpi-card.co-off { opacity: 0.38; }
-  .kpi-card.co-off:hover { opacity: 0.7; }
   .cos-empty { font-size: 0.8rem; color: #64748b; padding: 0.75rem 0; }
   /* ---- 表の見出しを画面上部（ツールバーの下）に固定 ---- */
   .sticky-wrap { overflow: visible !important; }
@@ -319,7 +310,7 @@
         <div class="tb-info-body">
           <div class="cos-presets" id="cos-presets"></div>
           <div class="cos-list" id="cos-list"></div>
-          <p style="margin-top:0.5rem;font-size:0.7rem;color:#64748b">外した会社はグラフ・表から除き、サマリーのカードは薄く表示します（カードのボタンでも切替可）。選択はこのブラウザに保存されます。</p>
+          <p style="margin-top:0.5rem;font-size:0.7rem;color:#64748b">外した会社はサマリーのカード・グラフ・表から除きます。選択はこのブラウザに保存されます。</p>
         </div>
       </details>
       <details class="tb-info">
@@ -634,7 +625,7 @@ const CO_NAMES = {
 const CO_PRESETS = [
   { id: "all",   label: "全社",                 keys: CO_ORDER },
   { id: "mar5",  label: "3月決算5社",           keys: ["yamada", "ks", "edion", "joshin", "nojima"] },
-  { id: "top3",  label: "上位3社（ヤマダ・ケーズ・エディオン）", keys: ["yamada", "ks", "edion"] },
+  { id: "top3",  label: "ヤマダ・ケーズ・エディオン", keys: ["yamada", "ks", "edion"] },
   { id: "bicko", label: "ビックカメラ・コジマ", keys: ["bic", "bic_s", "kojima"] },
 ];
 const CO_STORE_KEY = "kaden7.selectedCompanies";
@@ -1196,11 +1187,11 @@ function renderAll(cos) {
   // 既存のチャートインスタンスを破棄（再描画のため）
   destroyAllCharts();
 
-  // サマリーのカードは全社を出し、外した会社は薄く表示する。グラフ・表は選択した会社だけ
-  renderKpiCards(cos);
+  // カード・グラフ・表とも、比較対象に選んだ会社だけを出す
   // ヤマダ（デンキセグ）はBS情報を持たないので、BS依存の表示からは除外
   const allCos = selectedOnly(cos);         // 売上・営利系
   const fullCos = nonSegmentCos(allCos);    // BS依存（連結のみ）
+  renderKpiCards(allCos);
 
   applyDupontVisibility();          // カード再描画のたびに表示状態を復元
   updateTrendTitles();
@@ -1304,12 +1295,8 @@ async function main() {
       applyDupontVisibility();
     });
   }
-  // 比較対象の会社: ツールバーの選択パネルと、カードのボタン（カードは描き直すので委譲で拾う）
+  // 比較対象の会社: ツールバーの選択パネル
   buildCompanyPicker();
-  document.getElementById("kpi-grid")?.addEventListener("click", (e) => {
-    const b = e.target.closest(".co-toggle");
-    if (b) toggleCompany(b.dataset.co);
-  });
   // 開いている選択パネル・注記は、外側をクリックしたら閉じる
   document.addEventListener("click", (e) => {
     document.querySelectorAll("#toolbar details[open]").forEach(d => { if (!d.contains(e.target)) d.open = false; });
@@ -1409,18 +1396,13 @@ function renderKpiCards(cos) {
       `<dd class="val ${cls}">${val}</dd>` +
       `<dd class="chg ${cls} ${yoyColor(chgVal)}">（${chg}）</dd>`;
     grid.insertAdjacentHTML("beforeend", `
-      <div class="kpi-card bg-white rounded-lg shadow border-l-4${isSelected(c.key) ? "" : " co-off"}" style="border-left-color:${COLORS[c.key]}">
+      <div class="kpi-card bg-white rounded-lg shadow border-l-4" style="border-left-color:${COLORS[c.key]}">
         <div class="flex justify-between items-baseline">
           <div>
             <div class="kpi-title">${c.label}</div>
             <div class="kpi-sub">${c.ticker} ／ ${periodLabel}</div>
           </div>
-          <div class="flex items-baseline" style="gap:0.4rem">
-            <button type="button" class="co-toggle" data-co="${c.key}" aria-pressed="${isSelected(c.key)}"
-                    title="${isSelected(c.key) ? "グラフ・表に表示中（クリックで外す）" : "グラフ・表から除外中（クリックで表示）"}"
-                    aria-label="${c.label}をグラフ・表に表示">${isSelected(c.key) ? "✓" : ""}</button>
-            <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="kpi-sub text-sky-700 hover:underline">IR↗</a>
-          </div>
+          <a href="${c.tanshin_url}" target="_blank" rel="noopener" class="kpi-sub text-sky-700 hover:underline">IR↗</a>
         </div>
         <dl class="kpi-dl">
           ${row("売上高", fmtMillions(rev), fmtPctTriangle(yoyRev), yoyRev)}
