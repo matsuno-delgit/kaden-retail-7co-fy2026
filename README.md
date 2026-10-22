@@ -390,5 +390,5 @@ push後、GitHub Pages が1〜2分で自動再ビルドされ反映されます�
 ## 関連
 
 - 抽出スキーム: `extract_excerpt.py` / `extract_v2.py` / `verify.py` / `verify_retro.py`（このリポジトリの親フォルダ群）
-- 元Excel: `【経営企画部】各社業績対比フォーマット（…）_ver.N.xlsx`（各期フォルダの最新verを自動検出）
+- 元Excel: `各社業績対比フォーマット（…）_ver.N.xlsx`（各期フォルダの最新verを自動検出）
 - 生成補助: [github-dashboard-publisher](https://github.com/) スキル（Claude Code）
